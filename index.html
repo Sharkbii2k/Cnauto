@@ -1,0 +1,2188 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master 1000 Câu Luyện Dịch Tiếng Trung (Hán Tự - Pinyin - Nghĩa Việt)</title>
+    <style>
+        :root {
+            --primary: #b91c1c;
+            --primary-dark: #7f1d1d;
+            --primary-light: #fef2f2;
+            --secondary: #0f766e;
+            --pinyin-color: #0369a1;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border: #cbd5e1;
+            --bg-body: #f8fafc;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
+            background: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+        /* Thanh công cụ cố định */
+        .toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #ffffff;
+            border-bottom: 2px solid var(--border);
+            padding: 12px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .toolbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .search-group {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+            min-width: 280px;
+        }
+        .search-group input, .search-group select {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+        .search-group input { flex: 1; }
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .btn {
+            padding: 7px 12px;
+            border: 1px solid var(--border);
+            background: #fff;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn:hover { background: #f1f5f9; }
+        .btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .btn-vi.active { background: var(--secondary); border-color: var(--secondary); color: #fff; }
+        .btn-py.active { background: var(--pinyin-color); border-color: var(--pinyin-color); color: #fff; }
+        .btn-csv { background: #15803d; color: #fff; border-color: #15803d; }
+        .btn-print { background: #334155; color: #fff; border-color: #334155; }
+
+        .stats-bar {
+            max-width: 1200px;
+            margin: 12px auto 0;
+            padding: 0 20px;
+            font-size: 13.5px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 16px auto;
+            padding: 0 20px;
+        }
+        .topic-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 32px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            page-break-inside: avoid;
+        }
+        .topic-header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: #fff;
+            padding: 15px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .topic-header h2 { font-size: 18px; font-weight: 700; }
+        .topic-meta {
+            font-size: 13px;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .section-block {
+            padding: 18px 22px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .section-block:last-child { border-bottom: none; }
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* BẢNG 3 CỘT CHUẨN: HÁN TỰ - PINYIN - NGHĨA VIỆT */
+        .three-col-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14.5px;
+            margin-top: 6px;
+        }
+        .three-col-table th, .three-col-table td {
+            border: 1px solid #cbd5e1;
+            padding: 8px 12px;
+            text-align: left;
+            vertical-align: middle;
+        }
+        .three-col-table th {
+            background: #f1f5f9;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        .three-col-table tbody tr:nth-child(even) { background: #f8fafc; }
+        .col-hz { width: 28%; font-size: 17px; font-weight: 600; color: #0f172a; }
+        .col-py { width: 32%; font-weight: 500; color: var(--pinyin-color); }
+        .col-vi { width: 40%; font-weight: 500; color: var(--secondary); }
+
+        /* KHỐI NGỮ PHÁP */
+        .grammar-box {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-left: 5px solid #f59e0b;
+            padding: 14px 18px;
+            border-radius: 8px;
+        }
+        .grammar-title {
+            font-size: 15.5px;
+            font-weight: 700;
+            color: #b45309;
+            margin-bottom: 8px;
+        }
+        .grammar-points {
+            padding-left: 20px;
+            margin-bottom: 12px;
+            font-size: 14.5px;
+            color: #334155;
+        }
+        .grammar-points li { margin-bottom: 5px; }
+
+        /* DANH SÁCH CÂU LUYỆN DỊCH */
+        .sentence-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        .sentence-item {
+            border: 1px solid #e2e8f0;
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+        }
+        .sentence-item:hover {
+            background: #fff;
+            border-color: #94a3b8;
+        }
+        .s-num {
+            font-weight: 700;
+            color: var(--primary);
+            margin-right: 6px;
+        }
+        .s-vi {
+            color: var(--secondary);
+            font-weight: 600;
+            font-size: 14.5px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .s-hz {
+            color: #0f172a;
+            font-weight: 600;
+            font-size: 17px;
+            display: block;
+            letter-spacing: 0.5px;
+        }
+        .s-py {
+            color: var(--pinyin-color);
+            font-size: 14px;
+            font-weight: 500;
+            display: block;
+        }
+
+        /* Trạng thái Ẩn / Hiện thông minh */
+        body.hide-vi .sentence-item:not(.reveal) .s-vi {
+            filter: blur(6px);
+            user-select: none;
+            opacity: 0.25;
+        }
+        body.hide-hz .sentence-item:not(.reveal) .s-hz {
+            filter: blur(7px);
+            user-select: none;
+            opacity: 0.25;
+        }
+        body.hide-py .sentence-item:not(.reveal) .s-py {
+            filter: blur(5px);
+            user-select: none;
+            opacity: 0.25;
+        }
+        body.hide-vi .sentence-item::after,
+        body.hide-hz .sentence-item::after,
+        body.hide-py .sentence-item::after {
+            content: "👆 Bấm để lật mở/ẩn";
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        @media print {
+            .toolbar, .stats-bar { display: none !important; }
+            body { background: #fff; padding: 0; }
+            .container { max-width: 100%; margin: 0; padding: 0; }
+            .topic-card { box-shadow: none; border: 1px solid #999; page-break-after: always; }
+            .sentence-item::after { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="toolbar">
+    <div class="toolbar-inner">
+        <div class="search-group">
+            <input type="text" id="searchInput" placeholder="🔍 Tìm số câu, Hán tự, Pinyin hoặc nghĩa tiếng Việt...">
+            <select id="topicSelect">
+                <option value="all">📚 Tất cả chủ đề (Topic 1 - 40)</option>
+            </select>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-vi active" id="btnVi" onclick="toggleLayer('vi')">👁️ Nghĩa Việt: HIỆN</button>
+            <button class="btn active" id="btnHz" onclick="toggleLayer('hz')">👁️ Hán Tự: HIỆN</button>
+            <button class="btn btn-py active" id="btnPy" onclick="toggleLayer('py')">👁️ Pinyin: HIỆN</button>
+            <button class="btn btn-csv" onclick="exportAllCSV()">📥 Xuất Excel (.csv)</button>
+            <button class="btn btn-print" onclick="window.print()">🖨️ In / Xuất PDF</button>
+        </div>
+    </div>
+</div>
+
+<div class="stats-bar">
+    <span id="statusText">Đang khởi tạo dữ liệu...</span>
+    <span>💡 <b>Cách luyện dịch:</b> Bấm ẩn <b>Hán Tự</b> và <b>Pinyin</b> để nhìn câu Tiếng Việt tự dịch sang Tiếng Trung, sau đó bấm vào từng câu để đối chiếu đáp án!</span>
+</div>
+
+<div class="container" id="appContainer"></div>
+
+<script>
+// MẢNG LƯU TRỮ TOÀN BỘ 40 TOPICS
+const ALL_TOPICS = [];
+
+// =========================================================================
+// PHẦN 1: TOPIC 1 ĐẾN TOPIC 4 (CÂU 1 - 100)
+// Thứ tự chuẩn: 1. Từ vựng 3 cột (Không lặp) -> 2. Ngữ pháp 3 cột -> 3. Câu dịch
+// =========================================================================
+ALL_TOPICS.push(
+  {
+    id: 1,
+    title: "Topic 1: Giới thiệu & Thông tin cá nhân (个人介绍与基本信息)",
+    vocab: [
+      ["你好", "nǐ hǎo", "xin chào"],
+      ["我", "wǒ", "tôi"],
+      ["叫", "jiào", "gọi là, tên là"],
+      ["明", "Míng", "Minh (tên riêng)"],
+      ["今年", "jīn nián", "năm nay"],
+      ["二十五", "èr shí wǔ", "hai mươi lăm (25)"],
+      ["岁", "suì", "tuổi"],
+      ["来自", "lái zì", "đến từ"],
+      ["越南", "Yuè nán", "Việt Nam"],
+      ["胡志明市", "Hú Zhì Míng shì", "Thành phố Hồ Chí Minh"],
+      ["目前", "mù qián", "hiện tại, trước mắt"],
+      ["是", "shì", "là"],
+      ["一名", "yì míng", "một (lượng từ chỉ người/nghề nghiệp)"],
+      ["办公室职员", "bàn gōng shì zhí yuán", "nhân viên văn phòng"],
+      ["好朋友", "hǎo péng you", "bạn thân, bạn tốt"],
+      ["她", "tā", "cô ấy, bà ấy"],
+      ["名字", "míng zi", "tên"],
+      ["兰", "Lán", "Lan (tên riêng)"],
+      ["非常", "fēi cháng", "vô cùng, rất"],
+      ["热情", "rè qíng", "nhiệt tình, nhiệt huyết"],
+      ["英语老师", "Yīng yǔ lǎo shī", "giáo viên tiếng Anh"],
+      ["从小", "cóng xiǎo", "từ nhỏ"],
+      ["邻居", "lín jū", "hàng xóm"],
+      ["哥哥", "gē ge", "anh trai"],
+      ["软件工程师", "ruǎn jiàn gōng chéng shī", "kỹ sư phần mềm"],
+      ["外企", "wài qǐ", "công ty nước ngoài"],
+      ["工作", "gōng zuò", "làm việc, công việc"],
+      ["父母", "fù mǔ", "bố mẹ"],
+      ["都已经", "dōu yǐ jīng", "đều đã"],
+      ["退休", "tuì xiū", "nghỉ hưu"],
+      ["善良", "shàn liáng", "lương thiện, tốt bụng"],
+      ["支持", "zhī chí", "ủng hộ"],
+      ["电话号码", "diàn huà hào mǎ", "số điện thoại"],
+      ["电子邮件", "diàn zǐ yóu jiàn", "thư điện tử (email)"],
+      ["地址", "dì zhǐ", "địa chỉ"],
+      ["新学生", "xīn xué sheng", "học sinh mới"],
+      ["大四学生", "dà sì xué sheng", "sinh viên năm tư (năm cuối)"],
+      ["家乡", "jiā xiāng", "quê hương"],
+      ["宁静", "níng jìng", "yên bình, tĩnh lặng"],
+      ["美丽", "měi lì", "xinh đẹp, tươi đẹp"],
+      ["认识", "rèn shi", "quen biết, làm quen"],
+      ["科目", "kē mù", "môn học"],
+      ["数学", "shù xué", "môn Toán"],
+      ["医生", "yī shēng", "bác sĩ"],
+      ["药剂师", "yào jì shī", "dược sĩ"],
+      ["同事", "tóng shì", "đồng nghiệp"],
+      ["单身", "dān shēn", "độc thân"],
+      ["随和", "suí hé", "hòa đồng, dễ gần"],
+      ["有责任心", "yǒu zé rèn xīn", "có tinh thần trách nhiệm"],
+      ["梦想", "mèng xiǎng", "ước mơ"],
+      ["成功", "chéng gōng", "thành công, thành đạt"],
+      ["商人", "shāng rén", "doanh nhân, thương nhân"]
+    ],
+    grammar: {
+      title: "Câu vị ngữ động từ 是 (shì), Động từ 叫 (jiào) & Câu vị ngữ danh từ chỉ tuổi tác",
+      points: [
+        "<b>Động từ 叫 (jiào - gọi là/tên là):</b> Dùng để giới thiệu tên trực tiếp theo cấu trúc: <b>Chủ ngữ + 叫 + Tên</b>.",
+        "<b>Câu chữ 是 (shì - là):</b> Dùng để giới thiệu nghề nghiệp, quốc tịch, mối quan hệ: <b>Chủ ngữ + 是 + Danh từ</b>. Thể phủ định thêm <b>不 (bù)</b> đọc biến điệu thành <b>不是 (bú shì)</b>.",
+        "<b>Cách nói tuổi:</b> Trong tiếng Trung, khi nói tuổi bằng con số cụ thể, ta nối trực tiếp <b>Chủ ngữ + (今年) + Số tuổi + 岁 (suì)</b> mà KHÔNG dùng động từ 是."
+      ],
+      examples: [
+        ["我叫明，今年二十五岁。", "Wǒ jiào Míng, jīn nián èr shí wǔ suì.", "Tôi tên là Minh, năm nay hai mươi lăm tuổi."],
+        ["她是一名非常热情的英语老师。", "Tā shì yì míng fēi cháng rè qíng de Yīng yǔ lǎo shī.", "Cô ấy là một giáo viên tiếng Anh vô cùng nhiệt huyết."],
+        ["他不是医生，他是药剂师。", "Tā bú shì yī shēng, tā shì yào jì shī.", "Anh ấy không phải là bác sĩ, anh ấy là dược sĩ."]
+      ]
+    },
+    sentences: [
+      [1, "Xin chào, tên tôi là Minh.", "你好，我叫明。", "Nǐ hǎo, wǒ jiào Míng."],
+      [2, "Năm nay tôi hai mươi lăm tuổi.", "我今年二十五岁。", "Wǒ jīn nián èr shí wǔ suì."],
+      [3, "Tôi đến từ Thành phố Hồ Chí Minh, Việt Nam.", "我来自越南胡志明市。", "Wǒ lái zì Yuè nán Hú Zhì Míng shì."],
+      [4, "Hiện tại, tôi là một nhân viên văn phòng.", "目前，我是一名办公室职员。", "Mù qián, wǒ shì yì míng bàn gōng shì zhí yuán."],
+      [5, "Đây là bạn thân của tôi, tên cô ấy là Lan.", "这是我的好朋友，她的名字叫兰。", "Zhè shì wǒ de hǎo péng you, tā de míng zi jiào Lán."],
+      [6, "Cô ấy là một giáo viên tiếng Anh rất nhiệt huyết.", "她是一名非常热情的英语老师。", "Tā shì yì míng fēi cháng rè qíng de Yīng yǔ lǎo shī."],
+      [7, "Chúng tôi là hàng xóm của nhau từ khi còn nhỏ.", "我们从小就是邻居。", "Wǒ men cóng xiǎo jiù shì lín jū."],
+      [8, "Anh trai tôi là một kỹ sư phần mềm.", "我哥哥是一名软件工程师。", "Wǒ gē ge shì yì míng ruǎn jiàn gōng chéng shī."],
+      [9, "Anh ấy đang làm việc cho một công ty nước ngoài.", "他正在一家外企工作。", "Tā zhèng zài yì jiā wài qǐ gōng zuò."],
+      [10, "Bố mẹ tôi đều đã nghỉ hưu rồi.", "我的父母都已经退休了。", "Wǒ de fù mǔ dōu yǐ jīng tuì xiū le."],
+      [11, "Họ rất tốt bụng và luôn ủng hộ tôi.", "他们非常善良，而且一直支持我。", "Tā men fēi cháng shàn liáng, ér qiě yì zhí zhī chí wǒ."],
+      [12, "Số điện thoại của tôi là 0901234567.", "我的电话号码是零九零一二三四五六七。", "Wǒ de diàn huà hào mǎ shì líng jiǔ líng yī èr sān sì wǔ liù qī."],
+      [13, "Địa chỉ email của bạn là gì?", "你的电子邮件地址是什么？", "Nǐ de diàn zǐ yóu jiàn dì zhǐ shì shén me?"],
+      [14, "Bạn có phải là học sinh mới của lớp này không?", "你是这个班的新学生吗？", "Nǐ shì zhè ge bān de xīn xué sheng ma?"],
+      [15, "Không, tôi là sinh viên đại học năm cuối.", "不是，我是大四学生。", "Bú shì, wǒ shì dà sì xué sheng."],
+      [16, "Quê hương của tôi rất yên bình và xinh đẹp.", "我的家乡非常宁静和美丽。", "Wǒ de jiā xiāng fēi cháng níng jìng hé měi lì."],
+      [17, "Tôi rất vui được gặp và làm quen với bạn.", "我很高兴见到并认识你。", "Wǒ hěn gāo xìng jiàn dào bìng rèn shi nǐ."],
+      [18, "Môn học yêu thích nhất của tôi là Toán và Tiếng Anh.", "我最喜欢的科目是数学和英语。", "Wǒ zuì xǐ huan de kē mù shì shù xué hé Yīng yǔ."],
+      [19, "Anh ấy không phải là bác sĩ, anh ấy là dược sĩ.", "他不是医生，他是药剂师。", "Tā bú shì yī shēng, tā shì yào jì shī."],
+      [20, "Họ có phải là đồng nghiệp của bạn ở công ty mới không?", "他们是你在新公司的同事吗？", "Tā men shì nǐ zài xīn gōng sī de tóng shì ma?"],
+      [21, "Tình trạng hôn nhân hiện tại của cô ấy là độc thân.", "她目前的婚姻状况是单身。", "Tā mù qián de hūn yīn zhuàng kuàng shì dān shēn."],
+      [22, "Tôi là một người hòa đồng và có tinh thần trách nhiệm.", "我是一个随和且有责任心的人。", "Wǒ shì yí ge suí hé qiě yǒu zé rèn xīn de rén."],
+      [23, "Ước mơ của tôi là trở thành một doanh nhân thành đạt.", "我的梦想是成为一名成功的商人。", "Wǒ de mèng xiǎng shì chéng wéi yì míng chéng gōng de shāng rén."],
+      [24, "Hôm nay là ngày đầu tiên tôi đi làm.", "今天是我上班的第一天。", "Jīn tiān shì wǒ shàng bān de dì yī tiān."],
+      [25, "Cảm ơn bạn vì đã lắng nghe phần tự giới thiệu của tôi.", "谢谢你倾听我的自我介绍。", "Xiè xie nǐ qīng tīng wǒ de zì wǒ jiè shào."]
+    ]
+  },
+  {
+    id: 2,
+    title: "Topic 2: Gia đình & Họ hàng (家庭与亲戚)",
+    vocab: [
+      ["家庭", "jiā tíng", "gia đình"],
+      ["口人", "kǒu rén", "nhân khẩu, người (trong nhà)"],
+      ["爸爸", "bà ba", "bố, ba"],
+      ["妈妈", "mā ma", "mẹ, má"],
+      ["妹妹", "mèi mei", "em gái"],
+      ["经济支柱", "jīng jì zhī zhù", "trụ cột kinh tế"],
+      ["做饭", "zuò fàn", "nấu cơm, nấu ăn"],
+      ["好吃", "hǎo chī", "ngon"],
+      ["高中", "gāo zhōng", "trung học phổ thông (cấp 3)"],
+      ["外公", "wài gōng", "ông ngoại"],
+      ["外婆", "wài pó", "bà ngoại"],
+      ["小村庄", "xiǎo cūn zhuāng", "ngôi làng nhỏ"],
+      ["周末", "zhōu mò", "cuối tuần"],
+      ["看望", "kàn wàng", "thăm hỏi, về thăm"],
+      ["叔叔", "shū shu", "chú"],
+      ["优秀", "yōu xiù", "ưu tú, xuất sắc, giỏi"],
+      ["建筑师", "jiàn zhù shī", "kiến trúc sư"],
+      ["阿姨", "ā yí", "dì, cô"],
+      ["公园", "gōng yuán", "công viên"],
+      ["表哥", "biǎo gē", "anh họ"],
+      ["上个月", "shàng ge yuè", "tháng trước"],
+      ["结婚", "jié hūn", "kết hôn"],
+      ["妻子", "qī zi", "vợ"],
+      ["温柔", "wēn róu", "dịu dàng"],
+      ["侄子", "zhí zi", "cháu trai (con của anh/em trai)"],
+      ["积木", "jī mù", "đồ chơi lắp ráp mô hình/gỗ"],
+      ["外甥女", "wài sheng nǚ", "cháu gái (con của chị/em gái)"],
+      ["眼睛", "yǎn jing", "đôi mắt"],
+      ["笑容", "xiào róng", "nụ cười"],
+      ["平安", "píng ān", "bình an, bình yên"],
+      ["关系", "guān xi", "mối quan hệ"],
+      ["亲密", "qīn mì", "gắn kết, thân thiết"],
+      ["宝贵", "bǎo guì", "quý báu, quý giá"],
+      ["建议", "jiàn yì", "lời khuyên, kiến nghị"],
+      ["摩托车", "mó tuō chē", "xe máy"],
+      ["黑色", "hēi sè", "màu đen"],
+      ["亲戚", "qīn qi", "họ hàng"],
+      ["春节", "Chūn jié", "Tết Nguyên Đán"],
+      ["团聚", "tuán jù", "đoàn tụ, tụ họp"],
+      ["公公", "gōng gong", "bố chồng"],
+      ["善解人意", "shàn jiě rén yì", "tâm lý, thấu hiểu lòng người"],
+      ["孝顺", "xiào shùn", "hiếu thảo"],
+      ["尊敬", "zūn jìng", "kính trọng"],
+      ["传统", "chuán tǒng", "truyền thống"],
+      ["晚饭", "wǎn fàn", "bữa tối"],
+      ["分享", "fēn xiǎng", "chia sẻ"],
+      ["喜怒哀乐", "xǐ nù āi lè", "niềm vui và nỗi buồn"],
+      ["自豪", "zì háo", "tự hào"],
+      ["婚礼", "hūn lǐ", "đám cưới, hôn lễ"],
+      ["秋天", "qiū tiān", "mùa thu"],
+      ["亲情", "qīn qíng", "tình cảm gia đình, tình thân"]
+    ],
+    grammar: {
+      title: "Trợ từ kết cấu 的 (de) chỉ sự sở hữu & Động từ 有 (yǒu - có)",
+      points: [
+        "<b>Trợ từ kết cấu 的 (de):</b> Biểu thị quan hệ sở hữu hoặc định ngữ. Cấu trúc: <b>Người sở hữu + 的 + Vật/Người thuộc quyền sở hữu</b>. Khi nói về người thân ruột thịt kèm đại từ nhân xưng (我爸爸, 我妈妈, 我哥哥), chữ 的 có thể lược bỏ.",
+        "<b>Câu chữ 有 (yǒu - có):</b> Diễn tả sự sở hữu hoặc tồn tại. Thể phủ định bắt buộc dùng <b>没有 (méi yǒu)</b>, tuyệt đối không dùng 不有.",
+        "<b>Lượng từ 口 (kǒu):</b> Thường dùng để đếm số lượng thành viên trong một gia đình (我家有四口人)."
+      ],
+      examples: [
+        ["我家有四口人：爸爸、妈妈、妹妹和我。", "Wǒ jiā yǒu sì kǒu rén: bà ba, mā ma, mèi mei hé wǒ.", "Gia đình tôi có bốn người: bố, mẹ, em gái và tôi."],
+        ["妈妈做的饭总是最好吃的。", "Mā ma zuò de fàn zǒng shì zuì hǎo chī de.", "Cơm mẹ nấu luôn là ngon nhất."],
+        ["我哥哥的摩托车是黑色的，而且很新。", "Wǒ gē ge de mó tuō chē shì hēi sè de, ér qiě hěn xīn.", "Xe máy của anh trai tôi màu đen và rất mới."]
+      ]
+    },
+    sentences: [
+      [26, "Gia đình tôi có bốn thành viên: bố, mẹ, em gái và tôi.", "我家有四口人：爸爸、妈妈、妹妹和我。", "Wǒ jiā yǒu sì kǒu rén: bà ba, mā ma, mèi mei hé wǒ."],
+      [27, "Bố của tôi là trụ cột kinh tế chính trong gia đình.", "我爸爸是家庭的主要经济支柱。", "Wǒ bà ba shì jiā tíng de zhǔ yào jīng jì zhī zhù."],
+      [28, "Đồ ăn mẹ tôi nấu luôn là ngon nhất.", "我妈妈做的饭总是最好吃的。", "Wǒ mā ma zuò de fàn zǒng shì zuì hǎo chī de."],
+      [29, "Em gái tôi đang học tại một trường trung học phổ thông.", "我妹妹正在一所高中上学。", "Wǒ mèi mei zhèng zài yì suǒ gāo zhōng shàng xué."],
+      [30, "Ông bà ngoại của tôi sống ở một ngôi làng nhỏ.", "我的外公和外婆住在一个小村庄里。", "Wǒ de wài gōng hé wài pó zhù zài yí ge xiǎo cūn zhuāng lǐ."],
+      [31, "Chúng tôi thường về thăm ông bà vào dịp cuối tuần.", "我们周末经常回去看望老人。", "Wǒ men zhōu mò jīng cháng huí qù kàn wàng lǎo rén."],
+      [32, "Chú của tôi là một kiến trúc sư rất giỏi.", "我叔叔是一位非常优秀的建筑师。", "Wǒ shū shu shì yí wèi fēi cháng yōu xiù de jiàn zhù shī."],
+      [33, "Ngôi nhà của dì tôi nằm ngay cạnh một công viên lớn.", "我阿姨的家就在一个大公园旁边。", "Wǒ ā yí de jiā jiù zài yí ge dà gōng yuán páng biān."],
+      [34, "Anh họ của tôi vừa mới kết hôn vào tháng trước.", "我表哥上个月刚结婚。", "Wǒ biǎo gē shàng ge yuè gāng jié hūn."],
+      [35, "Vợ của anh ấy là một người phụ nữ rất dịu dàng.", "他的妻子是一个非常温柔的女人。", "Tā de qī zi shì yí ge fēi cháng wēn róu de nǚ rén."],
+      [36, "Cháu trai của tôi rất thích chơi lắp ráp mô hình.", "我的侄子非常喜欢玩积木。", "Wǒ de zhí zi fēi cháng xǐ huan wán jī mù."],
+      [37, "Cháu gái của cô ấy có đôi mắt to và nụ cười tươi.", "她的外甥女有一双大眼睛和灿烂的笑容。", "Tā de wài sheng nǚ yǒu yì shuāng dà yǎn jing hé càn làn de xiào róng."],
+      [38, "Gia đình là nơi mang lại cho chúng ta sự bình yên.", "家庭是给我们带来平安的地方。", "Jiā tíng shì gěi wǒ men dài lái píng ān de dì fang."],
+      [39, "Mối quan hệ giữa các thành viên trong gia đình tôi rất gắn kết.", "我家庭成员之间的关系非常亲密。", "Wǒ jiā tíng chéng yuán zhī jiān de guān xi fēi cháng qīn mì."],
+      [40, "Tôi luôn lắng nghe những lời khuyên quý giá của bố mẹ.", "我总是倾听父母宝贵的建议。", "Wǒ zǒng shì qīng tīng fù mǔ bǎo guì de jiàn yì."],
+      [41, "Xe máy của anh trai tôi màu đen và rất mới.", "我哥哥的摩托车是黑色的，而且很新。", "Wǒ gē ge de mó tuō chē shì hēi sè de, ér qiě hěn xīn."],
+      [42, "Họ hàng của chúng tôi thường tụ họp vào dịp Tết Nguyên Đán.", "我们的亲戚经常在春节期间团聚。", "Wǒ men de qīn qi jīng cháng zài Chūn jié qī jiān tuán jù."],
+      [43, "Bố chồng của chị ấy rất tâm lý và hiền hậu.", "她的公公非常善解人意而且慈祥。", "Tā de gōng gong fēi cháng shàn jiě rén yì ér qiě cí xiáng."],
+      [44, "Con cái nên hiếu thảo và kính trọng ông bà cha mẹ.", "子女应该孝顺并尊敬长辈和父母。", "Zǐ nǚ yīng gāi xiào shùn bìng zūn jìng zhǎng bèi hé fù mǔ."],
+      [45, "Truyền thống của gia đình tôi là ăn tối cùng nhau mỗi ngày.", "我家的传统是每天一起吃晚饭。", "Wǒ jiā de chuán tǒng shì měi tiān yì qǐ chī wǎn fàn."],
+      [46, "Bữa tối gia đình giúp mọi người chia sẻ niềm vui và nỗi buồn.", "家庭晚餐帮助大家一起分享喜怒哀乐。", "Jiā tíng wǎn cān bāng zhù dà jiā yì qǐ fēn xiǎng xǐ nù āi lè."],
+      [47, "Tôi rất tự hào về truyền thống hiếu học của dòng họ mình.", "我为我们家族好学的传统感到非常自豪。", "Wǒ wèi wǒ men jiā zú hào xué de chuán tǒng gǎn dào fēi cháng zì háo."],
+      [48, "Đám cưới của chị gái tôi sẽ được tổ chức vào mùa thu tới.", "我姐姐的婚礼将在明年秋天举行。", "Wǒ jiě jie de hūn lǐ jiāng zài míng nián qiū tiān jǔ xíng."],
+      [49, "Tình cảm gia đình là thứ quý giá nhất trên cuộc đời này.", "亲情是这辈子最宝贵的东西。", "Qīn qíng shì zhè bèi zi zuì bǎo guì de dōng xi."],
+      [50, "Dù đi đâu xa, tôi vẫn luôn nhớ về mái ấm của mình.", "无论走多远，我总是想念自己温暖的家。", "Wú lùn zǒu duō yuǎn, wǒ zǒng shì xiǎng niàn zì jǐ wēn nuǎn de jiā."]
+    ]
+  },
+  {
+    id: 3,
+    title: "Topic 3: Thói quen hàng ngày (日常习惯与作息)",
+    vocab: [
+      ["每天", "měi tiān", "mỗi ngày, hàng ngày"],
+      ["早上", "zǎo shang", "buổi sáng"],
+      ["六点", "liù diǎn", "sáu giờ (6:00)"],
+      ["起床", "qǐ chuáng", "thức dậy"],
+      ["喝", "hē", "uống"],
+      ["一杯", "yì bēi", "một cốc, một ly"],
+      ["温水", "wēn shuǐ", "nước ấm"],
+      ["然后", "rán hòu", "sau đó"],
+      ["刷牙", "shuā yá", "đánh răng"],
+      ["洗脸", "xǐ liǎn", "rửa mặt"],
+      ["换衣服", "huàn yī fu", "thay quần áo"],
+      ["锻炼身体", "duàn liàn shēn tǐ", "tập thể dục, rèn luyện cơ thể"],
+      ["分钟", "fēn zhōng", "phút"],
+      ["保持健康", "bǎo chí jiàn kāng", "giữ gìn sức khỏe"],
+      ["准备", "zhǔn bèi", "chuẩn bị"],
+      ["早饭", "zǎo fàn", "bữa sáng"],
+      ["很少", "hěn shǎo", "hiếm khi, rất ít khi"],
+      ["重要", "zhòng yào", "quan trọng"],
+      ["离开", "lí kāi", "rời khỏi"],
+      ["骑", "qí", "cưỡi, lái (xe máy, xe đạp)"],
+      ["开始", "kāi shǐ", "bắt đầu"],
+      ["结束", "jié shù", "kết thúc"],
+      ["中午", "zhōng wǔ", "buổi trưa"],
+      ["食堂", "shí táng", "nhà ăn, căng tin"],
+      ["午饭", "wǔ fàn", "bữa trưa"],
+      ["午睡", "wǔ shuì", "ngủ trưa, chợp mắt buổi trưa"],
+      ["下午", "xià wǔ", "buổi chiều"],
+      ["检查", "jiǎn chá", "kiểm tra"],
+      ["完成", "wán chéng", "hoàn thành"],
+      ["报告", "bào gào", "báo cáo"],
+      ["从不", "cóng bù", "không bao giờ"],
+      ["迟到", "chí dào", "đến muộn, đi trễ"],
+      ["顺便", "shùn biàn", "tiện thể, nhân tiện"],
+      ["超市", "chāo shì", "siêu thị"],
+      ["洗澡", "xǐ zǎo", "tắm rửa"],
+      ["打扫", "dǎ sǎo", "dọn dẹp, quét dọn"],
+      ["厨房", "chú fáng", "nhà bếp"],
+      ["看报纸", "kàn bào zhǐ", "đọc báo"],
+      ["新闻", "xīn wén", "tin tức, thời sự"],
+      ["自学", "zì xué", "tự học"],
+      ["中文", "Zhōng wén", "tiếng Trung"],
+      ["上网", "shàng wǎng", "lên mạng"],
+      ["聊天", "liáo tiān", "trò chuyện, tán gẫu"],
+      ["睡觉", "shuì jiào", "đi ngủ"],
+      ["轻音乐", "qīng yīn yuè", "nhạc nhẹ"],
+      ["放松", "fàng sōng", "thư giãn"],
+      ["习惯", "xí guàn", "thói quen"],
+      ["熬夜", "áo yè", "thức khuya"],
+      ["复习", "fù xí", "ôn tập"],
+      ["闹钟", "nào zhōng", "chuông báo thức"],
+      ["规律", "guī lǜ", "có quy luật, điều độ"]
+    ],
+    grammar: {
+      title: "Trật tự từ trong câu Tiếng Trung (Chủ ngữ + Trạng ngữ chỉ thời gian + Nơi chốn + Động từ)",
+      points: [
+        "<b>Vị trí của Trạng từ chỉ thời gian:</b> Khác với tiếng Việt hay đặt thời gian ở cuối câu, trong tiếng Trung trạng từ chỉ thời gian (每天早上, 中午, 七点十五分) luôn đứng <b>trước động từ</b> (có thể đứng ngay sau chủ ngữ hoặc đầu câu).",
+        "<b>Trạng từ chỉ tần suất:</b> <b>总是 (zǒng shì - luôn luôn)</b>, <b>经常 (jīng cháng - thường xuyên)</b>, <b>有时候 (yǒu shí hou - thỉnh thoảng)</b>, <b>很少 (hěn shǎo - hiếm khi)</b>, <b>从不 (cóng bù - không bao giờ)</b> luôn đứng trước động từ chính.",
+        "<b>Câu liên động (Chuỗi hành động nối tiếp):</b> Các hành động xảy ra theo thứ tự thời gian cái nào xảy ra trước viết trước, cái nào xảy ra sau viết sau (骑摩托车去上班 - lái xe máy đi làm)."
+      ],
+      examples: [
+        ["我每天早上通常六点起床。", "Wǒ měi tiān zǎo shang tōng cháng liù diǎn qǐ chuáng.", "Tôi thường thức dậy lúc 6 giờ sáng mỗi ngày."],
+        ["中午，我经常和同事在食堂吃午饭。", "Zhōng wǔ, wǒ jīng cháng hé tóng shì zài shí táng chī wǔ fàn.", "Vào buổi trưa, tôi thường ăn trưa cùng đồng nghiệp tại căng tin."],
+        ["我每天晚上花一个小时自学英语和中文。", "Wǒ měi tiān wǎn shang huā yí ge xiǎo shí zì xué Yīng yǔ hé Zhōng wén.", "Tôi dành một tiếng mỗi tối để tự học tiếng Anh và tiếng Trung."]
+      ]
+    },
+    sentences: [
+      [51, "Tôi thường thức dậy lúc 6 giờ sáng mỗi ngày.", "我每天早上通常六点起床。", "Wǒ měi tiān zǎo shang tōng cháng liù diǎn qǐ chuáng."],
+      [52, "Việc đầu tiên tôi làm là uống một cốc nước ấm.", "我做的第一件事是喝一杯温水。", "Wǒ zuò de dì yī jiàn shì shì hē yì bēi wēn shuǐ."],
+      [53, "Sau đó, tôi đánh răng, rửa mặt và thay quần áo.", "然后，我刷牙、洗脸并换衣服。", "Rán hòu, wǒ shuā yá, xǐ liǎn bìng huàn yī fu."],
+      [54, "Tôi luôn tập thể dục khoảng 20 phút để giữ sức khỏe.", "我总是锻炼身体二十分钟左右以保持健康。", "Wǒ zǒng shì duàn liàn shēn tǐ èr shí fēn zhōng zuǒ yòu yǐ bǎo chí jiàn kāng."],
+      [55, "Mẹ tôi thường chuẩn bị bữa sáng cho cả gia đình.", "我妈妈经常为全家人准备早饭。", "Wǒ mā ma jīng cháng wèi quán jiā rén zhǔn bèi zǎo fàn."],
+      [56, "Tôi hiếm khi bỏ bữa sáng vì nó rất quan trọng.", "我很少不吃早饭，因为它非常重要。", "Wǒ hěn shǎo bù chī zǎo fàn, yīn wèi tā fēi cháng zhòng yào."],
+      [57, "Tôi rời khỏi nhà lúc 7 giờ 15 và lái xe máy đi làm.", "我七点十五分离开家，骑摩托车去上班。", "Wǒ qī diǎn shí wǔ fēn lí kāi jiā, qí mó tuō chē qù shàng bān."],
+      [58, "Công việc của tôi bắt đầu lúc 8 giờ sáng và kết thúc lúc 5 giờ chiều.", "我的工作早上八点开始，下午五点结束。", "Wǒ de gōng zuò zǎo shang bā diǎn kāi shǐ, xià wǔ wǔ diǎn jié shù."],
+      [59, "Vào buổi trưa, tôi thường ăn cơm cùng đồng nghiệp tại căng tin.", "中午，我经常和同事在食堂吃午饭。", "Zhōng wǔ, wǒ jīng cháng hé tóng shì zài shí táng chī wǔ fàn."],
+      [60, "Sau bữa trưa, tôi ngủ trưa khoảng 15 phút.", "午饭后，我午睡十五分钟左右。", "Wǔ fàn hòu, wǒ wǔ shuì shí wǔ fēn zhōng zuǒ yòu."],
+      [61, "Buổi chiều, tôi kiểm tra email và hoàn thành các báo cáo.", "下午，我检查电子邮件并完成报告。", "Xià wǔ, wǒ jiǎn chá diàn zǐ yóu jiàn bìng wán chéng bào gào."],
+      [62, "Tôi không bao giờ đi làm muộn dù trời mưa hay tắc đường.", "无论下雨还是堵车，我上班从不迟到。", "Wú lùn xià yǔ hái shì dǔ chē, wǒ shàng bān cóng bù chí dào."],
+      [63, "Trên đường về nhà, tôi thỉnh thoảng ghé qua siêu thị mua đồ ăn.", "在回家的路上，我有时候顺便去超市买食物。", "Zài huí jiā de lù shang, wǒ yǒu shí hou shùn biàn qù chāo shì mǎi shí wù."],
+      [64, "Tôi về đến nhà lúc 6 giờ tối và đi tắm ngay.", "我晚上六点到家，然后马上洗澡。", "Wǒ wǎn shang liù diǎn dào jiā, rán hòu mǎ shàng xǐ zǎo."],
+      [65, "Buổi tối, tôi phụ mẹ nấu ăn và dọn dẹp nhà bếp.", "晚上，我帮妈妈做饭和打扫厨房。", "Wǎn shang, wǒ bāng mā ma zuò fàn hé dǎ sǎo chú fáng."],
+      [66, "Sau bữa tối, bố tôi thường đọc báo hoặc xem thời sự.", "晚饭后，我爸爸通常看报纸或者看新闻。", "Wǎn fàn hòu, wǒ bà ba tōng cháng kàn bào zhǐ huò zhě kàn xīn wén."],
+      [67, "Tôi dành một tiếng mỗi tối để tự học tiếng Anh và tiếng Trung.", "我每天晚上花一个小时自学英语和中文。", "Wǒ měi tiān wǎn shang huā yí ge xiǎo shí zì xué Yīng yǔ hé Zhōng wén."],
+      [68, "Thỉnh thoảng, tôi lên mạng trò chuyện với những người bạn nước ngoài.", "有时候，我上网和外国朋友聊天。", "Yǒu shí hou, wǒ shàng wǎng hé wài guó péng you liáo tiān."],
+      [69, "Trước khi đi ngủ, tôi thường nghe nhạc nhẹ để thư giãn.", "睡觉前，我经常听轻音乐来放松。", "Shuì jiào qián, wǒ jīng cháng tīng qīng yīn yuè lái fàng sōng."],
+      [70, "Tôi cũng có thói quen lên danh sách công việc cho ngày hôm sau.", "我也有为第二天列出工作清单的习惯。", "Wǒ yě yǒu wèi dì èr tiān liè chū gōng zuò qīng dān de xí guàn."],
+      [71, "Em gái tôi thường thức khuya để ôn bài cho kỳ thi.", "我妹妹经常熬夜复习准备考试。", "Wǒ mèi mei jīng cháng áo yè fù xí zhǔn bèi kǎo shì."],
+      [72, "Vào cuối tuần, tôi không phải đặt chuông báo thức sớm.", "到了周末，我不用早早定闹钟。", "Dào le zhōu mò, wǒ bú yòng zǎo zǎo dìng nào zhōng."],
+      [73, "Chủ nhật là thời gian tôi dành để chăm sóc bản thân và nghỉ ngơi.", "星期天是我用来照顾自己和休息的时间。", "Xīng qī tiān shì wǒ yòng lái zhào gù zì jǐ hé xiū xi de shí jiān."],
+      [74, "Một lịch trình sinh hoạt điều độ giúp tôi làm việc hiệu quả hơn.", "规律的作息帮助我更高效地工作。", "Guī lǜ de zuò xī bāng zhù wǒ gèng gāo xiào de gōng zuò."],
+      [75, "Tôi luôn tắt điện thoại và đi ngủ trước 11 giờ đêm.", "我总是在晚上十一点前关掉手机睡觉。", "Wǒ zǒng shì zài wǎn shang shí yī diǎn qián guān diào shǒu jī shuì jiào."]
+    ]
+  },
+  {
+    id: 4,
+    title: "Topic 4: Nhà cửa & Tổ ấm (房屋与温馨的家)",
+    vocab: [
+      ["小花园", "xiǎo huā yuán", "khu vườn nhỏ"],
+      ["前面", "qián miàn", "phía trước"],
+      ["房子", "fáng zi", "ngôi nhà"],
+      ["客厅", "kè tīng", "phòng khách"],
+      ["卧室", "wò shì", "phòng ngủ"],
+      ["套", "tào", "bộ (lượng từ cho sofa, quần áo, nhà)"],
+      ["沙发", "shā fā", "ghế sofa"],
+      ["正中间", "zhèng zhōng jiān", "ngay chính giữa"],
+      ["电视", "diàn shì", "tivi"],
+      ["整齐", "zhěng qí", "gọn gàng, ngăn nắp"],
+      ["挂", "guà", "treo"],
+      ["墙上", "qiáng shàng", "trên tường"],
+      ["风景画", "fēng jǐng huà", "tranh phong cảnh"],
+      ["二楼", "èr lóu", "tầng hai"],
+      ["阳台", "yáng tái", "ban công"],
+      ["书桌", "shū zhuō", "bàn học, bàn làm việc"],
+      ["窗户", "chuāng hu", "cửa sổ"],
+      ["笔记本电脑", "bǐ jì běn diàn nǎo", "máy tính xách tay (laptop)"],
+      ["台灯", "tái dēng", "đèn bàn"],
+      ["书架", "shū jià", "giá sách, kệ sách"],
+      ["角落", "jiǎo luò", "góc (phòng)"],
+      ["床底下", "chuáng dǐ xia", "dưới gầm giường"],
+      ["箱子", "xiāng zi", "chiếc hộp, thùng"],
+      ["温馨", "wēn xīn", "ấm cúng"],
+      ["冰箱", "bīng xiāng", "tủ lạnh"],
+      ["橱柜", "chú guì", "tủ bếp"],
+      ["餐桌", "cān zhuō", "bàn ăn"],
+      ["花瓶", "huā píng", "bình hoa"],
+      ["鲜花", "xiān huā", "hoa tươi"],
+      ["后面", "hòu miàn", "phía sau"],
+      ["院子", "yuàn zi", "cái sân"],
+      ["晒衣服", "shài yī fu", "phơi quần áo"],
+      ["车库", "chē kù", "nhà để xe, gara ô tô"],
+      ["宽敞", "kuān chang", "rộng rãi"],
+      ["浴室", "yù shì", "phòng tắm"],
+      ["大门", "dà mén", "cổng chính"],
+      ["白色", "bái sè", "màu trắng"],
+      ["夏天", "xià tiān", "mùa hè"],
+      ["凉快", "liáng kuai", "mát mẻ"],
+      ["床单", "chuáng dān", "ga trải giường"],
+      ["干净", "gān jìng", "sạch sẽ"],
+      ["对面", "duì miàn", "đối diện"],
+      ["便利店", "biàn lì diàn", "cửa hàng tiện lợi"],
+      ["咖啡", "kā fēi", "cà phê"],
+      ["刷漆", "shuā qī", "sơn (tường)"]
+    ],
+    grammar: {
+      title: "Câu tồn hiện với 有 (yǒu) / 在 (zài) & Phương vị từ chỉ vị trí",
+      points: [
+        "<b>Phương vị từ (Từ chỉ vị trí):</b> Các từ như <b>前面 (phía trước)</b>, <b>后面 (phía sau)</b>, <b>旁边 (bên cạnh)</b>, <b>对面 (đối diện)</b>, <b>上面 (bên trên)</b>, <b>底下 (bên dưới)</b> luôn đặt <b>SAU danh từ</b> làm mốc (Ví dụ: 房子前面 - phía trước ngôi nhà; 窗户旁边 - bên cạnh cửa sổ).",
+        "<b>Cấu trúc tồn hiện chữ 有 (yǒu):</b> Dùng để diễn tả ở đâu có cái gì: <b>Từ chỉ nơi chốn + 有 + Số lượng + Danh từ</b>.",
+        "<b>Cấu trúc vị trí chữ 在 (zài):</b> Dùng khi vật thể đã xác định nằm ở đâu: <b>Chủ ngữ + 在 + Nơi chốn + Phương vị từ</b>."
+      ],
+      examples: [
+        ["我家房子前面有一个非常美丽的小花园。", "Wǒ jiā fáng zi qián miàn yǒu yí ge fēi cháng měi lì de xiǎo huā yuán.", "Phía trước ngôi nhà của tôi có một khu vườn nhỏ rất đẹp."],
+        ["我的书桌放在大窗户旁边。", "Wǒ de shū zhuō fàng zài dà chuāng hu páng biān.", "Bàn làm việc của tôi được đặt ngay bên cạnh cửa sổ lớn."],
+        ["书桌上有一台笔记本电脑和一盏台灯。", "Shū zhuō shàng yǒu yì tái bǐ jì běn diàn nǎo hé yì zhǎn tái dēng.", "Trên bàn làm việc có một chiếc laptop và một cây đèn bàn."]
+      ]
+    },
+    sentences: [
+      [76, "Có một khu vườn nhỏ rất đẹp ở phía trước ngôi nhà của tôi.", "我家房子前面有一个非常美丽的小花园。", "Wǒ jiā fáng zi qián miàn yǒu yí ge fēi cháng měi lì de xiǎo huā yuán."],
+      [77, "Ngôi nhà của chúng tôi có một phòng khách, ba phòng ngủ và một nhà bếp.", "我们的房子有一个客厅、三间卧室和一个厨房。", "Wǒ men de fáng zi yǒu yí ge kè tīng, sān jiān wò shì hé yí ge chú fáng."],
+      [78, "Trong phòng khách, có một bộ ghế sofa lớn nằm ở chính giữa.", "客厅里，正中间有一套大沙发。", "Kè tīng lǐ, zhèng zhōng jiān yǒu yí tào dà shā fā."],
+      [79, "Chiếc tivi màn hình phẳng được treo gọn gàng trên tường.", "平板电视整齐地挂在墙上。", "Píng bǎn diàn shì zhěng qí de guà zài qiáng shàng."],
+      [80, "Có nhiều bức tranh phong cảnh treo xung quanh phòng khách.", "客厅周围挂着许多风景画。", "Kè tīng zhōu wéi guà zhe xǔ duō fēng jǐng huà."],
+      [81, "Phòng ngủ của tôi nằm ở trên tầng hai và có ban công thoáng mát.", "我的卧室在二楼，而且有一个通风的阳台。", "Wǒ de wò shì zài èr lóu, ér qiě yǒu yí ge tōng fēng de yáng tái."],
+      [82, "Bàn làm việc của tôi được đặt ngay cạnh cửa sổ lớn.", "我的书桌就放在大窗户旁边。", "Wǒ de shū zhuō jiù fàng zài dà chuāng hu páng biān."],
+      [83, "Trên bàn học có một chiếc máy tính xách tay và một cây đèn bàn.", "书桌上有一台笔记本电脑和一盏台灯。", "Shū zhuō shàng yǒu yì tái bǐ jì běn diàn nǎo hé yì zhǎn tái dēng."],
+      [84, "Giá sách của tôi nằm ở góc phòng, chứa đầy những cuốn sách hay.", "我的书架在房间的角落里，装满了好看的书。", "Wǒ de shū jià zài fáng jiān de jiǎo luò lǐ, zhuāng mǎn le hǎo kàn de shū."],
+      [85, "Phía dưới gầm giường có một vài chiếc hộp đựng đồ cũ.", "床底下有几个装旧东西的箱子。", "Chuáng dǐ xia yǒu jǐ ge zhuāng jiù dōng xi de xiāng zi."],
+      [86, "Nhà bếp là nơi ấm cúng nhất trong ngôi nhà của chúng tôi.", "厨房是我们家里最温馨的地方。", "Chú fáng shì wǒ men jiā lǐ zuì wēn xīn de dì fang."],
+      [87, "Có một chiếc tủ lạnh lớn nằm ở giữa tủ bếp và cửa ra vào.", "橱柜和门之间有一台大冰箱。", "Chú guì hé mén zhī jiān yǒu yì tái dà bīng xiāng."],
+      [88, "Trên bàn ăn luôn có một bình hoa tươi do mẹ tôi cắm.", "餐桌上总有一个我妈妈插的鲜花花瓶。", "Cān zhuō shàng zǒng yǒu yí ge wǒ mā ma chā de xiān huā huā píng."],
+      [89, "Phía sau nhà là một khoảng sân nhỏ dùng để phơi quần áo.", "房子后面是一个用来晒衣服的小院子。", "Fáng zi hòu miàn shì yí ge yòng lái shài yī fu de xiǎo yuàn zi."],
+      [90, "Không có gara ô tô trong nhà tôi, nhưng có chỗ để xe máy rộng rãi.", "我家没有汽车车库，但有宽敞的摩托车停车处。", "Wǒ jiā méi yǒu qì chē chē kù, dàn yǒu kuān chang de mó tuō chē tíng chē chù."],
+      [91, "Có hai phòng tắm được trang bị đầy đủ tiện nghi ở mỗi tầng.", "每一层都有两个设备齐全的浴室。", "Měi yì céng dōu yǒu liǎng ge shè bèi qí quán de yù shì."],
+      [92, "Cổng nhà tôi được sơn màu trắng và có giàn hoa giấy phía trên.", "我家大门刷成白色，上面还有三角梅花架。", "Wǒ jiā dà mén shuā chéng bái sè, shàng miàn hái yǒu sān jiǎo méi huā jià."],
+      [93, "Vào mùa hè, ngôi nhà rất mát mẻ nhờ có nhiều cây xanh xung quanh.", "夏天，因为周围有很多绿树，房子非常凉快。", "Xià tiān, yīn wèi zhōu wéi yǒu hěn duō lǜ shù, fáng zi fēi cháng liáng kuai."],
+      [94, "Tôi thường dọn phòng ngủ và thay ga trải giường mỗi tuần một lần.", "我通常每周打扫一次卧室并更换床单。", "Wǒ tōng cháng měi zhōu dǎ sǎo yí cì wò shì bìng gēng huàn chuáng dān."],
+      [95, "Mặc dù ngôi nhà không quá lớn, nhưng nó luôn sạch sẽ và ngăn nắp.", "虽然房子不太大，但它总是干净整洁。", "Suī rán fáng zi bú tài dà, dàn tā zǒng shì gān jìng zhěng jié."],
+      [96, "Ở đối diện nhà tôi là một cửa hàng tiện lợi hoạt động 24/7.", "我家对面是一家二十四小时营业的便利店。", "Wǒ jiā duì miàn shì yì jiā èr shí sì xiǎo shí yíng yè de biàn lì diàn."],
+      [97, "Tôi thích ngồi ngoài ban công uống cà phê và ngắm đường phố.", "我喜欢坐在阳台上喝咖啡看街景。", "Wǒ xǐ huan zuò zài yáng tái shàng hē kā fēi kàn jiē jǐng."],
+      [98, "Chúng tôi dự định sẽ sơn lại tường nhà vào cuối năm nay.", "我们打算今年年底重新给墙面刷漆。", "Wǒ men dǎ suàn jīn nián nián dǐ chóng xīn gěi qiáng miàn shuā qī."],
+      [99, "Không có nơi nào tuyệt vời và thoải mái bằng chính ngôi nhà của mình.", "没有什么地方比自己的家更美好、更舒服。", "Méi yǒu shén me dì fang bǐ zì jǐ de jiā gèng měi hǎo, gèng shū fu."],
+      [100, "Tôi yêu từng góc nhỏ trong ngôi nhà thân thương này.", "我爱这个心爱家里面的每一个小角落。", "Wǒ ài zhè ge xīn ài jiā lǐ miàn de měi yí ge xiǎo jiǎo luò."]
+    ]
+  }
+);
+
+// === DÁN TIẾP CÁC PHẦN TIẾP THEO (TỪ TOPIC 5 TRỞ ĐI) Ở NGAY BÊN DƯỚI DÒNG NÀY ===
+// =========================================================================
+// PHẦN 2: TOPIC 5 ĐẾN TOPIC 8 (CÂU 101 - 200)
+// =========================================================================
+ALL_TOPICS.push(
+  {
+    id: 5,
+    title: "Topic 5: Sở thích & Thời gian rảnh (业余爱好与空闲时间)",
+    vocab: [
+      ["空闲时间", "kòng xián shí jiān", "thời gian rảnh rỗi"],
+      ["商业", "shāng yè", "kinh doanh, thương mại"],
+      ["心理学", "xīn lǐ xué", "tâm lý học"],
+      ["电子游戏", "diàn zǐ yóu xì", "trò chơi điện tử (video game)"],
+      ["古典音乐", "gǔ diǎn yīn yuè", "nhạc cổ điển"],
+      ["湖边", "hú biān", "bờ hồ, quanh hồ"],
+      ["散步", "sàn bù", "đi dạo, tản bộ"],
+      ["讨厌", "tǎo yàn", "ghét"],
+      ["炎热", "yán rè", "nóng bức, oi ả"],
+      ["等待", "děng dài", "chờ đợi"],
+      ["盆景", "pén jǐng", "cây cảnh, bonsai"],
+      ["观赏鱼", "guān shǎng yú", "cá cảnh"],
+      ["减轻", "jiǎn qīng", "giảm bớt, làm nhẹ đi"],
+      ["压力", "yā lì", "áp lực, căng thẳng"],
+      ["食谱", "shí pǔ", "công thức nấu ăn, thực đơn"],
+      ["旅行", "lǚ xíng", "du lịch"],
+      ["拍照", "pāi zhào", "chụp ảnh"],
+      ["恐怖片", "kǒng bù piàn", "phim kinh dị"],
+      ["失眠", "shī mián", "mất ngủ"],
+      ["弹吉他", "tán jí tā", "chơi đàn guitar"],
+      ["拍摄", "pāi shè", "quay phim, chụp hình"],
+      ["剪辑", "jiǎn jí", "cắt ghép, chỉnh sửa (video)"],
+      ["短视频", "duǎn shì pín", "video ngắn"],
+      ["水彩画", "shuǐ cǎi huà", "tranh màu nước"],
+      ["手工艺品", "shǒu gōng yì pǐn", "đồ thủ công mỹ nghệ"],
+      ["韩语", "Hán yǔ", "tiếng Hàn"],
+      ["网购", "wǎng gòu", "mua sắm trực tuyến"],
+      ["商场", "shāng chǎng", "trung tâm thương mại"],
+      ["钓鱼", "diào yú", "câu cá"],
+      ["耐心", "nài xīn", "sự kiên nhẫn"],
+      ["郊区", "jiāo qū", "vùng ngoại ô"],
+      ["露营", "lù yíng", "cắm trại"],
+      ["收集", "shōu jí", "sưu tầm, thu thập"],
+      ["汽车模型", "qì chē mó xíng", "mô hình xe hơi"],
+      ["游泳", "yóu yǒng", "bơi lội"],
+      ["修理", "xiū lǐ", "sửa chữa"],
+      ["无论", "wú lùn", "bất luận, cho dù"]
+    ],
+    grammar: {
+      title: "Động từ chỉ sở thích (喜欢 / 热爱 / 讨厌 / 对...感兴趣) & Cấu trúc 一边...一边...",
+      points: [
+        "<b>Diễn tả sở thích và đam mê:</b> Dùng <b>喜欢 (xǐ huan - thích)</b>, <b>热爱 (rè ài - đam mê)</b>, <b>讨厌 (tǎo yàn - ghét)</b> + Động từ / Cụm động từ.",
+        "<b>Cấu trúc hứng thú với cái gì:</b> <b>Chủ ngữ + 对 (duì) + Danh từ / Cụm động từ + 感兴趣 (gǎn xìng qù)</b> (Rất hứng thú với...).",
+        "<b>Hai hành động diễn ra song song:</b> <b>一边 + Động từ 1 + 一边 + Động từ 2</b> (Vừa làm việc này vừa làm việc kia)."
+      ],
+      examples: [
+        ["在空闲时间，我非常喜欢看商业和心理学方面的书。", "Zài kòng xián shí jiān, wǒ fēi cháng xǐ huan kàn shāng yè hé xīn lǐ xué fāng miàn de shū.", "Vào thời gian rảnh, tôi rất thích đọc sách về kinh doanh và tâm lý học."],
+        ["她喜欢一边工作一边听古典音乐。", "Tā xǐ huan yì biān gōng zuò yì biān tīng gǔ diǎn yīn yuè.", "Cô ấy thích vừa làm việc vừa nghe nhạc cổ điển."],
+        ["我对学习中文和韩语等新语言很感兴趣。", "Wǒ duì xué xí Zhōng wén hé Hán yǔ děng xīn yǔ yán hěn gǎn xìng qù.", "Tôi rất hứng thú với việc học các ngôn ngữ mới như tiếng Trung và tiếng Hàn."]
+      ]
+    },
+    sentences: [
+      [101, "Vào thời gian rảnh, tôi rất thích đọc sách về kinh doanh và tâm lý học.", "在空闲时间，我非常喜欢看关于商业和心理学的书。", "Zài kòng xián shí jiān, wǒ fēi cháng xǐ huan kàn guān yú shāng yè hé xīn lǐ xué de shū."],
+      [102, "Anh trai tôi đam mê chơi các trò chơi điện tử trên máy tính.", "我哥哥热爱在电脑上玩电子游戏。", "Wǒ gē ge rè ài zài diàn nǎo shàng wán diàn zǐ yóu xì."],
+      [103, "Cô ấy thích vừa làm việc vừa nghe nhạc cổ điển.", "她喜欢一边工作一边听古典音乐。", "Tā xǐ huan yì biān gōng zuò yì biān tīng gǔ diǎn yīn yuè."],
+      [104, "Chúng tôi yêu thích việc đi dạo quanh bờ hồ vào mỗi buổi chiều.", "我们喜欢每天下午在湖边散步。", "Wǒ men xǐ huan měi tiān xià wǔ zài hú biān sàn bù."],
+      [105, "Tôi ghét phải chờ đợi người khác dưới thời tiết nắng nóng.", "我讨厌在炎热的天气下等待别人。", "Wǒ tǎo yàn zài yán rè de tiān qì xià děng dài bié rén."],
+      [106, "Bố tôi thích chăm sóc cây cảnh và nuôi cá cảnh trong bể.", "我爸爸喜欢照顾盆景和在鱼缸里养观赏鱼。", "Wǒ bà ba xǐ huan zhào gù pén jǐng hé zài yú gāng lǐ yǎng guān shǎng yú."],
+      [107, "Việc ngắm nhìn những chú cá bơi lội giúp tôi giảm căng thẳng rất nhiều.", "看着鱼儿游来游去帮我减轻了很多压力。", "Kàn zhe yú ér yóu lái yóu qù bāng wǒ jiǎn qīng le hěn duō yā lì."],
+      [108, "Mẹ tôi rất thích thử nghiệm các công thức nấu ăn mới vào cuối tuần.", "我妈妈非常喜欢在周末尝试新的食谱。", "Wǒ mā ma fēi cháng xǐ huan zài zhōu mò cháng shì xīn de shí pǔ."],
+      [109, "Bạn có thích chụp ảnh phong cảnh khi đi du lịch không?", "你去旅行的时候喜欢拍风景照吗？", "Nǐ qù lǚ xíng de shí hou xǐ huan pāi fēng jǐng zhào ma?"],
+      [110, "Tôi không thích xem phim kinh dị vì chúng làm tôi mất ngủ.", "我不喜欢看恐怖片，因为它们让我失眠。", "Wǒ bù xǐ huan kàn kǒng bù piàn, yīn wèi tā men ràng wǒ shī mián."],
+      [111, "Anh ấy dành hàng giờ mỗi tuần để luyện tập chơi đàn guitar.", "他每周花几个小时练习弹吉他。", "Tā měi zhōu huā jǐ ge xiǎo shí liàn xí tán jí tā."],
+      [112, "Nhiều người trẻ hiện nay thích quay và chỉnh sửa video ngắn.", "现在很多年轻人喜欢拍摄和剪辑短视频。", "Xiàn zài hěn duō nián qīng rén xǐ huan pāi shè hé jiǎn jí duǎn shì pín."],
+      [113, "Em gái tôi thích vẽ tranh màu nước và làm đồ thủ công.", "我妹妹喜欢画水彩画和做手工艺品。", "Wǒ mèi mei xǐ huan huà shuǐ cǎi huà hé zuò shǒu gōng yì pǐn."],
+      [114, "Chúng tôi thường tụ tập tại quán cà phê để trò chuyện cùng bạn bè.", "我们经常在咖啡馆聚会，和朋友聊天。", "Wǒ men jīng cháng zài kā fēi guǎn jù huì, hé péng you liáo tiān."],
+      [115, "Tôi rất hứng thú với việc học các ngôn ngữ mới như tiếng Trung và tiếng Hàn.", "我对学习中文和韩语等新语言很感兴趣。", "Wǒ duì xué xí Zhōng wén hé Hán yǔ děng xīn yǔ yán hěn gǎn xìng qù."],
+      [116, "Anh ấy không ngại việc thức khuya để hoàn thành dự án cá nhân.", "他不介意熬夜去完成个人项目。", "Tā bú jiè yì áo yè qù wán chéng gè rén xiàng mù."],
+      [117, "Cô ấy thích mua sắm trực tuyến hơn là đến các trung tâm thương mại.", "比起去商场，她更喜欢网购。", "Bǐ qǐ qù shāng chǎng, tā gèng xǐ huan wǎng gòu."],
+      [118, "Việc đi câu cá vào ngày nghỉ đòi hỏi sự kiên nhẫn rất lớn.", "在假日去钓鱼需要很大的耐心。", "Zài jià rì qù diào yú xū yào hěn dà de nài xīn."],
+      [119, "Họ thích đi cắm trại ở vùng ngoại ô để hít thở không khí trong lành.", "他们喜欢去郊区露营，呼吸新鲜空气。", "Tā men xǐ huan qù jiāo qū lù yíng, hū xī xīn xiān kōng qì."],
+      [120, "Tôi bắt đầu sưu tầm những chiếc mô hình xe hơi từ hai năm trước.", "我从两年前开始收集汽车模型。", "Wǒ cóng liǎng nián qián kāi shǐ shōu jí qì chē mó xíng."],
+      [121, "Bơi lội là hoạt động giải trí tuyệt vời nhất vào những ngày hè oi bức.", "在炎热的夏日里，游泳是最棒的娱乐活动。", "Zài yán rè de xià rì lǐ, yóu yǒng shì zuì bàng de yú lè huó dòng."],
+      [122, "Bạn thường làm gì để giải tỏa áp lực sau một ngày làm việc mệt mỏi?", "在疲惫的工作日之后，你通常做什么来缓解压力？", "Zài pí bèi de gōng zuò rì zhī hòu, nǐ tōng cháng zuò shén me lái huǎn jiě yā lì?"],
+      [123, "Có một sở thích lành mạnh giúp cuộc sống của chúng ta thú vị hơn.", "拥有一个健康的爱好让我们的生活更加有趣。", "Yōng yǒu yí ge jiàn kāng de ài hào ràng wǒ men de shēng huó gèng jiā yǒu qù."],
+      [124, "Tôi thích tự tay sửa chữa những đồ vật bị hỏng trong nhà.", "我喜欢亲手修理家里坏掉的东西。", "Wǒ xǐ huan qīn shǒu xiū lǐ jiā lǐ huài diào de dōng xi."],
+      [125, "Dù bận rộn đến đâu, tôi vẫn luôn dành thời gian cho sở thích cá nhân.", "无论多么忙碌，我总是为个人爱好留出时间。", "Wú lùn duō me máng lù, wǒ zǒng shì wèi gè rén ài hào liú chū shí jiān."]
+    ]
+  },
+  {
+    id: 6,
+    title: "Topic 6: Ẩm thực & Đồ uống (美食与饮品)",
+    vocab: [
+      ["河粉", "hé fěn", "phở"],
+      ["法棍面包", "fǎ gùn miàn bāo", "bánh mì (Việt Nam)"],
+      ["美食", "měi shí", "ẩm thực, món ngon"],
+      ["著名", "zhù míng", "nổi tiếng"],
+      ["冰奶咖啡", "bīng nǎi kā fēi", "cà phê sữa đá"],
+      ["提神", "tí shén", "tỉnh táo tinh thần"],
+      ["鲜奶", "xiān nǎi", "sữa tươi"],
+      ["牛肉", "niú ròu", "thịt bò"],
+      ["洋葱", "yáng cōng", "hành tây"],
+      ["青菜", "qīng cài", "rau xanh"],
+      ["快餐", "kuài cān", "đồ ăn nhanh"],
+      ["油脂", "yóu zhī", "dầu mỡ"],
+      ["酸汤", "suān tāng", "canh chua"],
+      ["味道", "wèi dào", "hương vị, mùi vị"],
+      ["咸", "xián", "mặn"],
+      ["甜", "tián", "ngọt"],
+      ["辣", "là", "cay"],
+      ["辣椒", "là jiāo", "quả ớt"],
+      ["消化系统", "xiāo huà xì tǒng", "hệ tiêu hóa"],
+      ["鸡蛋", "jī dàn", "trứng gà"],
+      ["篮子", "lán zi", "cái rổ, cái giỏ"],
+      ["糖", "táng", "đường"],
+      ["海鲜", "hǎi xiān", "hải sản"],
+      ["新鲜", "xīn xiān", "tươi, tươi sống"],
+      ["烤肉", "kǎo ròu", "thịt nướng"],
+      ["鱼露", "yú lù", "nước mắm"],
+      ["节食", "jié shí", "ăn kiêng"],
+      ["鸡胸肉", "jī xiōng ròu", "ức gà"],
+      ["蔬菜沙拉", "shū cài shā lā", "salad rau củ"],
+      ["餐厅", "cān tīng", "nhà hàng"],
+      ["排骨", "pái gǔ", "sườn (heo)"],
+      ["热带水果", "rè dài shuǐ guǒ", "trái cây nhiệt đới"],
+      ["芒果", "máng guǒ", "quả xoài"],
+      ["榴莲", "liú lián", "sầu riêng"],
+      ["大米", "dà mǐ", "gạo"],
+      ["营养均衡", "yíng yǎng jūn héng", "cân bằng dinh dưỡng"],
+      ["蛋白质", "dàn bái zhì", "chất đạm (protein)"],
+      ["珍珠奶茶", "zhēn zhū nǎi chá", "trà sữa trân châu"],
+      ["食品安全", "shí pǐn ān quán", "an toàn thực phẩm"],
+      ["红烧肉", "hóng shāo ròu", "thịt kho tàu"],
+      ["火锅", "huǒ guō", "lẩu"],
+      ["甜点", "tián diǎn", "món tráng miệng"],
+      ["街头小吃", "jiē tóu xiǎo chī", "ẩm thực đường phố, đồ ăn vặt đường phố"]
+    ],
+    grammar: {
+      title: "Đại từ nghi vấn hỏi số lượng 多少 (duō shao) / 几 (jǐ) & Cấu trúc 既不...也不...",
+      points: [
+        "<b>Phân biệt 几 (jǐ) và 多少 (duō shao):</b> <b>几</b> dùng để hỏi số lượng ước chừng dưới 10 và <b>bắt buộc có lượng từ</b> đứng sau (几个鸡蛋 - mấy quả trứng). <b>多少</b> dùng cho số lượng lớn hơn 10 hoặc không đếm được, lượng từ có thể lược bỏ (放多少糖 - cho bao nhiêu đường).",
+        "<b>Cấu trúc 既不... 也不... (jì bù... yě bù...):</b> Nghĩa là 'vừa không... cũng không...' (Ví dụ: 既不重咸也不太甜 - không quá mặn cũng không quá ngọt).",
+        "<b>Lượng từ 一些 (yì xiē - một ít, một vài):</b> Dùng được cho cả danh từ đếm được lẫn không đếm được."
+      ],
+      examples: [
+        ["河粉和法棍面包是越南美食中最著名的两道菜。", "Hé fěn hé fǎ gùn miàn bāo shì Yuè nán měi shí zhōng zuì zhù míng de liǎng dào cài.", "Phở và bánh mì là hai món ăn nổi tiếng nhất trong ẩm thực Việt Nam."],
+        ["这道酸汤味道刚刚好，既不太咸也不太甜。", "Zhè dào suān tāng wèi dào gāng gāng hǎo, jì bú tài xián yě bú tài tián.", "Món canh chua này vị vừa ăn, không quá mặn cũng không quá ngọt."],
+        ["你泡一杯热茶通常放多少糖？", "Nǐ pào yì bēi rè chá tōng cháng fàng duō shao táng?", "Bạn pha một tách trà nóng thường cho bao nhiêu đường?"]
+      ]
+    },
+    sentences: [
+      [126, "Phở và bánh mì là hai món ăn nổi tiếng nhất của ẩm thực Việt Nam.", "河粉和法棍面包是越南美食中最著名的两道菜。", "Hé fěn hé fǎ gùn miàn bāo shì Yuè nán měi shí zhōng zuì zhù míng de liǎng dào cài."],
+      [127, "Mỗi buổi sáng, tôi thường uống một tách cà phê sữa đá để tỉnh táo.", "每天早上，我通常喝一杯冰奶咖啡来提神。", "Měi tiān zǎo shang, wǒ tōng cháng hē yì bēi bīng nǎi kā fēi lái tí shén."],
+      [128, "Còn chút sữa tươi nào trong tủ lạnh không hả mẹ?", "妈妈，冰箱里还有鲜奶吗？", "Mā ma, bīng xiāng lǐ hái yǒu xiān nǎi ma?"],
+      [129, "Chúng ta cần mua một ít thịt bò, vài củ hành tây và nhiều rau xanh.", "我们需要买一些牛肉、几个洋葱和很多青菜。", "Wǒ men xū yào mǎi yì xiē niú ròu, jǐ ge yáng cōng hé hěn duō qīng cài."],
+      [130, "Bạn không nên ăn quá nhiều đồ ăn nhanh vì nó chứa nhiều dầu mỡ.", "你不应该吃太多快餐，因为它含有很多油脂。", "Nǐ bù yīng gāi chī tài duō kuài cān, yīn wèi tā hán yǒu hěn duō yóu zhī."],
+      [131, "Món canh chua này có vị vừa ăn, không quá mặn cũng không quá ngọt.", "这道酸汤味道刚刚好，既不太咸也不太甜。", "Zhè dào suān tāng wèi dào gāng gāng hǎo, jì bú tài xián yě bú tài tián."],
+      [132, "Anh ấy không ăn được đồ cay nên đừng cho ớt vào bát của anh ấy.", "他不能吃辣，所以别在他的碗里放辣椒。", "Tā bù néng chī là, suǒ yǐ bié zài tā de wǎn lǐ fàng là jiāo."],
+      [133, "Uống đủ hai lít nước mỗi ngày rất tốt cho làn da và hệ tiêu hóa.", "每天喝够两升水对皮肤和消化系统非常好。", "Měi tiān hē gòu liǎng shēng shuǐ duì pí fū hé xiāo huà xì tǒng fēi cháng hǎo."],
+      [134, "Có bao nhiêu quả trứng gà trong chiếc rổ đằng kia?", "那边的篮子里有多少个鸡蛋？", "Nà biān de lán zi lǐ yǒu duō shao ge jī dàn?"],
+      [135, "Bạn thường cho bao nhiêu đường vào một tách trà nóng?", "你泡一杯热茶通常放多少糖？", "Nǐ pào yì bēi rè chá tōng cháng fàng duō shao táng?"],
+      [136, "Hải sản ở vùng biển này rất tươi sống và giá cả phải chăng.", "这片海域的海鲜非常新鲜，而且价格合理。", "Zhè piàn hǎi yù de hǎi xiān fēi cháng xīn xiān, ér qiě jià gé hé lǐ."],
+      [137, "Món thịt nướng này ăn kèm với rau sống và nước mắm chua ngọt rất tuyệt.", "这道烤肉配生菜和酸甜鱼露非常棒。", "Zhè dào kǎo ròu pèi shēng cài hé suān tián yú lù fēi cháng bàng."],
+      [138, "Cô ấy đang ăn kiêng nên chỉ ăn ức gà luộc và salad rau củ.", "她正在节食，所以只吃水煮鸡胸肉和蔬菜沙拉。", "Tā zhèng zài jié shí, suǒ yǐ zhǐ chī shuǐ zhǔ jī xiōng ròu hé shū cài shā lā."],
+      [139, "Nhà hàng này phục vụ rất nhiều món ăn truyền thống của cả ba miền.", "这家餐厅供应许多越南北中南三地的传统菜肴。", "Zhè jiā cān tīng gōng yìng xǔ duō Yuè nán běi zhōng nán sān dì de chuán tǒng cài yáo."],
+      [140, "Cho tôi gọi một phần cơm tấm sườn và một ly trà đá nhé.", "请给我来一份排骨碎米饭和一杯冰茶。", "Qǐng gěi wǒ lái yí fèn pái gǔ suì mǐ fàn hé yì bēi bīng chá."],
+      [141, "Trái cây nhiệt đới ở Việt Nam như xoài, sầu riêng và nhãn rất ngọt.", "越南的热带水果，如芒果、榴莲和龙眼，都非常甜。", "Yuè nán de rè dài shuǐ guǒ, rú máng guǒ, liú lián hé lóng yǎn, dōu fēi cháng tián."],
+      [142, "Không còn chút gạo nào trong thùng, tôi phải đi mua ngay bây giờ.", "米桶里没有大米了，我现在得去买。", "Mǐ tǒng lǐ méi yǒu dà mǐ le, wǒ xiàn zài děi qù mǎi."],
+      [143, "Một bữa ăn cân bằng dinh dưỡng cần có đủ chất đạm, tinh bột và chất xơ.", "一顿营养均衡的饭菜需要有足够的蛋白质、淀粉和纤维。", "Yí dùn yíng yǎng jūn héng de fàn cài xū yào yǒu zú gòu de dàn bái zhì, diàn fěn hé xiān wéi."],
+      [144, "Trà sữa trân châu là thức uống yêu thích của rất nhiều học sinh, sinh viên.", "珍珠奶茶是许多学生最喜欢的饮料。", "Zhēn zhū nǎi chá shì xǔ duō xué sheng zuì xǐ huan de yǐn liào."],
+      [145, "Món bánh ngọt này được làm từ bột mì, bơ, trứng và một ít hương vani.", "这款糕点是由面粉、黄油、鸡蛋和一点香草味做成的。", "Zhè kuǎn gāo diǎn shì yóu miàn fěn, huáng yóu, jī dàn hé yì diǎn xiāng cǎo wèi zuò chéng de."],
+      [146, "Tôi thích tự nấu ăn ở nhà hơn vì nó đảm bảo vệ sinh an toàn thực phẩm.", "我更喜欢自己在家做饭，因为它能保证食品安全卫生。", "Wǒ gèng xǐ huan zì jǐ zài jiā zuò fàn, yīn wèi tā néng bǎo zhèng shí pǐn ān quán wèi shēng."],
+      [147, "Hương thơm của nồi thịt kho tàu lan tỏa khắp gian bếp nhỏ.", "那锅红烧肉的香气弥漫了整个小厨房。", "Nà guō hóng shāo ròu de xiāng qì mí màn le zhěng gè xiǎo chú fáng."],
+      [148, "Vào những ngày mưa lạnh, ăn một nồi lẩu nóng hổi cùng gia đình là tuyệt nhất.", "在寒冷的下雨天，和家人一起吃一锅热腾腾的火锅是最棒的。", "Zài hán lěng de xià yǔ tiān, hé jiā rén yì qǐ chī yì guō rè téng téng de huǒ guō shì zuì bàng de."],
+      [149, "Bạn có muốn dùng thêm một chút tráng miệng bằng trái cây tươi không?", "你想再来一点新鲜水果作为甜点吗？", "Nǐ xiǎng zài lái yì diǎn xīn xiān shuǐ guǒ zuò wéi tián diǎn ma?"],
+      [150, "Ẩm thực đường phố luôn mang lại những trải nghiệm văn hóa vô cùng độc đáo.", "街头小吃总是能带来非常独特的文化体验。", "Jiē tóu xiǎo chī zǒng shì néng dài lái fēi cháng dú tè de wén huà tǐ yàn."]
+    ]
+  },
+  {
+    id: 7,
+    title: "Topic 7: Mua sắm & Giá cả (购物与价格)",
+    vocab: [
+      ["衬衫", "chèn shān", "áo sơ mi"],
+      ["多少钱", "duō shao qián", "bao nhiêu tiền"],
+      ["运动鞋", "yùn dòng xié", "giày thể thao"],
+      ["合脚", "hé jiǎo", "vừa chân"],
+      ["贵", "guì", "đắt"],
+      ["服装店", "fú zhuāng diàn", "cửa hàng quần áo, thời trang"],
+      ["打折", "dǎ zhé", "giảm giá, chiết khấu"],
+      ["牛仔裤", "niú zǎi kù", "quần jean"],
+      ["大一号", "dà yí hào", "lớn hơn một cỡ (size)"],
+      ["试衣间", "shì yī jiān", "phòng thử đồ"],
+      ["走廊", "zǒu láng", "hành lang"],
+      ["现金", "xiàn jīn", "tiền mặt"],
+      ["信用卡", "xìn yòng kǎ", "thẻ tín dụng"],
+      ["银行转账", "yín háng zhuǎn zhàng", "chuyển khoản ngân hàng"],
+      ["真皮", "zhēn pí", "da thật"],
+      ["手提包", "shǒu tí bāo", "túi xách tay"],
+      ["质量", "zhì liàng", "chất lượng"],
+      ["保质期", "bǎo zhì qī", "hạn sử dụng"],
+      ["产地", "chǎn dì", "nguồn gốc xuất xứ, nơi sản xuất"],
+      ["比较价格", "bǐ jiào jià gé", "so sánh giá cả"],
+      ["广告", "guǎng gào", "quảng cáo"],
+      ["讨价还价", "tǎo jià huán jià", "mặc cả, trả giá"],
+      ["明码标价", "míng mǎ biāo jià", "niêm yết giá rõ ràng"],
+      ["收据", "shōu jù", "hóa đơn, biên lai"],
+      ["保修", "bǎo xiū", "bảo hành"],
+      ["智能手机", "zhì néng shǒu jī", "điện thoại thông minh"],
+      ["售货员", "shòu huò yuán", "nhân viên bán hàng"],
+      ["包邮券", "bāo yóu quàn", "mã miễn phí vận chuyển (freeship)"],
+      ["促销", "cù xiāo", "khuyến mãi"],
+      ["必需品", "bì xū pǐn", "nhu yếu phẩm, mặt hàng thiết yếu"],
+      ["手表", "shǒu biǎo", "đồng hồ đeo tay"],
+      ["物有所值", "wù yǒu suǒ zhí", "đáng đồng tiền bát gạo"],
+      ["浪费", "làng fèi", "lãng phí"],
+      ["快递员", "kuài dì yuán", "nhân viên giao hàng (shipper)"],
+      ["包裹", "bāo guǒ", "kiện hàng, bưu kiện"],
+      ["退款", "tuì kuǎn", "hoàn tiền"],
+      ["进口", "jìn kǒu", "nhập khẩu"],
+      ["消费者", "xiāo fèi zhě", "người tiêu dùng"]
+    ],
+    grammar: {
+      title: "Đại từ chỉ định 这 (zhè) / 那 (nà) & Cách nói phần trăm giảm giá (打折)",
+      points: [
+        "<b>Đại từ chỉ định 这 (này) / 那 (kia):</b> Khi kết hợp với danh từ số ít phải có lượng từ ở giữa: <b>这/那 + Lượng từ + Danh từ</b> (这件衬衫 - chiếc áo sơ mi này). Khi đi với số nhiều dùng <b>这些 (những... này)</b> hoặc <b>那些 (những... kia)</b> (那些手提包 - những chiếc túi xách kia).",
+        "<b>Cách nói giảm giá (打折 - dǎ zhé):</b> Tiếng Trung tính theo <b>số phần giá còn lại sau khi giảm</b> (trên thang 10). Ví dụ: Giảm 50% (còn 5 phần) nói là <b>打五折 (dǎ wǔ zhé)</b>; giảm 20% (còn 8 phần) nói là <b>打八折 (dǎ bā zhé)</b>."
+      ],
+      examples: [
+        ["挂在那边的那件白色衬衫多少钱？", "Guà zài nà biān de nà jiàn bái sè chèn shān duō shao qián?", "Chiếc áo sơ mi trắng treo ở đằng kia giá bao nhiêu tiền?"],
+        ["这家服装店正在进行五折促销活动。", "Zhè jiā fú zhuāng diàn zhèng zài jìn xíng wǔ zhé cù xiāo huó dòng.", "Cửa hàng thời trang này đang có chương trình khuyến mãi giảm giá 50%."],
+        ["我可以换一条大一号的牛仔裤吗？", "Wǒ kě yǐ huàn yì tiáo dà yí hào de niú zǎi kù ma?", "Tôi có thể đổi một chiếc quần jean cỡ lớn hơn được không?"]
+      ]
+    },
+    sentences: [
+      [151, "Chiếc áo sơ mi màu trắng đang treo ở đằng kia có giá bao nhiêu tiền?", "挂在那边的那件白色衬衫多少钱？", "Guà zài nà biān de nà jiàn bái sè chèn shān duō shao qián?"],
+      [152, "Đôi giày thể thao này rất vừa vặn với chân tôi nhưng giá hơi đắt.", "这双运动鞋非常合我的脚，但价格有点贵。", "Zhè shuāng yùn dòng xié fēi cháng hé wǒ de jiǎo, dàn jià gé yǒu diǎn guì."],
+      [153, "Cửa hàng thời trang này đang có chương trình giảm giá năm mươi phần trăm.", "这家服装店正在进行打五折的促销活动。", "Zhè jiā fú zhuāng diàn zhèng zài jìn xíng dǎ wǔ zhé de cù xiāo huó dòng."],
+      [154, "Tôi muốn đổi chiếc quần jean này sang cỡ lớn hơn có được không?", "我想把这条牛仔裤换成大一号的，可以吗？", "Wǒ xiǎng bǎ zhè tiáo niú zǎi kù huàn chéng dà yí hào de, kě yǐ ma?"],
+      [155, "Phòng thử đồ nằm ở phía cuối hành lang bên tay trái của quý khách.", "试衣间在您左手边走廊的尽头。", "Shì yī jiān zài nín zuǒ shǒu biān zǒu láng de jìn tóu."],
+      [156, "Bạn thích thanh toán bằng tiền mặt, thẻ tín dụng hay chuyển khoản ngân hàng?", "你喜欢用现金、信用卡还是银行转账支付？", "Nǐ xǐ huan yòng xiàn jīn, xìn yòng kǎ hái shì yín háng zhuǎn zhàng zhī fù?"],
+      [157, "Những túi xách bằng da thật ở kệ trên cùng kia có chất lượng rất tốt.", "最上面架子上的那些真皮手提包质量非常好。", "Zuì shàng miàn jià zi shàng de nà xiē zhēn pí shǒu tí bāo zhì liàng fēi cháng hǎo."],
+      [158, "Tôi luôn kiểm tra kỹ hạn sử dụng và nguồn gốc xuất xứ trước khi mua hàng.", "买东西前，我总是仔细检查保质期和产地。", "Mǎi dōng xi qián, wǒ zǒng shì zǐ xì jiǎn chá bǎo zhì qī hé chǎn dì."],
+      [159, "Mua sắm trực tuyến giúp tôi tiết kiệm thời gian và dễ dàng so sánh giá cả.", "网购帮我节省时间，而且很容易比较价格。", "Wǎng gòu bāng wǒ jié shěng shí jiān, ér qiě hěn róng yì bǐ jiào jià gé."],
+      [160, "Tuy nhiên, đôi khi sản phẩm nhận được không giống với hình ảnh quảng cáo.", "然而，有时候收到的产品与广告图片不一样。", "Rán ér, yǒu shí hou shōu dào de chǎn pǐn yǔ guǎng gào tú piàn bù yí yàng."],
+      [161, "Tôi có thể mặc cả giá khi đi mua đồ ở các khu chợ truyền thống không?", "我去传统市场买东西时可以讨价还价吗？", "Wǒ qù chuán tǒng shì chǎng mǎi dōng xi shí kě yǐ tǎo jià huán jià ma?"],
+      [162, "Ở siêu thị, tất cả các mặt hàng đều được niêm yết giá cố định rõ ràng.", "在超市里，所有商品都清楚地明码标价。", "Zài chāo shì lǐ, suǒ yǒu shāng pǐn dōu qīng chu de míng mǎ biāo jià."],
+      [163, "Xin vui lòng giữ lại hóa đơn mua hàng để được hỗ trợ bảo hành miễn phí.", "请保留购物收据以获得免费保修服务。", "Qǐng bǎo liú gòu wù shōu jù yǐ huò dé miǎn fèi bǎo xiū fú wù."],
+      [164, "Chiếc điện thoại thông minh này có thời hạn bảo hành chính hãng là mười hai tháng.", "这部智能手机有十二个月的官方保修期。", "Zhè bù zhì néng shǒu jī yǒu shí èr ge yuè de guān fāng bǎo xiū qī."],
+      [165, "Cô nhân viên bán hàng tư vấn rất nhiệt tình và lịch sự với khách hàng.", "女售货员对顾客的咨询非常热情且有礼貌。", "Nǚ shòu huò yuán duì gù kè de zī xún fēi cháng rè qíng qiě yǒu lǐ mào."],
+      [166, "Tôi đã săn được rất nhiều mã miễn phí vận chuyển trong đợt khuyến mãi vừa qua.", "在刚过去的促销活动中，我抢到了很多包邮券。", "Zài gāng guò qù de cù xiāo huó dòng zhōng, wǒ qiǎng dào le hěn duō bāo yóu quàn."],
+      [167, "Bạn không nên mua những món đồ không thực sự cần thiết chỉ vì chúng đang giảm giá.", "你不应该只因为东西在打折就买那些并不真正需要的物品。", "Nǐ bù yīng gāi zhǐ yīn wèi dōng xi zài dǎ zhé jiù mǎi nà xiē bìng bù zhēn zhèng xū yào de wù pǐn."],
+      [168, "Giá cả của các mặt hàng tiêu dùng thiết yếu đã tăng nhẹ trong tháng này.", "这个月生活必需品的价格略有上涨。", "Zhè ge yuè shēng huó bì xū pǐn de jià gé lüè yǒu shàng zhǎng."],
+      [169, "Chiếc đồng hồ đeo tay này là một món quà đáng đồng tiền bát gạo.", "这块手表是一份物有所值的礼物。", "Zhè kuài shǒu biǎo shì yí fèn wù yǒu suǒ zhí de lǐ wù."],
+      [170, "Tôi thường lập danh sách những thứ cần mua để tránh tiêu xài hoang phí.", "我通常列出购物清单以避免浪费钱。", "Wǒ tōng cháng liè chū gòu wù qīng dān yǐ bì miǎn làng fèi qián."],
+      [171, "Người giao hàng vừa gọi điện báo rằng kiện hàng của tôi đã đến nơi.", "快递员刚打电话通知说我的包裹已经到了。", "Kuài dì yuán gāng dǎ diàn huà tōng zhī shuō wǒ de bāo guǒ yǐ jīng dào le."],
+      [172, "Nếu sản phẩm bị lỗi do nhà sản xuất, bạn sẽ được hoàn tiền một trăm phần trăm.", "如果产品因厂家原因出现质量问题，您将获得百分百退款。", "Rú guǒ chǎn pǐn yīn chǎng jiā yuán yīn chū xiàn zhì liàng wèn tí, nín jiāng huò dé bǎi fēn bǎi tuì kuǎn."],
+      [173, "Những quả táo nhập khẩu này trông rất tươi ngon nhưng giá cao gấp đôi táo nội địa.", "这些进口苹果看起来非常新鲜好吃，但价格是国产苹果的两倍。", "Zhè xiē jìn kǒu píng guǒ kàn qǐ lái fēi cháng xīn xiān hǎo chī, dàn jià gé shì guó chǎn píng guǒ de liǎng bèi."],
+      [174, "Trung tâm thương mại luôn đông nghịt người vào những ngày nghỉ lễ.", "每逢节假日，商场里总是挤满了人。", "Měi féng jié jià rì, shāng chǎng lǐ zǒng shì jǐ mǎn le rén."],
+      [175, "Hãy做 một người tiêu dùng thông thái để quản lý tài chính cá nhân hiệu quả.", "做一个理智的消费者，以便有效地管理个人财务。", "Zuò yí ge lǐ zhì de xiāo fèi zhě, yǐ biàn yǒu xiào de guǎn lǐ gè rén cái wù."]
+    ]
+  },
+  {
+    id: 8,
+    title: "Topic 8: Thời tiết & Các mùa (天气与四季)",
+    vocab: [
+      ["北方", "běi fāng", "miền Bắc"],
+      ["四季分明", "sì jì fēn míng", "bốn mùa rõ rệt"],
+      ["春天", "chūn tiān", "mùa xuân"],
+      ["冬天", "dōng tiān", "mùa đông"],
+      ["南方", "nán fāng", "miền Nam"],
+      ["雨季", "yǔ jì", "mùa mưa"],
+      ["旱季", "hàn jì", "mùa khô"],
+      ["天空", "tiān kōng", "bầu trời"],
+      ["乌云", "wū yún", "mây đen"],
+      ["下大雨", "xià dà yǔ", "mưa to"],
+      ["雨衣", "yǔ yī", "áo mưa"],
+      ["晴朗", "qíng lǎng", "quang đãng, nắng đẹp"],
+      ["微风", "wēi fēng", "gió nhẹ"],
+      ["温度", "wēn dù", "nhiệt độ"],
+      ["摄氏度", "shè shì dù", "độ C (Celsius)"],
+      ["空调", "kōng tiáo", "máy điều hòa"],
+      ["闷热", "mēn rè", "oi bức, ngột ngạt"],
+      ["浪漫", "làng màn", "lãng mạn"],
+      ["天气预报", "tiān qì yù bào", "dự báo thời tiết"],
+      ["冷空气", "lěng kōng qì", "không khí lạnh"],
+      ["浓雾", "nóng wù", "sương mù dày đặc"],
+      ["视线", "shì xiàn", "tầm nhìn"],
+      ["发芽", "fā yá", "đâm chồi, nảy mầm"],
+      ["台风", "tái fēng", "cơn bão (nhiệt đới)"],
+      ["阵雨", "zhèn yǔ", "mưa rào"],
+      ["积水", "jī shuǐ", "ngập nước, đọng nước"],
+      ["雨伞", "yǔ sǎn", "chiếc ô, dù"],
+      ["彩虹", "cǎi hóng", "cầu vồng"],
+      ["湿度", "shī dù", "độ ẩm"],
+      ["潮湿", "cháo shī", "ẩm ướt"],
+      ["感冒", "gǎn mào", "cảm cúm"],
+      ["干旱", "gān hàn", "hạn hán"],
+      ["灌溉", "guàn gài", "tưới tiêu"],
+      ["下雪", "xià xuě", "tuyết rơi"],
+      ["打雷", "dǎ léi", "sấm sét"],
+      ["防晒霜", "fáng shài shuāng", "kem chống nắng"],
+      ["墨镜", "mò jìng", "kính râm"],
+      ["紫外线", "zǐ wài xiàn", "tia cực tím (UV)"],
+      ["气候变化", "qì hòu biàn huà", "biến đổi khí hậu"],
+      ["星星", "xīng xing", "ngôi sao"]
+    ],
+    grammar: {
+      title: "Thể tiếp diễn với 正在 (zhèng zài)... 呢 & Cấu trúc sắp xảy ra 要...了 / 快要...了",
+      points: [
+        "<b>Diễn tả hành động đang diễn ra:</b> Dùng <b>正在 (zhèng zài) / 在 (zài) + Động từ + (呢)</b> (Ví dụ: 乌云正在聚集 - mây đen đang kéo đến).",
+        "<b>Diễn tả sự việc sắp xảy ra (Tương lai gần):</b> Dùng <b>要 (yào) / 快要 (kuài yào) / 就要 (jiù yào) + Động từ + 了 (le)</b> (Ví dụ: 快要下雨了 - trời sắp mưa rồi)."
+      ],
+      examples: [
+        ["看天空，乌云正在很快地聚集过来！", "Kàn tiān kōng, wū yún zhèng zài hěn kuài de jù jí guò lái!", "Nhìn lên bầu trời kìa, mây đen đang kéo đến rất nhanh!"],
+        ["根据天气预报，明天将有一股冷空气南下。", "Gēn jù tiān qì yù bào, míng tiān jiāng yǒu yì gǔ lěng kōng qì nán xià.", "Theo dự báo thời tiết, ngày mai sẽ có một đợt không khí lạnh tràn về."],
+        ["你带雨伞了吗？看起来快要下雨了。", "Nǐ dài yǔ sǎn le ma? Kàn qǐ lái kuài yào xià yǔ le.", "Bạn đã mang ô chưa? Trông có vẻ trời sắp mưa rồi."]
+      ]
+    },
+    sentences: [
+      [176, "Ở miền Bắc Việt Nam có bốn mùa rõ rệt: xuân, hạ, thu và đông.", "越南北方四季分明：春、夏、秋、冬。", "Yuè nán běi fāng sì jì fēn míng: chūn, xià, qiū, dōng."],
+      [177, "Trong khi đó, miền Nam chỉ có hai mùa chính là mùa mưa và mùa khô.", "与此同时，南方只有两个主要季节：雨季和旱季。", "Yǔ cǐ tóng shí, nán fāng zhǐ yǒu liǎng ge zhǔ yào jì jié: yǔ jì hé hàn jì."],
+      [178, "Hãy nhìn lên bầu trời kìa, những đám mây đen đang kéo đến rất nhanh!", "看天空，乌云正在很快地聚集过来！", "Kàn tiān kōng, wū yún zhèng zài hěn kuài de jù jí guò lái!"],
+      [179, "Trời đang bắt đầu mưa to rồi, bạn nhớ mặc áo mưa cẩn thận khi ra ngoài nhé.", "开始下大雨了，你出门时记得穿好雨衣。", "Kāi shǐ xià dà yǔ le, nǐ chū mén shí jì de chuān hǎo yǔ yī."],
+      [180, "Hôm nay thời tiết thật dễ chịu, nắng ấm áp và có gió nhẹ.", "今天天气真舒服，阳光温暖，还有微风。", "Jīn tiān tiān qì zhēn shū fu, yáng guāng wēn nuǎn, hái yǒu wēi fēng."],
+      [181, "Vào mùa hè, nhiệt độ ban ngày có thể lên tới gần bốn mươi độ C.", "在夏天，白天的温度可以达到将近四十摄氏度。", "Zài xià tiān, bái tiān de wēn dù kě yǐ dá dào jiāng jìn sì shí shè shì dù."],
+      [182, "Mọi người đang bật điều hòa hết công suất vì thời tiết quá oi bức.", "因为天气太闷热，大家都在把空调开到最大。", "Yīn wèi tiān qì tài mēn rè, dà jiā dōu zài bǎ kōng tiáo kāi dào zuì dà."],
+      [183, "Tôi thích mùa thu nhất vì tiết trời mát mẻ và lá vàng rơi lãng mạn.", "我最喜欢秋天，因为天气凉爽，黄叶浪漫地飘落。", "Wǒ zuì xǐ huan qiū tiān, yīn wèi tiān qì liáng shuǎng, huáng yè làng màn de piāo luò."],
+      [184, "Theo bản tin dự báo thời tiết, ngày mai sẽ có một đợt không khí lạnh tràn về.", "根据天气预报，明天将有一股冷空气袭来。", "Gēn jù tiān qì yù bào, míng tiān jiāng yǒu yì gǔ lěng kōng qì xí lái."],
+      [185, "Vào mùa đông, sương mù dày đặc vào sáng sớm làm hạn chế tầm nhìn của người lái xe.", "冬天，清晨的浓雾限制了司机的视线。", "Dōng tiān, qīng chén de nóng wù xiàn zhì le sī jī de shì xiàn."],
+      [186, "Mùa xuân là thời điểm cây cối đâm chồi nảy lộc và trăm hoa đua nở.", "春天是树木发芽、百花齐放的时节。", "Chūn tiān shì shù mù fā yá, bǎi huā qí fàng de shí jié."],
+      [187, "Cơn bão nhiệt đới đang di chuyển dần vào khu vực ven biển miền Trung.", "热带台风正在逐渐向中部沿海地区移动。", "Rè dài tái fēng zhèng zài zhú jiàn xiàng zhōng bù yán hǎi dì qū yí dòng."],
+      [188, "Những cơn mưa rào bất chợt vào buổi chiều thường gây ngập nước nhiều tuyến đường.", "下午突如其来的阵雨经常导致多条道路积水。", "Xià wǔ tū rú qí lái de zhèn yǔ jīng cháng dǎo zhì duō tiáo dào lù jī shuǐ."],
+      [189, "Bạn đang mang theo ô đấy chứ? Trời có vẻ sắp mưa nữa rồi.", "你带着雨伞吧？看起来快要再下雨了。", "Nǐ dài zhe yǔ sǎn ba? Kàn qǐ lái kuài yào zài xià yǔ le."],
+      [190, "Sau cơn mưa lớn, một chiếc cầu vồng rực rỡ đang xuất hiện trên bầu trời.", "大雨过后，一道绚丽的彩虹正出现在天空中。", "Dà yǔ guò hòu, yí dào xuàn lì de cǎi hóng zhèng chū xiàn zài tiān kōng zhōng."],
+      [191, "Độ ẩm không khí cao vào mùa nồm khiến sàn nhà luôn bị ẩm ướt.", "回南天空气湿度高，使得地板总是潮湿的。", "Huí nán tiān kōng qì shī dù gāo, shǐ de dì bǎn zǒng shì cháo shī de."],
+      [192, "Khi thời tiết thay đổi đột ngột, trẻ em và người già rất dễ bị cảm cúm.", "当天气突然变化时，儿童和老人很容易感冒。", "Dāng tiān qì tū rán biàn huà shí, ér tóng hé lǎo rén hěn róng yì gǎn mào."],
+      [193, "Hạn hán kéo dài đang ảnh hưởng nghiêm trọng đến việc tưới tiêu cây trồng của nông dân.", "持续的干旱正在严重影响农民的农作物灌溉。", "Chí xù de gān hàn zhèng zài yán zhòng yǐng xiǎng nóng mín de nóng zuò wù guàn gài."],
+      [194, "Ở vùng núi cao như Sa Pa, đôi khi có tuyết rơi vào những ngày đông giá rét.", "在沙巴等高山地区，寒冷的冬日里有时会下雪。", "Zài Shā Bā děng gāo shān dì qū, hán lěng de dōng rì lǐ yǒu shí huì xià xuě."],
+      [195, "Gió đang thổi rất mạnh kèm theo sấm sét, chúng ta nên ở yên trong nhà.", "风刮得很大并伴有打雷闪电，我们应该待在家里。", "Fēng guā de hěn dà bìng bàn yǒu dǎ léi shǎn diàn, wǒ men yīng gāi dāi zài jiā lǐ."],
+      [196, "Tôi luôn thoa kem chống nắng và đeo kính râm để bảo vệ da khỏi tia cực tím.", "我总是涂防晒霜并戴墨镜，以保护皮肤免受紫外线伤害。", "Wǒ zǒng shì tú fáng shài shuāng bìng dài mò jìng, yǐ bǎo hù pí fū miǎn shòu zǐ wài xiàn shāng hài."],
+      [197, "Không khí buổi sáng sớm ở vùng quê thật trong lành và mát rượi.", "乡村清晨的空气真清新、真凉爽。", "Xiāng cūn qīng chén de kōng qì zhēn qīng xīn, zhēn liáng shuǎng."],
+      [198, "Hiện tượng biến đổi khí hậu đang làm cho thời tiết toàn cầu ngày càng cực đoan hơn.", "气候变化现象正使全球天气变得越来越极端。", "Qì hòu biàn huà xiàn xiàng zhèng shǐ quán qiú tiān qì biàn de yuè lái yuè jí duān."],
+      [199, "Tối nay trời quang mây tạnh, chúng ta có thể nhìn thấy rất nhiều ngôi sao lấp lánh.", "今晚万里无云，我们可以看到许多闪烁的星星。", "Jīn wǎn wàn lǐ wú yún, wǒ men kě yǐ kàn dào xǔ duō shǎn shuò de xīng xing."],
+      [200, "Dù thời tiết hôm nay như thế nào, hãy luôn giữ một tâm trạng tích cực nhé!", "无论今天天气如何，请始终保持积极的心情！", "Wú lùn jīn tiān tiān qì rú hé, qǐng shǐ zhōng bǎo chí jī jí de xīn qíng!"]
+    ]
+  }
+);
+// =========================================================================
+// PHẦN 3: TOPIC 9 ĐẾN TOPIC 12 (CÂU 201 - 300)
+// =========================================================================
+ALL_TOPICS.push(
+  {
+    id: 9,
+    title: "Topic 9: Du lịch & Kỳ nghỉ (旅游与假期)",
+    vocab: [
+      ["暑假", "shǔ jià", "kỳ nghỉ hè"],
+      ["岘港", "Xiàn Gǎng", "Đà Nẵng"],
+      ["预订", "yù dìng", "đặt trước (vé, phòng)"],
+      ["往返机票", "wǎng fǎn jī piào", "vé máy bay khứ hồi"],
+      ["酒店", "jiǔ diàn", "khách sạn"],
+      ["租", "zū", "thuê"],
+      ["探索", "tàn suǒ", "khám phá"],
+      ["沿海公路", "yán hǎi gōng lù", "cung đường ven biển"],
+      ["难忘", "nán wàng", "khó quên, đáng nhớ"],
+      ["回忆", "huí yì", "kỷ niệm, ký ức"],
+      ["跟团游", "gēn tuán yóu", "du lịch theo tour"],
+      ["自由行", "zì yóu xíng", "du lịch tự túc"],
+      ["护照", "hù zhào", "hộ chiếu"],
+      ["身份证", "shēn fèn zhèng", "căn cước công dân / chứng minh thư"],
+      ["行李箱", "xíng li xiāng", "vali hành lý"],
+      ["机场", "jī chǎng", "sân bay"],
+      ["会安古镇", "Huì Ān gǔ zhèn", "phố cổ Hội An"],
+      ["放河灯", "fàng hé dēng", "thả đèn hoa đăng"],
+      ["导游", "dǎo yóu", "hướng dẫn viên du lịch"],
+      ["大厅", "dà tīng", "sảnh lớn (khách sạn)"],
+      ["夜市", "yè shì", "chợ đêm"],
+      ["特产", "tè chǎn", "đặc sản"],
+      ["下龙湾", "Xià Lóng Wān", "vịnh Hạ Long"],
+      ["雄伟", "xióng wěi", "hùng vĩ"],
+      ["潜水", "qián shuǐ", "lặn biển"],
+      ["珊瑚礁", "shān hú jiāo", "rạn san hô"],
+      ["纪念品", "jì niàn pǐn", "quà lưu niệm"],
+      ["航班", "háng bān", "chuyến bay"],
+      ["延误", "yán wù", "bị hoãn, trễ (chuyến bay)"],
+      ["金桥", "Jīn Qiáo", "Cầu Vàng"],
+      ["度假村", "dù jià cūn", "khu nghỉ dưỡng (resort)"],
+      ["无边泳池", "wú biān yǒng chí", "hồ bơi vô cực"],
+      ["开阔眼界", "kāi kuò yǎn jiè", "mở mang tầm mắt"],
+      ["请假", "qǐng jià", "xin nghỉ phép"],
+      ["旺季", "wàng jì", "mùa cao điểm"],
+      ["充电宝", "chōng diàn bǎo", "sạc dự phòng"],
+      ["办理入住", "bàn lǐ rù zhù", "làm thủ tục nhận phòng (check-in)"],
+      ["好客", "hào kè", "hiếu khách, mến khách"],
+      ["日出", "rì chū", "bình minh, mặt trời mọc"],
+      ["一路平安", "yí lù píng ān", "thượng lộ bình an"]
+    ],
+    grammar: {
+      title: "Diễn tả kế hoạch & Tương lai với 打算 (dǎ suàn), 将 (jiāng) & 会 (huì)",
+      points: [
+        "<b>Động từ 打算 (dǎ suàn - dự định, tính sẽ):</b> Dùng cho kế hoạch đã có sự chuẩn bị: <b>Chủ ngữ + 打算 + Động từ / Cụm động từ</b>.",
+        "<b>Phó từ 将 (jiāng) / 会 (huì - sẽ):</b> Đặt trước động từ để chỉ sự việc sẽ diễn ra trong tương lai hoặc một dự đoán chắc chắn (这场旅行会给我们带来很多难忘的回忆).",
+        "<b>Cấu trúc 如果... 就... (rú guǒ... jiù... - nếu... thì...):</b> Dùng để nêu giả thiết và kết quả tương ứng trong tương lai."
+      ],
+      examples: [
+        ["我们全家打算下个月暑假去岘港旅行。", "Wǒ men quán jiā dǎ suàn xià ge yuè shǔ jià qù Xiàn Gǎng lǚ xíng.", "Gia đình tôi dự định kỳ nghỉ hè tháng tới sẽ đi du lịch Đà Nẵng."],
+        ["导游明天早上八点将在酒店大厅接我们的团队。", "Dǎo yóu míng tiān zǎo shang bā diǎn jiāng zài jiǔ diàn dà tīng jiē wǒ men de tuán duì.", "Hướng dẫn viên sáng mai lúc 8 giờ sẽ đón đoàn chúng ta tại sảnh khách sạn."],
+        ["如果天气好，我们就去参加潜水看珊瑚礁的活动。", "Rú guǒ tiān qì hǎo, wǒ men jiù qù cān jiā qián shuǐ kàn shān hú jiāo de huó dòng.", "Nếu thời tiết đẹp, chúng ta sẽ đi tham gia hoạt động lặn biển ngắm san hô."]
+      ]
+    },
+    sentences: [
+      [201, "Gia đình tôi dự định sẽ đi du lịch Đà Nẵng vào kỳ nghỉ hè tháng tới.", "我们全家打算下个月暑假去岘港旅行。", "Wǒ men quán jiā dǎ suàn xià ge yuè shǔ jià qù Xiàn Gǎng lǚ xíng."],
+      [202, "Tôi đã đặt vé máy bay khứ hồi và phòng khách sạn từ hai tuần trước.", "我两周前就已经预订了往返机票和酒店房间。", "Wǒ liǎng zhōu qián jiù yǐ jīng yù dìng le wǎng fǎn jī piào hé jiǔ diàn fáng jiān."],
+      [203, "Chúng tôi dự định thuê một chiếc xe máy để tự do khám phá các cung đường ven biển.", "我们打算租一辆摩托车，自由地探索沿海公路。", "Wǒ men dǎ suàn zū yí liàng mó tuō chē, zì yóu de tàn suǒ yán hǎi gōng lù."],
+      [204, "Tôi nghĩ chuyến đi này sẽ mang lại cho chúng tôi rất nhiều kỷ niệm đáng nhớ.", "我想这次旅行会给我们带来很多难忘的回忆。", "Wǒ xiǎng zhè cì lǚ xíng huì gěi wǒ men dài lái hěn duō nán wàng de huí yì."],
+      [205, "Bạn định đi du lịch theo tour trọn gói hay đi du lịch tự túc cùng bạn bè?", "你打算跟团游还是和朋友一起自由行？", "Nǐ dǎ suàn gēn tuán yóu hái shì hé péng you yì qǐ zì yóu xíng?"],
+      [206, "Đừng quên mang theo hộ chiếu, căn cước công dân và các giấy tờ tùy thân cần thiết nhé.", "别忘了带上护照、身份证和必要的随身证件。", "Bié wàng le dài shàng hù zhào, shēn fèn zhèng hé bì yào de suí shēn zhèng jiàn."],
+      [207, "Tôi sẽ chuẩn bị một chiếc vali gọn nhẹ để dễ dàng di chuyển ở sân bay.", "我会准备一个轻便的行李箱，以便在机场轻松走动。", "Wǒ huì zhǔn bèi yí ge qīng biàn de xíng li xiāng, yǐ biàn zài jī chǎng qīng sōng zǒu dòng."],
+      [208, "Khi đến phố cổ Hội An, chúng tôi dự định sẽ thả đèn hoa đăng trên sông Hoài.", "到会安古镇时，我们打算在怀河上放河灯。", "Dào Huì Ān gǔ zhèn shí, wǒ men dǎ suàn zài Huái Hé shàng fàng hé dēng."],
+      [209, "Hướng dẫn viên du lịch sẽ đón đoàn của chúng ta tại sảnh khách sạn lúc 8 giờ sáng.", "导游将在早上八点在酒店大厅接我们的团队。", "Dǎo yóu jiāng zài zǎo shang bā diǎn zài jiǔ diàn dà tīng jiē wǒ men de tuán duì."],
+      [210, "Chúng tôi sẽ thưởng thức các món đặc sản địa phương tại khu chợ đêm.", "我们将在夜市品尝当地的特色美食。", "Wǒ men jiāng zài yè shì pǐn cháng dāng dì de tè sè měi shí."],
+      [211, "Tôi chắc chắn rằng bạn sẽ say mê vẻ đẹp hùng vĩ của vịnh Hạ Long.", "我确信你会迷上下龙湾雄伟的美景。", "Wǒ què xìn nǐ huì mí shàng Xià Lóng Wān xióng wěi de měi jǐng."],
+      [212, "Nếu thời tiết thuận lợi, chúng ta sẽ tham gia hoạt động lặn biển ngắm san hô.", "如果天气顺利，我们就去参加潜水看珊瑚礁的活动。", "Rú guǒ tiān qì shùn lì, wǒ men jiù qù cān jiā qián shuǐ kàn shān hú jiāo de huó dòng."],
+      [213, "Cô ấy dự định sẽ mua một ít quà lưu niệm và đặc sản khô về làm quà cho đồng nghiệp.", "她打算买一些纪念品和干货特产回去送给同事。", "Tā dǎ suàn mǎi yì xiē jì niàn pǐn hé gān huò tè chǎn huí qù sòng gěi tóng shì."],
+      [214, "Chuyến bay có thể bị hoãn do thời tiết xấu, vì vậy tôi sẽ kiểm tra thông báo thường xuyên.", "航班可能会因恶劣天气而延误，所以我会经常查看通知。", "Háng bān kě néng huì yīn è liè tiān qì ér yán wù, suǒ yǐ wǒ huì jīng cháng chá kàn tōng zhī."],
+      [215, "Chúng tôi sẽ chụp thật nhiều bức ảnh kỷ niệm tại cây Cầu Vàng nổi tiếng.", "我们将在著名的金桥拍很多纪念照片。", "Wǒ men jiāng zài zhù míng de Jīn Qiáo pāi hěn duō jì niàn zhào piàn."],
+      [216, "Khu nghỉ dưỡng này có hồ bơi vô cực hướng thẳng ra bãi biển tuyệt đẹp.", "这个度假村有一个正对着美丽海滩的无边泳池。", "Zhè ge dù jià cūn yǒu yí ge zhèng duì zhe měi lì hǎi tān de wú biān yǒng chí."],
+      [217, "Đi du lịch giúp chúng ta mở mang tầm mắt và tìm hiểu thêm nhiều nền văn hóa mới.", "旅行帮助我们开阔眼界，并了解更多新的文化。", "Lǚ xíng bāng zhù wǒ men kāi kuò yǎn jiè, bìng liǎo jiě gèng duō xīn de wén huà."],
+      [218, "Anh ấy định xin nghỉ phép ba ngày để đi phượt vùng núi Tây Bắc bằng xe máy.", "他打算请三天假，骑摩托车去西北山区摩旅。", "Tā dǎ suàn qǐng sān tiān jià, qí mó tuō chē qù Xī běi shān qū mó lǚ."],
+      [219, "Bạn nên đặt phòng sớm vì giá dịch vụ thường tăng cao vào mùa du lịch cao điểm.", "你应该早点预订房间，因为在旅游旺季服务价格通常会大涨。", "Nǐ yīng gāi zǎo diǎn yù dìng fáng jiān, yīn wèi zài lǚ yóu wàng jì fú wù jià gé tōng cháng huì dà zhǎng."],
+      [220, "Tôi sẽ sạc đầy pin cho máy ảnh và sạc dự phòng trước khi khởi hành.", "出发前，我会把相机电池和充电宝充满电。", "Chū fā qián, wǒ huì bǎ xiàng jī diàn chí hé chōng diàn bǎo chōng mǎn diàn."],
+      [221, "Sau khi làm thủ tục nhận phòng, chúng tôi sẽ nghỉ ngơi một lát rồi đi tắm biển.", "办理入住手续后，我们会休息一会儿，然后去海里游泳。", "Bàn lǐ rù zhù shǒu xù hòu, wǒ men huì xiū xi yì huǐ r, rán hòu qù hǎi lǐ yóu yǒng."],
+      [222, "Người dân địa phương ở đây vô cùng thân thiện, mến khách và nhiệt tình chỉ đường.", "这里的当地人非常友好、好客，而且热情指路。", "Zhè lǐ de dāng dì rén fēi cháng yǒu hǎo, hào kè, ér qiě rè qíng zhǐ lù."],
+      [223, "Chúng ta sẽ ngắm bình minh trên biển vào lúc năm giờ sáng mai chứ?", "我们明天早上五点在海边看日出好吗？", "Wǒ men míng tiān zǎo shang wǔ diǎn zài hǎi biān kàn rì chū hǎo ma?"],
+      [224, "Kỳ nghỉ ngắn ngày này sẽ giúp tôi nạp lại năng lượng để quay lại làm việc hiệu quả hơn.", "这个短暂的假期会帮我重新充电，以便回来更高效地工作。", "Zhè ge duǎn zàn de jià qī huì bāng wǒ chóng xīn chōng diàn, yǐ biàn huí lái gèng gāo xiào de gōng zuò."],
+      [225, "Chúc bạn và gia đình có một chuyến đi thượng lộ bình an và tràn đầy niềm vui!", "祝你和家人旅途一路平安，充满欢乐！", "Zhù nǐ hé jiā rén lǚ tú yí lù píng ān, chōng mǎn huān lè!"]
+    ]
+  },
+  {
+    id: 10,
+    title: "Topic 10: Phương tiện & Chỉ đường (交通工具与问路指路)",
+    vocab: [
+      ["劳驾", "láo jià", "xin lỗi, làm phiền (khi hỏi đường)"],
+      ["中心邮局", "zhōng xīn yóu jú", "bưu điện trung tâm"],
+      ["一直往前走", "yì zhí wǎng qián zǒu", "đi thẳng về phía trước"],
+      ["十字路口", "shí zì lù kǒu", "ngã tư"],
+      ["往右拐", "wǎng yòu guǎi", "rẽ phải"],
+      ["红绿灯", "hóng lǜ dēng", "đèn giao thông (đèn xanh đèn đỏ)"],
+      ["公交车站", "gōng jiāo chē zhàn", "trạm xe buýt"],
+      ["综合医院", "zōng hé yī yuàn", "bệnh viện đa khoa"],
+      ["出租车", "chū zū chē", "xe taxi"],
+      ["高峰期", "gāo fēng qī", "giờ cao điểm"],
+      ["堵车", "dǔ chē", "tắc đường, kẹt xe"],
+      ["地图软件", "dì tú ruǎn jiàn", "ứng dụng bản đồ"],
+      ["路线", "lù xiàn", "lộ trình, tuyến đường"],
+      ["安全头盔", "ān quán tóu kuī", "mũ bảo hiểm an toàn"],
+      ["闯红灯", "chuǎng hóng dēng", "vượt đèn đỏ"],
+      ["逆行", "nì xíng", "đi ngược chiều"],
+      ["网约摩的", "wǎng yuē mó dī", "xe ôm công nghệ"],
+      ["后视镜", "hòu shì jìng", "gương chiếu hậu"],
+      ["转向灯", "zhuǎn xiàng dēng", "đèn xi-nhan"],
+      ["变道", "biàn dào", "chuyển làn đường"],
+      ["地铁", "dì tiě", "tàu điện ngầm / metro"],
+      ["环岛", "huán dǎo", "vòng xuyến, bùng binh"],
+      ["出口", "chū kǒu", "lối ra"],
+      ["胡同", "hú tòng", "con hẻm, ngõ nhỏ"],
+      ["减速", "jiǎn sù", "giảm tốc độ"],
+      ["安全距离", "ān quán jù lí", "khoảng cách an toàn"],
+      ["地下停车场", "dì xià tíng chē chǎng", "bãi đỗ xe ngầm"],
+      ["迷路", "mí lù", "lạc đường"],
+      ["天桥", "tiān qiáo", "cầu vượt (cho người đi bộ)"],
+      ["加油站", "jiā yóu zhàn", "trạm xăng"],
+      ["酒后驾车", "jiǔ hòu jià chē", "lái xe sau khi uống rượu bia"],
+      ["交通标志", "jiāo tōng biāo zhì", "biển báo giao thông"],
+      ["掉头", "diào tóu", "quay đầu xe"]
+    ],
+    grammar: {
+      title: "Giới từ chỉ phương hướng 往 (wǎng) / 沿着 (yán zhe) & Cấu trúc 离...远/近 / 从...到...",
+      points: [
+        "<b>Chỉ hướng di chuyển với 往 (wǎng - về phía) & 沿着 (yán zhe - dọc theo):</b> Cấu trúc: <b>往 + Phương hướng (前/后/左/右) + Động từ (走/拐)</b> (Ví dụ: 一直往前走 - đi thẳng về phía trước; 往右拐 - rẽ phải).",
+        "<b>Cấu trúc 从 A 到 B (cóng A dào B - từ A đến B):</b> Dùng để chỉ khoảng cách hoặc thời gian di chuyển giữa hai địa điểm.",
+        "<b>Câu mệnh lệnh cấm đoán:</b> Dùng <b>千万不要 (qiān wàn bú yào - tuyệt đối đừng)</b> hoặc <b>严禁 (yán jìn - nghiêm cấm)</b>."
+      ],
+      examples: [
+        ["请沿着这条路一直往前走五百米，然后在第一个十字路口往右拐。", "Qǐng yán zhe zhè tiáo lù yì zhí wǎng qián zǒu wǔ bǎi mǐ, rán hòu zài dì yī ge shí zì lù kǒu wǎng yòu guǎi.", "Hãy đi thẳng dọc theo con đường này 500 mét, sau đó rẽ phải ở ngã tư đầu tiên."],
+        ["如果坐出租车，从这里到机场大约需要三十分钟。", "Rú guǒ zuò chū zū chē, cóng zhè lǐ dào jī chǎng dà yuē xū yào sān shí fēn zhōng.", "Nếu đi bằng taxi, từ đây đến sân bay mất khoảng ba mươi phút."],
+        ["千万不要闯红灯或者逆行，因为那非常危险。", "Qiān wàn bú yào chuǎng hóng dēng huò zhě nì xíng, yīn wèi nà fēi cháng wēi xiǎn.", "Tuyệt đối đừng vượt đèn đỏ hoặc đi ngược chiều vì điều đó rất nguy hiểm."]
+      ]
+    },
+    sentences: [
+      [226, "Xin lỗi, bạn có thể chỉ giúp tôi đường ngắn nhất để đến bưu điện trung tâm được không?", "劳驾，你能告诉我去中心邮局最短的路怎么走吗？", "Láo jià, nǐ néng gào su wǒ qù zhōng xīn yóu jú zuì duǎn de lù zěn me zǒu ma?"],
+      [227, "Bạn hãy đi thẳng dọc theo con đường này khoảng năm trăm mét rồi rẽ phải ở ngã tư đầu tiên.", "请沿着这条路一直往前走五百米左右，然后在第一个十字路口往右拐。", "Qǐng yán zhe zhè tiáo lù yì zhí wǎng qián zǒu wǔ bǎi mǐ zuǒ yòu, rán hòu zài dì yī ge shí zì lù kǒu wǎng yòu guǎi."],
+      [228, "Đi qua đèn giao thông thứ hai, bạn sẽ thấy ngân hàng nằm ngay bên tay trái.", "走过第二个红绿灯，你就会看到银行就在你的左手边。", "Zǒu guò dì èr ge hóng lǜ dēng, nǐ jiù huì kàn dào yín háng jiù zài nǐ de zuǒ shǒu biān."],
+      [229, "Trạm xe buýt gần nhất nằm ở ngay phía đối diện cổng bệnh viện đa khoa.", "最近的公交车站就在综合医院大门的正对面。", "Zuì jìn de gōng jiāo chē zhàn jiù zài zōng hé yī yuàn dà mén de zhèng duì miàn."],
+      [230, "Từ đây đến sân bay mất khoảng ba mươi phút nếu bạn đi bằng taxi.", "如果你坐出租车，从这里到机场大约需要三十分钟。", "Rú guǒ nǐ zuò chū zū chē, cóng zhè lǐ dào jī chǎng dà yuē xū yào sān shí fēn zhōng."],
+      [231, "Vào giờ cao điểm, các tuyến đường chính trong thành phố thường xuyên bị ùn tắc nghiêm trọng.", "在高峰期，城市里的主要道路经常严重堵车。", "Zài gāo fēng qī, chéng shì lǐ de zhǔ yào dào lù jīng cháng yán zhòng dǔ chē."],
+      [232, "Bạn nên sử dụng ứng dụng bản đồ trên điện thoại để tìm lộ trình tránh kẹt xe.", "你应该使用手机上的地图软件来寻找避开堵车的路线。", "Nǐ yīng gāi shǐ yòng shǒu jī shàng de dì tú ruǎn jiàn lái xún zhǎo bì kāi dǔ chē de lù xiàn."],
+      [233, "Xe máy là phương tiện giao thông phổ biến và linh hoạt nhất tại Việt Nam.", "摩托车是越南最普遍、最灵活的交通工具。", "Mó tuō chē shì Yuè nán zuì pǔ biàn, zuì líng huó de jiāo tōng gōng jù."],
+      [234, "Người điều khiển xe máy bắt buộc phải đội mũ bảo hiểm đạt chuẩn để đảm bảo an toàn.", "骑摩托车的人必须佩戴合格的安全头盔以确保安全。", "Qí mó tuō chē de rén bì xū pèi dài hé gé de ān quán tóu kuī yǐ què bǎo ān quán."],
+      [235, "Đừng bao giờ vượt đèn đỏ hoặc đi ngược chiều vì điều đó vô cùng nguy hiểm.", "千万不要闯红灯或者逆行，因为那样极其危险。", "Qiān wàn bú yào chuǎng hóng dēng huò zhě nì xíng, yīn wèi nà yàng jí qí wēi xiǎn."],
+      [236, "Bạn có thể đặt xe ôm công nghệ qua ứng dụng để biết trước giá cước di chuyển.", "你可以通过软件叫网约摩的，以便提前知道车费。", "Nǐ kě yǐ tōng guò ruǎn jiàn jiào wǎng yuē mó dī, yǐ biàn tí qián zhī dào chē fèi."],
+      [237, "Hãy chú ý quan sát gương chiếu hậu và bật đèn xi-nhan trước khi chuyển làn đường.", "变道前，请注意观察后视镜并打开转向灯。", "Biàn dào qián, qǐng zhù yì guān chá hòu shì jìng bìng dǎ kāi zhuǎn xiàng dēng."],
+      [238, "Tuyến tàu điện đô thị mới giúp người dân di chuyển nhanh chóng và giảm ô nhiễm môi trường.", "新的城市地铁线帮助市民快速出行并减少环境污染。", "Xīn de chéng shì dì tiě xiàn bāng zhù shì mín kuài sù chū xíng bìng jiǎn shǎo huán jìng wū rǎn."],
+      [239, "Khi đi đến vòng xuyến phía trước, bạn hãy đi theo lối ra thứ hai nhé.", "走到前面的环岛时，请走第二个出口。", "Zǒu dào qián miàn de huán dǎo shí, qǐng zǒu dì èr ge chū kǒu."],
+      [240, "Con hẻm này khá nhỏ và ngoằn ngoèo, xe ô tô bốn chỗ không thể đi vào được.", "这条胡同相当窄而且弯弯曲曲，四座轿车进不去。", "Zhè tiáo hú tòng xiāng dāng zhǎi ér qiě wān wān qū qū, sì zuò jiào chē jìn bú qù."],
+      [241, "Bạn nên giảm tốc độ và giữ khoảng cách an toàn khi lái xe dưới trời mưa đường trơn.", "雨天路滑开车时，你应该减速并保持安全距离。", "Yǔ tiān lù huá kāi chē shí, nǐ yīng gāi jiǎn sù bìng bǎo chí ān quán jù lí."],
+      [242, "Bãi đỗ xe ngầm nằm ở tầng hầm của tòa nhà thương mại này.", "地下停车场在这座商业大楼的地下室。", "Dì xià tíng chē chǎng zài zhè zuò shāng yè dà lóu de dì xià shì."],
+      [243, "Xin lỗi, tôi bị lạc đường rồi, bạn có thể cho tôi biết tôi đang ở vị trí nào trên bản đồ không?", "不好意思，我迷路了，你能告诉我现在在地图上的哪个位置吗？", "Bù hǎo yì si, wǒ mí lù le, nǐ néng gào su wǒ xiàn zài zài dì tú shàng de nǎ ge wèi zhi ma?"],
+      [244, "Hãy đi bộ qua cầu vượt dành cho người đi bộ để sang bên kia đường một cách an toàn.", "请走过人行天桥，以便安全地到马路对面。", "Qǐng zǒu guò rén xíng tiān qiáo, yǐ biàn ān quán de dào mǎ lù duì miàn."],
+      [245, "Xe của tôi sắp hết xăng rồi, có trạm xăng nào ở gần khu vực này không?", "我的车快没油了，这一带附近有加油站吗？", "Wǒ de chē kuài méi yóu le, zhè yí dài fù jìn yǒu jiā yóu zhàn ma?"],
+      [246, "Đã uống rượu bia thì tuyệt đối không được lái xe để bảo vệ tính mạng của mình và người khác.", "为了保护自己和他人的生命，喝酒后绝对不能开车。", "Wèi le bǎo hù zì jǐ hé tā rén de shēng mìng, hē jiǔ hòu jué duì bù néng kāi chē."],
+      [247, "Tài xế xe công nghệ rất thông thuộc đường xá và luôn chọn con đường nhanh nhất cho khách.", "网约车司机非常熟悉路况，总是为乘客选择最快的路线。", "Wǎng yuē chē sī jī fēi cháng shú xī lù kuàng, zǒng shì wèi chéng kè xuǎn zé zuì kuài de lù xiàn."],
+      [248, "Biển báo giao thông này có nghĩa là cấm quay đầu xe và cấm đỗ xe vào ngày chẵn.", "这个交通标志的意思是禁止掉头，双号日禁止停车。", "Zhè ge jiāo tōng biāo zhì de yì si shì jìn zhǐ diào tóu, shuāng hào rì jìn zhǐ tíng chē."],
+      [249, "Đi xe đạp không chỉ giúp tiết kiệm chi phí nhiên liệu mà còn rèn luyện sức khỏe tim mạch.", "骑自行车不仅能节省燃料费用，还能锻炼心血管健康。", "Qí zì xíng chē bù jǐn néng jié shěng rán liào fèi yòng, hái néng duàn liàn xīn xuè guǎn jiàn kāng."],
+      [250, "Cảm ơn sự chỉ dẫn tận tình của bạn, nhờ có bạn mà tôi đã đến nơi đúng giờ!", "感谢你的热心指路，多亏了你，我才准时到达！", "Gǎn xiè nǐ de rè xīn zhǐ lù, duō kuī le nǐ, wǒ cái zhǔn shí dào dá!"]
+    ]
+  },
+  {
+    id: 11,
+    title: "Topic 11: Trường học & Giáo dục (学校与教育)",
+    vocab: [
+      ["图书馆", "tú shū guǎn", "thư viện"],
+      ["借", "jiè", "mượn"],
+      ["参考书", "cān kǎo shū", "sách tham khảo"],
+      ["班主任", "bān zhǔ rèn", "giáo viên chủ nhiệm"],
+      ["期末考试", "qī mò kǎo shì", "kỳ thi cuối kỳ"],
+      ["小组演讲", "xiǎo zǔ yǎn jiǎng", "bài thuyết trình nhóm"],
+      ["截止日期", "jié zhǐ rì qī", "thời hạn chót (deadline)"],
+      ["满分", "mǎn fēn", "điểm tuyệt đối, điểm tối đa"],
+      ["发高烧", "fā gāo shāo", "bị sốt cao"],
+      ["物理公式", "wù lǐ gōng shì", "công thức vật lý"],
+      ["露营节", "lù yíng jié", "lễ hội cắm trại, hội trại"],
+      ["初中", "chū zhōng", "trung học cơ sở (cấp 2)"],
+      ["词组", "cí zǔ", "cụm từ (phrase chunk)"],
+      ["成绩", "chéng jì", "thành tích, điểm số"],
+      ["环保", "huán bǎo", "bảo vệ môi trường"],
+      ["数学题", "shù xué tí", "bài toán"],
+      ["笔记本", "bǐ jì běn", "quyển vở ghi chép"],
+      ["毕业典礼", "bì yè diǎn lǐ", "lễ tốt nghiệp"],
+      ["全额奖学金", "quán é jiǎng xué jīn", "học bổng toàn phần"],
+      ["操场", "cāo chǎng", "sân trường, sân tập"],
+      ["交作业", "jiāo zuò yè", "nộp bài tập về nhà"],
+      ["投影仪", "tóu yǐng yí", "máy chiếu"],
+      ["表扬", "biǎo yáng", "khen ngợi, biểu dương"],
+      ["进步", "jìn bù", "tiến bộ"],
+      ["辩论社团", "biàn lùn shè tuán", "câu lạc bộ tranh biện"],
+      ["校长", "xiào zhǎng", "hiệu trưởng"],
+      ["开学典礼", "kāi xué diǎn lǐ", "lễ khai giảng"],
+      ["计算器", "jì suàn qì", "máy tính bỏ túi (calculator)"],
+      ["监考老师", "jiān kǎo lǎo shī", "giám thị coi thi"],
+      ["作弊", "zuò bì", "gian lận, quay cóp"]
+    ],
+    grammar: {
+      title: "Trợ từ động thái 了 (le) chỉ hành động đã hoàn thành & Phủ định quá khứ với 没 / 没有",
+      points: [
+        "<b>Trợ từ động thái 了 (le):</b> Đặt ngay sau động từ (hoặc cuối câu) để biểu thị hành động đã xảy ra và hoàn tất: <b>Chủ ngữ + Động từ + 了 + Tân ngữ</b> (Ví dụ: 借了几本参考书 - đã mượn vài cuốn sách tham khảo).",
+        "<b>Phủ định hành động trong quá khứ:</b> Dùng <b>没 (méi) / 没有 (méi yǒu) + Động từ</b> và <b>bỏ 了</b> ở sau động từ (Ví dụ: 她昨天没去上学 - Hôm qua cô ấy đã không đi học).",
+        "<b>Cấu trúc 以前曾经... (yǐ qián céng jīng...):</b> Nghĩa là 'trước đây đã từng...'."
+      ],
+      examples: [
+        ["昨天我去学校图书馆借了几本参考书。", "Zuó tiān wǒ qù xué xiào tú shū guǎn jiè le jǐ běn cān kǎo shū.", "Hôm qua tôi đã đến thư viện trường mượn vài cuốn sách tham khảo."],
+        ["因为发高烧，她昨天没有去上学。", "Yīn wèi fā gāo shāo, tā zuó tiān méi yǒu qù shàng xué.", "Vì bị sốt cao, hôm qua cô ấy đã không đi học."],
+        ["由于采用了按词组记单词的方法，我的成绩有了明显的提高。", "Yóu yú cǎi yòng le àn cí zǔ jì dān cí de fāng fǎ, wǒ de chéng jì yǒu le míng xiǎn de tí gāo.", "Nhờ áp dụng phương pháp học từ vựng theo cụm từ, điểm số của tôi đã cải thiện rõ rệt."]
+      ]
+    },
+    sentences: [
+      [251, "Hôm qua, tôi đã đến thư viện trường để mượn vài cuốn sách tham khảo.", "昨天，我去学校图书馆借了几本参考书。", "Zuó tiān, wǒ qù xué xiào tú shū guǎn jiè le jǐ běn cān kǎo shū."],
+      [252, "Giáo viên chủ nhiệm đã thông báo lịch thi học kỳ một vào sáng thứ Hai tuần trước.", "班主任在上周一早上公布了第一学期的期末考试时间表。", "Bān zhǔ rèn zài shàng zhōu yī zǎo shang gōng bù le dì yī xué qī de qī mò kǎo shì shí jiān biǎo."],
+      [253, "Chúng tôi đã hoàn thành bài thuyết trình nhóm trước thời hạn hai ngày.", "我们提前两天完成了小组演讲。", "Wǒ men tí qián liǎng tiān wán chéng le xiǎo zǔ yǎn jiǎng."],
+      [254, "Anh ấy đã đạt điểm tuyệt đối trong bài kiểm tra môn Toán tuần trước.", "他在上周的数学测验中拿到了满分。", "Tā zài shàng zhōu de shù xué cè yàn zhōng ná dào le mǎn fēn."],
+      [255, "Cô ấy đã không đi học vào hôm qua vì bị sốt cao.", "因为发高烧，她昨天没有去上学。", "Yīn wèi fā gāo shāo, tā zuó tiān méi yǒu qù shàng xué."],
+      [256, "Bạn đã ôn tập hết các công thức vật lý cho kỳ thi sắp tới chưa?", "你为即将到来的考试复习完所有物理公式了吗？", "Nǐ wèi jí jiāng dào lái de kǎo shì fù xí wán suǒ yǒu wù lǐ gōng shì le ma?"],
+      [257, "Năm ngoái, trường của chúng tôi đã tổ chức một buổi hội trại rất sôi động.", "去年，我们学校举办了一场非常热闹的露营节。", "Qù nián, wǒ men xué xiào jǔ bàn le yì chǎng fēi cháng rè nao de lù yíng jié."],
+      [258, "Tôi đã từng rất sợ môn Tiếng Anh khi còn học cấp hai.", "上初中的时候，我曾经非常害怕英语课。", "Shàng chū zhōng de shí hou, wǒ céng jīng fēi cháng hài pà Yīng yǔ kè."],
+      [259, "Nhờ phương pháp học từ vựng theo cụm từ, điểm số của tôi đã cải thiện rõ rệt.", "多亏了按词组学习词汇的方法，我的成绩有了明显的提高。", "Duō kuī le àn cí zǔ xué xí cí huì de fāng fǎ, wǒ de chéng jì yǒu le míng xiǎn de tí gāo."],
+      [260, "Họ đã thảo luận rất sôi nổi về chủ đề bảo vệ môi trường trong tiết sinh hoạt lớp.", "他们在班会课上就环保主题进行了热烈的讨论。", "Tā men zài bān huì kè shàng jiù huán bǎo zhǔ tí jìn xíng le rè liè de tǎo lùn."],
+      [261, "Ai là người đã giúp bạn giải bài toán khó này ngày hôm qua?", "昨天是谁帮你解出这道数学难题的？", "Zuó tiān shì shéi bāng nǐ jiě chū zhè dào shù xué nán tí de?"],
+      [262, "Tôi đã ghi chép đầy đủ toàn bộ bài giảng của thầy giáo vào quyển vở mới.", "我把老师讲课的全部内容完整地记在了新笔记本上。", "Wǒ bǎ lǎo shī jiǎng kè de quán bù nèi róng wán zhěng de jì zài le xīn bǐ jì běn shàng."],
+      [263, "Lễ tốt nghiệp đại học của chị gái tôi đã diễn ra vào tháng Sáu năm ngoái.", "我姐姐的大学毕业典礼是在去年六月举行的。", "Wǒ jiě jie de dà xué bì yè diǎn lǐ shì zài qù nián liù yuè jǔ xíng de."],
+      [264, "Anh ấy đã nhận được học bổng toàn phần nhờ thành tích học tập xuất sắc.", "凭借优异的学习成绩，他获得了全额奖学金。", "Píng jiè yōu yì de xué xí chéng jì, tā huò dé le quán é jiǎng xué jīn."],
+      [265, "Chúng tôi đã cùng nhau trồng nhiều cây xanh ở sân trường vào dịp lễ mùa xuân.", "春季节日期间，我们一起在学校操场上种了许多绿树。", "Chūn jì jié rì qī jiān, wǒ men yì qǐ zài xué xiào cāo chǎng shàng zhòng le xǔ duō lǜ shù."],
+      [266, "Tại sao hôm qua bạn lại nộp bài tập về nhà muộn như vậy?", "昨天你为什么那么晚才交作业？", "Zuó tiān nǐ wèi shén me nà me wǎn cái jiāo zuò yè?"],
+      [267, "Chiếc máy chiếu trong phòng học đã bị hỏng đột ngột giữa tiết học.", "教室里的投影仪在上课中途突然坏了。", "Jiào shì lǐ de tóu yǐng yí zài shàng kè zhōng tú tū rán huài le."],
+      [268, "Cô giáo đã khen ngợi Minh vì sự tiến bộ vượt bậc của cậu ấy.", "老师因为明的显著进步而表扬了他。", "Lǎo shī yīn wèi Míng de xiǎn zhù jìn bù ér biǎo yáng le tā."],
+      [269, "Thời học sinh đã để lại trong tôi biết bao kỷ niệm đẹp không thể nào quên.", "学生时代给我留下了许多难以忘怀的美好回忆。", "Xué sheng shí dài gěi wǒ liú xià le xǔ duō nán yǐ wàng huái de měi hǎo huí yì."],
+      [270, "Tôi đã đăng ký tham gia câu lạc bộ tranh biện tiếng Anh từ đầu học kỳ.", "我在学期初就已经报名参加了英语辩论社团。", "Wǒ zài xué qī chū jiù yǐ jīng bào míng cān jiā le Yīng yǔ biàn lùn shè tuán."],
+      [271, "Hiệu trưởng đã có một bài phát biểu truyền cảm hứng trong lễ khai giảng.", "校长在开学典礼上发表了鼓舞人心的讲话。", "Xiào zhǎng zài kāi xué diǎn lǐ shàng fā biǎo le gǔ wǔ rén xīn de jiǎng huà."],
+      [272, "Chúng tôi đã chia sẻ tài liệu ôn thi cho nhau để cùng đạt kết quả tốt.", "我们互相分享了复习资料，以便一起取得好成绩。", "Wǒ men hù xiāng fēn xiǎng le fù xí zī liào, yǐ biàn yì qǐ qǔ dé hǎo chéng jì."],
+      [273, "Cậu ấy đã quên mang theo máy tính bỏ túi khi bước vào phòng thi.", "他走进考场时忘了带计算器。", "Tā zǒu jìn kǎo chǎng shí wàng le dài jì suàn qì."],
+      [274, "Giám thị coi thi đã nhắc nhở các thí sinh giữ trật tự và không quay cóp.", "监考老师提醒考生保持安静，不要作弊。", "Jiān kǎo lǎo shī tí xǐng kǎo shēng bǎo chí ān jìng, bú yào zuò bì."],
+      [275, "Sau khi tiếng trống trường vang lên, các em học sinh đã ùa ra sân chơi.", "下课铃声响起后，学生们涌向了操场。", "Xià kè líng shēng xiǎng qǐ hòu, xué sheng men yǒng xiàng le cāo chǎng."]
+    ]
+  },
+  {
+    id: 12,
+    title: "Topic 12: Công việc & Nghề nghiệp (工作与职业)",
+    vocab: [
+      ["部门", "bù mén", "bộ phận, phòng ban"],
+      ["通知", "tōng zhī", "thông báo"],
+      ["客户", "kè hù", "khách hàng"],
+      ["工资表", "gōng zī biǎo", "bảng lương"],
+      ["考勤", "kǎo qín", "chấm công"],
+      ["简历", "jiǎn lì", "hồ sơ xin việc (CV)"],
+      ["申请", "shēn qǐng", "ứng tuyển, nộp đơn"],
+      ["人事经理", "rén shì jīng lǐ", "giám đốc nhân sự (HR)"],
+      ["面试", "miàn shì", "phỏng vấn"],
+      ["候选人", "hòu xuǎn rén", "ứng viên"],
+      ["兼职", "jiān zhí", "bán thời gian (part-time)"],
+      ["收入", "shōu rù", "thu nhập"],
+      ["专业", "zhuān yè", "chuyên nghiệp / chuyên ngành"],
+      ["签订", "qiān dìng", "ký kết"],
+      ["合同", "hé tong", "hợp đồng"],
+      ["合作伙伴", "hé zuò huǒ bàn", "đối tác hợp tác"],
+      ["加班", "jiā bān", "tăng ca, làm thêm giờ"],
+      ["管理系统", "guǎn lǐ xì tǒng", "hệ thống quản lý"],
+      ["积累", "jī lěi", "tích lũy"],
+      ["实际经验", "shí jì jīng yàn", "kinh nghiệm thực tế"],
+      ["客服", "kè fú", "chăm sóc khách hàng"],
+      ["升职", "shēng zhí", "thăng chức"],
+      ["组长", "zǔ zhǎng", "trưởng nhóm, tổ trưởng"],
+      ["应届毕业生", "yīng jiè bì yè shēng", "sinh viên mới ra trường"],
+      ["奉献", "fèng xiàn", "cống hiến"],
+      ["沟通能力", "gōu tōng néng lì", "kỹ năng giao tiếp"],
+      ["技术团队", "jì shù tuán duì", "đội ngũ kỹ thuật"],
+      ["冷静", "lěng jìng", "bình tĩnh"],
+      ["工厂", "gōng chǎng", "nhà máy, công xưởng"],
+      ["出口", "chū kǒu", "xuất khẩu"],
+      ["成就", "chéng jiù", "thành tựu"]
+    ],
+    grammar: {
+      title: "Trợ từ động thái 过 (guo) chỉ trải nghiệm & Cấu trúc 已经...了 / 刚 (gāng) / 还没...呢",
+      points: [
+        "<b>Trợ từ động thái 过 (guo - đã từng):</b> Đặt sau động từ để diễn tả kinh nghiệm hoặc trải nghiệm trong quá khứ: <b>Chủ ngữ + (曾经) + Động từ + 过 + Tân ngữ</b>. Phủ định: <b>没(有) / 从未 + Động từ + 过</b>.",
+        "<b>Cấu trúc 已经...了 (yǐ jīng... le - đã... rồi) & 还没...呢 (hái méi... ne - vẫn chưa...):</b> Dùng để nói về tiến độ công việc đã hoàn thành hay chưa.",
+        "<b>Phó từ 刚 (gāng) / 刚刚 (gāng gang - vừa mới):</b> Đặt trước động từ chỉ hành động vừa mới diễn ra cách đây không lâu."
+      ],
+      examples: [
+        ["我在这个管理部门已经工作三年多了。", "Wǒ zài zhè ge guǎn lǐ bù mén yǐ jīng gōng zuò sān nián duō le.", "Tôi đã làm việc ở bộ phận quản lý này được hơn ba năm rồi."],
+        ["你曾经在节假日加班过吗？", "Nǐ céng jīng zài jié jià rì jiā bān guo ma?", "Bạn đã từng làm việc tăng ca vào ngày nghỉ lễ bao giờ chưa?"],
+        ["我还没有收到客服部门的回复邮件呢。", "Wǒ hái méi yǒu shōu dào kè fú bù mén de huí fù yóu jiàn ne.", "Tôi vẫn chưa nhận được email phản hồi từ bộ phận chăm sóc khách hàng."]
+      ]
+    },
+    sentences: [
+      [276, "Tôi đã làm việc ở bộ phận quản lý này được hơn ba năm rồi.", "我在这个管理部门已经工作三年多了。", "Wǒ zài zhè ge guǎn lǐ bù mén yǐ jīng gōng zuò sān nián duō le."],
+      [277, "Anh ấy đã gửi thông báo cho khách hàng từ lúc 9 giờ sáng.", "他早上九点就已经给客户发送了通知。", "Tā zǎo shang jiǔ diǎn jiù yǐ jīng gěi kè hù fā sòng le tōng zhī."],
+      [278, "Bạn đã hoàn thành bảng tính lương và chấm công của tháng này chưa?", "你已经完成这个月的工资表和考勤统计了吗？", "Nǐ yǐ jīng wán chéng zhè ge yuè de gōng zī biǎo hé kǎo qín tǒng jì le ma?"],
+      [279, "Cô ấy vừa mới nộp hồ sơ ứng tuyển vào vị trí nhân viên văn phòng.", "她刚刚提交了申请办公室职员职位的简历。", "Tā gāng gāng tí jiāo le shēn qǐng bàn gōng shì zhí yuán zhí wèi de jiǎn lì."],
+      [280, "Chúng tôi đã kiểm tra kỹ toàn bộ số lượng sản phẩm trước khi gửi đi.", "在发出之前，我们已经仔细检查了全部产品的数量。", "Zài fā chū zhī qián, wǒ men yǐ jīng zǐ xì jiǎn chá le quán bù chǎn pǐn de shù liàng."],
+      [281, "Giám đốc nhân sự đã phỏng vấn năm ứng viên tiềm năng từ đầu tuần đến nay.", "从本周初到现在，人事经理已经面试了五位有潜力的候选人。", "Cóng běn zhōu chū dào xiàn zài, rén shì jīng lǐ yǐ jīng miàn shì le wǔ wèi yǒu qián lì de hòu xuǎn rén."],
+      [282, "Anh trai tôi đã chạy xe công nghệ bán thời gian được sáu tháng để kiếm thêm thu nhập.", "我哥哥已经兼职跑了六个月的网约摩的来增加收入。", "Wǒ gē ge yǐ jīng jiān zhí pǎo le liù ge yuè de wǎng yuē mó dī lái zēng jiā shōu rù."],
+      [283, "Tôi chưa bao giờ làm việc trong một môi trường chuyên nghiệp và năng động như thế này.", "我从未在如此专业和充满活力的环境中工作过。", "Wǒ cóng wèi zài rú cǐ zhuān yè hé chōng mǎn huó lì de huán jìng zhōng gōng zuò guo."],
+      [284, "Họ đã ký kết hợp đồng hợp tác lâu dài với đối tác nước ngoài.", "他们已经与外国合作伙伴签订了长期合作合同。", "Tā men yǐ jīng yǔ wài guó hé zuò huǒ bàn qiān dìng le cháng qī hé zuò hé tong."],
+      [285, "Bạn đã từng phải làm việc tăng ca vào các ngày nghỉ lễ bao giờ chưa?", "你曾经在节假日加班过吗？", "Nǐ céng jīng zài jié jià rì jiā bān guo ma?"],
+      [286, "Đồng nghiệp của tôi đã hỗ trợ tôi rất nhiều kể từ ngày đầu tiên tôi nhận việc.", "从我入职的第一天起，我的同事就帮了我很多。", "Cóng wǒ rù zhí de dì yī tiān qǐ, wǒ de tóng shì jiù bāng le wǒ hěn duō."],
+      [287, "Công ty chúng tôi vừa mới áp dụng phần mềm hệ thống quản lý tự động mới.", "我们公司刚刚采用了新的自动化管理系统软件。", "Wǒ men gōng sī gāng gāng cǎi yòng le xīn de zì dòng huà guǎn lǐ xì tǒng ruǎn jiàn."],
+      [288, "Anh ấy đã tích lũy được rất nhiều kinh nghiệm thực tế sau nhiều năm đi làm.", "工作多年后，他已经积累了大量的实际经验。", "Gōng zuò duō nián hòu, tā yǐ jīng jī lěi le dà liàng de shí jì jīng yàn."],
+      [289, "Tôi vẫn chưa nhận được email phản hồi từ bộ phận chăm sóc khách hàng.", "我还没有收到客服部门的回复邮件呢。", "Wǒ hái méi yǒu shōu dào kè fú bù mén de huí fù yóu jiàn ne."],
+      [290, "Cô ấy đã được thăng chức lên làm trưởng nhóm nhờ năng lực làm việc vượt trội.", "凭借出色的工作能力，她已经升职为组长了。", "Píng jiè chū sè de gōng zuò néng lì, tā yǐ jīng shēng zhí wéi zǔ zhǎng le."],
+      [291, "Chúng tôi đã giải quyết ổn thỏa vấn đề phát sinh cho đối tác.", "我们已经为合作伙伴妥善解决了突发问题。", "Wǒ men yǐ jīng wèi hé zuò huǒ bàn tuǒ shàn jiě jué le tū fā wèn tí."],
+      [292, "Nhiều sinh viên mới ra trường vẫn chưa tìm được công việc đúng với chuyên ngành.", "许多应届毕业生还没有找到专业对口的工作。", "Xǔ duō yīng jiè bì yè shēng hái méi yǒu zhǎo dào zhuān yè duì kǒu de gōng zuò."],
+      [293, "Ông ấy đã cống hiến cả cuộc đời mình cho ngành y tế trước khi nghỉ hưu.", "退休前，他把一生都奉献给了医疗事业。", "Tuì xiū qián, tā bǎ yì shēng dōu fèng xiàn gěi le yī liáo shì yè."],
+      [294, "Kỹ năng giao tiếp tiếng Anh tốt đã mở ra cho tôi nhiều cơ hội thăng tiến.", "良好的英语沟通能力为我打开了许多晋升机会。", "Liáng hǎo de Yīng yǔ gōu tōng néng lì wèi wǒ dǎ kāi le xǔ duō jìn shēng jī huì."],
+      [295, "Đội ngũ kỹ thuật đã khắc phục xong lỗi hệ thống mạng nội bộ của văn phòng.", "技术团队已经修复了办公室内部网络系统的故障。", "Jì shù tuán duì yǐ jīng xiū fù le bàn gōng shì nèi bù wǎng luò xì tǒng de gù zhàng."],
+      [296, "Tôi đã học được cách giữ bình tĩnh và xử lý tình huống linh hoạt khi gặp khách hàng khó tính.", "遇到挑剔的客户时，我已经学会了保持冷静并灵活处理情况。", "Yù dào tiāo tī de kè hù shí, wǒ yǐ jīng xué huì le bǎo chí lěng jìng bìng líng huó chǔ lǐ qíng kuàng."],
+      [297, "Nhà máy này đã sản xuất hàng triệu sản phẩm xuất khẩu sang thị trường châu Âu.", "这家工厂已经生产了数百万件出口到欧洲市场的产品。", "Zhè jiā gōng chǎng yǐ jīng shēng chǎn le shù bǎi wàn jiàn chū kǒu dào Ōu zhōu shì chǎng de chǎn pǐn."],
+      [298, "Bạn đã chuẩn bị đầy đủ các tài liệu quan trọng cho cuộc họp chiều nay chưa?", "你为今天下午的会议准备好所有重要资料了吗？", "Nǐ wèi jīn tiān xià wǔ de huì yì zhǔn bèi hǎo suǒ yǒu zhòng yào zī liào le ma?"],
+      [299, "Áp lực công việc cuối năm đã tăng lên đáng kể do khối lượng công việc nhiều hơn.", "由于工作量增多，年底的工作压力已经明显增加。", "Yóu yú gōng zuò liàng zēng duō, nián dǐ de gōng zuò yā lì yǐ jīng míng xiǎn zēng jiā."],
+      [300, "Sự chăm chỉ và tinh thần trách nhiệm đã giúp anh ấy gặt hái được nhiều thành tựu.", "勤奋和责任心已经帮助他收获了许多成就。", "Qín fèn hé zé rèn xīn yǐ jīng bāng zhù tā shōu huò le xǔ duō chéng jiù."]
+    ]
+  }
+);
+// =========================================================================
+// PHẦN 4: TOPIC 13 ĐẾN TOPIC 16 (CÂU 301 - 400)
+// =========================================================================
+ALL_TOPICS.push(
+  {
+    id: 13,
+    title: "Topic 13: Sức khỏe & Thể chất (健康与体魄)",
+    vocab: [
+      ["恢复体力", "huī fù tǐ lì", "phục hồi thể lực, năng lượng"],
+      ["定期体检", "dìng qī tǐ jiǎn", "khám sức khỏe định kỳ"],
+      ["预防疾病", "yù fáng jí bìng", "phòng ngừa bệnh tật"],
+      ["电脑屏幕", "diàn nǎo píng mù", "màn hình máy tính"],
+      ["背痛", "bèi tòng", "đau lưng"],
+      ["脖子酸", "bó zi suān", "mỏi cổ"],
+      ["伸懒腰", "shēn lǎn yāo", "vươn vai"],
+      ["抗生素", "kàng shēng sù", "thuốc kháng sinh"],
+      ["减肥", "jiǎn féi", "giảm cân"],
+      ["抽烟", "chōu yān", "hút thuốc lá"],
+      ["肺部", "fèi bù", "phổi"],
+      ["加工食品", "jiā gōng shí pǐn", "thực phẩm chế biến sẵn"],
+      ["吃药", "chī yào", "uống thuốc"],
+      ["热身", "rè shēn", "khởi động (trước khi tập)"],
+      ["肌肉拉伤", "jī ròu lā shāng", "căng cơ, chấn thương cơ bắp"],
+      ["口罩", "kǒu zhào", "khẩu trang"],
+      ["免疫系统", "miǎn yì xì tǒng", "hệ miễn dịch"],
+      ["近视眼镜", "jìn shì yǎn jìng", "kính cận thị"],
+      ["光线不足", "guāng xiàn bù zú", "thiếu ánh sáng"],
+      ["蜂蜜柠檬水", "fēng mì níng méng shuǐ", "nước chanh mật ong"],
+      ["喉咙", "hóu lóng", "cổ họng"],
+      ["疫苗", "yì miáo", "vắc-xin"],
+      ["冰水", "bīng shuǐ", "nước đá lạnh"],
+      ["慢跑", "màn pǎo", "chạy bộ"],
+      ["耐力", "nài lì", "sức bền"],
+      ["过敏", "guò mǐn", "dị ứng"],
+      ["洗手", "xǐ shǒu", "rửa tay"],
+      ["太极拳", "tài jí quán", "thái cực quyền, thể dục dưỡng sinh"],
+      ["验血", "yàn xuè", "xét nghiệm máu"],
+      ["钙", "gài", "canxi"],
+      ["骨骼", "gǔ gé", "xương cốt"],
+      ["深呼吸", "shēn hū xī", "hít thở sâu"],
+      ["打坐冥想", "dǎ zuò míng xiǎng", "ngồi thiền"],
+      ["珍惜", "zhēn xī", "trân trọng"]
+    ],
+    grammar: {
+      title: "Động từ năng nguyện chỉ lời khuyên & bắt buộc (应该 / 必须 / 得 děi / 千万别)",
+      points: [
+        "<b>应该 (yīng gāi - nên) & 不应该 (bù yīng gāi - không nên):</b> Đặt trước động từ để đưa ra lời khuyên về sức khỏe hoặc lối sống.",
+        "<b>必须 (bì xū - bắt buộc phải) & 得 (děi - phải, cần phải):</b> Dùng khi nói về nghĩa vụ bắt buộc hoặc yêu cầu y tế. Lưu ý phủ định của 必须 là <b>不能 (bù néng)</b> hoặc <b>千万不要 (qiān wàn bú yào - tuyệt đối không được)</b>.",
+        "<b>Cấu trúc 为了... (wèi le... - để mà, vì...):</b> Thường đặt ở đầu câu để nhấn mạnh mục đích chăm sóc sức khỏe."
+      ],
+      examples: [
+        ["你每天晚上应该睡够七到八个小时以恢复体力。", "Nǐ měi tiān wǎn shang yīng gāi shuì gòu qī dào bā ge xiǎo shí yǐ huī fù tǐ lì.", "Bạn nên ngủ đủ từ bảy đến tám tiếng mỗi đêm để phục hồi năng lượng."],
+        ["病人必须按照医生的嘱咐按量服用抗生素。", "Bìng rén bì xū àn zhào yī shēng de zhǔ fù àn liàng fú yòng kàng shēng sù.", "Bệnh nhân bắt buộc phải uống thuốc kháng sinh đúng liều lượng theo lời dặn của bác sĩ."],
+        ["为了安全减肥，你需要把健康饮食和体育锻炼结合起来。", "Wèi le ān quán jiǎn féi, nǐ xū yào bǎ jiàn kāng yǐn shí hé tǐ yù duàn liàn jié hé qǐ lái.", "Để giảm cân an toàn, bạn cần kết hợp ăn uống lành mạnh với tập luyện thể thao."]
+      ]
+    },
+    sentences: [
+      [301, "Bạn nên ngủ đủ từ bảy đến tám tiếng mỗi đêm để cơ thể phục hồi năng lượng.", "你每天晚上应该睡够七到八个小时，让身体恢复体力。", "Nǐ měi tiān wǎn shang yīng gāi shuì gòu qī dào bā ge xiǎo shí, ràng shēn tǐ huī fù tǐ lì."],
+      [302, "Chúng ta phải đi khám sức khỏe định kỳ sáu tháng một lần để phòng ngừa bệnh tật.", "我们必须每六个月做一次定期体检以预防疾病。", "Wǒ men bì xū měi liù ge yuè zuò yí cì dìng qī tǐ jiǎn yǐ yù fáng jí bìng."],
+      [303, "Bạn không nên ngồi làm việc trước màn hình máy tính liên tục suốt nhiều giờ liền.", "你不应该连续几个小时坐在电脑屏幕前工作。", "Nǐ bù yīng gāi lián xù jǐ ge xiǎo shí zuò zài diàn nǎo píng mù qián gōng zuò."],
+      [304, "Nếu cảm thấy đau lưng hoặc mỏi cổ, bạn nên đứng dậy vươn vai và đi lại nhẹ nhàng.", "如果觉得背痛或者脖子酸，你应该站起来伸懒腰并轻轻走动。", "Rú guǒ jué de bèi tòng huò zhě bó zi suān, nǐ yīng gāi zhàn qǐ lái shēn lǎn yāo bìng qīng qīng zǒu dòng."],
+      [305, "Bệnh nhân bắt buộc phải uống thuốc kháng sinh đúng liều lượng theo chỉ định của bác sĩ.", "病人必须按照医生的规定按量服用抗生素。", "Bìng rén bì xū àn zhào yī shēng de guī dìng àn liàng fú yòng kàng shēng sù."],
+      [306, "Để giảm cân an toàn, bạn cần kết hợp chế độ ăn uống lành mạnh với việc tập luyện thể thao.", "为了安全减肥，你需要将健康饮食与体育锻炼结合起来。", "Wèi le ān quán jiǎn féi, nǐ xū yào jiāng jiàn kāng yǐn shí yǔ tǐ yù duàn liàn jié hé qǐ lái."],
+      [307, "Anh ấy phải bỏ thói quen hút thuốc lá và thức khuya nếu muốn bảo vệ lá phổi của mình.", "如果他想保护自己的肺部，就得戒掉抽烟和熬夜的习惯。", "Rú guǒ tā xiǎng bǎo hù zì jǐ de fèi bù, jiù děi jiè diào chōu yān hé áo yè de xí guàn."],
+      [308, "Chúng ta nên ăn nhiều rau xanh, trái cây tươi và hạn chế các thực phẩm chế biến sẵn.", "我们应该多吃青菜、新鲜水果，并少吃加工食品。", "Wǒ men yīng gāi duō chī qīng cài, xīn xiān shuǐ guǒ, bìng shǎo chī jiā gōng shí pǐn."],
+      [309, "Bạn không được tự ý mua thuốc uống khi chưa biết rõ nguyên nhân gây bệnh.", "在还不清楚病因的时候，你千万不能随便买药吃。", "Zài hái bù qīng chu bìng yīn de shí hou, nǐ qiān wàn bù néng suí biàn mǎi yào chī."],
+      [310, "Khởi động kỹ trước khi tập thể dục giúp ngăn ngừa chấn thương cơ bắp.", "运动前充分热身有助于防止肌肉拉伤。", "Yùn dòng qián chōng fèn rè shēn yǒu zhù yú fáng zhǐ jī ròu lā shāng."],
+      [311, "Khi chạy xe ngoài đường nắng bụi, bạn phải đeo khẩu trang và kính bảo vệ mắt.", "在烈日和灰尘大的路上骑车时，你必须戴口罩和护目镜。", "Zài liè rì hé huī chén dà de lù shang qí chē shí, nǐ bì xū dài kǒu zhào hé hù mù jìng."],
+      [312, "Mọi người nên giữ tinh thần lạc quan vì căng thẳng kéo dài sẽ làm suy giảm hệ miễn dịch.", "大家应该保持乐观的心态，因为长期压力会削弱免疫系统。", "Dà jiā yīng gāi bǎo chí lè guān de xīn tài, yīn wèi cháng qī yā lì huì xuē ruò miǎn yì xì tǒng."],
+      [313, "Cô ấy phải đeo kính cận thị vì thường xuyên đọc sách trong điều kiện thiếu ánh sáng.", "因为经常在光线不足的条件下看书，她得戴近视眼镜。", "Yīn wèi jīng cháng zài guāng xiàn bù zú de tiáo jiàn xià kàn shū, tā děi dài jìn shì yǎn jìng."],
+      [314, "Bạn nên uống một cốc nước ấm pha mật ong và chanh vào buổi sáng để làm dịu cổ họng.", "早上你应该喝一杯温热的蜂蜜柠檬水来润喉咙。", "Zǎo shang nǐ yīng gāi hē yì bēi wēn rè de fēng mì níng méng shuǐ lái rùn hóu lóng."],
+      [315, "Trẻ nhỏ cần được tiêm chủng đầy đủ các loại vắc-xin phòng bệnh.", "小孩子需要按规定接种齐全各种预防疾病的疫苗。", "Xiǎo hái zi xū yào àn guī dìng jiē zhòng qí quán gè zhǒng yù fáng jí bìng de yì miáo."],
+      [316, "Chúng ta không nên uống nước đá lạnh ngay sau khi vừa đi ngoài trời nắng gắt về.", "刚从烈日下回来，我们不应该马上喝冰水。", "Gāng cóng liè rì xià huí lái, wǒ men bù yīng gāi mǎ shàng hē bīng shuǐ."],
+      [317, "Chạy bộ ba mươi phút mỗi ngày là phương pháp đơn giản nhất để cải thiện sức bền.", "每天慢跑三十分钟是提高耐力最简单的方法。", "Měi tiān màn pǎo sān shí fēn zhōng shì tí gāo nài lì zuì jiǎn dān de fāng fǎ."],
+      [318, "Anh ấy bị dị ứng hải sản nặng nên phải vô cùng cẩn thận khi đi ăn ở nhà hàng.", "他对海鲜严重过敏，所以在餐厅吃饭时必须非常小心。", "Tā duì hǎi xiān yán zhòng guò mǐn, suǒ yǐ zài cān tīng chī fàn shí bì xū fēi cháng xiǎo xīn."],
+      [319, "Bạn nên rửa tay bằng xà phòng trước khi ăn và sau khi đi vệ sinh.", "饭前便后你应该用肥皂洗手。", "Fàn qián biàn hòu nǐ yīng gāi yòng féi zào xǐ shǒu."],
+      [320, "Người cao tuổi nên tập thái cực quyền hoặc đi bộ nhẹ nhàng vào buổi sáng.", "老年人早上应该打太极拳或者慢慢散步。", "Lǎo nián rén zǎo shang yīng gāi dǎ tài jí quán huò zhě màn màn sàn bù."],
+      [321, "Nếu bị sốt cao quá hai ngày không hạ, bạn bắt buộc phải đến bệnh viện để xét nghiệm máu.", "如果发高烧超过两天还不退，你必须去医院验血。", "Rú guǒ fā gāo shāo chāo guò liǎng tiān hái bú tuì, nǐ bì xū qù yī yuàn yàn xuè."],
+      [322, "Chúng ta cần bổ sung đầy đủ canxi và vitamin D để xương cốt luôn chắc khỏe.", "我们需要补充足够的钙和维生素D，让骨骼保持强健。", "Wǒ men xū yào bǔ chōng zú gòu de gài hé wéi shēng sù D, ràng gǔ gé bǎo chí qiáng jiàn."],
+      [323, "Đừng bao giờ nhịn ăn sáng vì cơ thể bạn cần năng lượng để hoạt động suốt buổi sáng.", "千万不要不吃早饭，因为你的身体需要能量来维持整个早上的活动。", "Qiān wàn bú yào bù chī zǎo fàn, yīn wèi nǐ de shēn tǐ xū yào néng liàng lái wéi chí zhěng gè zǎo shang de huó dòng."],
+      [324, "Tập hít thở sâu và ngồi thiền mười phút trước khi ngủ giúp bạn ngủ sâu hơn.", "睡前练习深呼吸和打坐冥想十分钟有助于你睡得更香。", "Shuì qián liàn xí shēn hū xī hé dǎ zuò míng xiǎng shí fēn zhōng yǒu zhù yú nǐ shuì de gèng xiāng."],
+      [325, "Có sức khỏe là có tất cả, vì vậy hãy trân trọng và chăm sóc cơ thể mình mỗi ngày.", "拥有健康就拥有一切，所以请每天珍惜并照顾好自己的身体。", "Yōng yǒu jiàn kāng jiù yōng yǒu yí qiè, suǒ yǐ qǐng měi tiān zhēn xī bìng zhào gù hǎo zì jǐ de shēn tǐ."]
+    ]
+  },
+  {
+    id: 14,
+    title: "Topic 14: Thể thao & Trò chơi (体育运动与游戏)",
+    vocab: [
+      ["足球", "zú qiú", "bóng đá"],
+      ["最受欢迎", "zuì shòu huān yíng", "được yêu thích nhất"],
+      ["短跑", "duǎn pǎo", "chạy nước rút"],
+      ["马拉松", "mǎ lā sōng", "chạy marathon"],
+      ["爆发力", "bào fā lì", "sức bùng nổ"],
+      ["球员", "qiú yuán", "cầu thủ"],
+      ["个人技术", "gè rén jì shù", "kỹ thuật cá nhân"],
+      ["团队战术游戏", "tuán duì zhàn shù yóu xì", "trò chơi chiến thuật đồng đội"],
+      ["配合能力", "pèi hé néng lì", "khả năng phối hợp"],
+      ["决赛", "jué sài", "trận chung kết"],
+      ["激烈", "jī liè", "kịch tính, quyết liệt"],
+      ["反应", "fǎn yìng", "phản xạ, phản ứng"],
+      ["对手", "duì shǒu", "đối thủ"],
+      ["羽毛球", "yǔ máo qiú", "cầu lông"],
+      ["举重运动员", "jǔ zhòng yùn dòng yuán", "vận động viên cử tạ"],
+      ["打破纪录", "dǎ pò jì lù", "phá kỷ lục"],
+      ["国家体育场", "guó jiā tǐ yù chǎng", "sân vận động quốc gia"],
+      ["观众", "guān zhòng", "khán giả"],
+      ["发球", "fā qiú", "giao bóng, phát bóng"],
+      ["国际象棋", "guó jì xiàng qí", "cờ vua"],
+      ["显卡", "xiǎn kǎ", "card đồ họa (GPU)"],
+      ["流畅", "liú chàng", "mượt mà"],
+      ["逆转获胜", "nì zhuǎn huò shèng", "giành chiến thắng ngược dòng"],
+      ["户外攀岩", "hù wài pān yán", "leo núi ngoài trời"],
+      ["健身房", "jiàn shēn fáng", "phòng tập gym"],
+      ["友谊赛", "yǒu yì sài", "trận giao hữu"],
+      ["主教练", "zhǔ jiào liàn", "huấn luyện viên trưởng"],
+      ["体育精神", "tǐ yù jīng shén", "tinh thần thể thao"],
+      ["金牌", "jīn pái", "huy chương vàng"],
+      ["电子竞技", "diàn zǐ jìng jì", "thể thao điện tử (Esports)"],
+      ["欢呼助威", "huān hū zhù wēi", "reo hò cổ vũ"],
+      ["极限", "jí xiàn", "giới hạn"]
+    ],
+    grammar: {
+      title: "Câu so sánh hơn với chữ 比 (bǐ), So sánh nhất với 最 (zuì) & Cấu trúc 越...越...",
+      points: [
+        "<b>Câu so sánh hơn chữ 比 (bǐ):</b> Cấu trúc: <b>A + 比 + B + Tính từ (+ 得多 / 多了 / 一点)</b>. Lưu ý tuyệt đối KHÔNG dùng 很, 非常 trước tính từ trong câu chữ 比.",
+        "<b>Cấp so sánh nhất với 最 (zuì - nhất):</b> Đặt <b>最</b> trước tính từ hoặc động từ tâm lý (最受欢迎 - được yêu thích nhất; 最熟练 - khéo léo nhất).",
+        "<b>Cấu trúc tăng tiến 越 A 越 B (yuè A yuè B - càng A càng B):</b> Diễn tả mức độ thay đổi tỷ lệ thuận."
+      ],
+      examples: [
+        ["短跑比长途马拉松需要快得多的爆发力。", "Duǎn pǎo bǐ cháng tú mǎ lā sōng xū yào kuài de duō de bào fā lì.", "Chạy nước rút đòi hỏi sức bùng nổ nhanh hơn nhiều so với chạy marathon đường dài."],
+        ["在我们足球队里，南是个人技术最熟练的球员。", "Zài wǒ men zú qiú duì lǐ, Nán shì gè rén jì shù zuì shú liàn de qiú yuán.", "Trong đội bóng của chúng tôi, Nam là cầu thủ có kỹ thuật cá nhân khéo léo nhất."],
+        ["你练习得越刻苦，你的发球就会变得越有力量。", "Nǐ liàn xí de yuè kè kǔ, nǐ de fā qiú jiù huì biàn de yuè yǒu lì liàng.", "Bạn càng luyện tập chăm chỉ, cú giao bóng của bạn sẽ càng trở nên mạnh mẽ hơn."]
+      ]
+    },
+    sentences: [
+      [326, "Bóng đá là môn thể thao vua được yêu thích nhất tại Việt Nam cũng như trên toàn thế giới.", "足球在越南以及全世界都是最受欢迎的运动之王。", "Zú qiú zài Yuè nán yǐ jí quán shì jiè dōu shì zuì shòu huān yíng de yùn dòng zhī wáng."],
+      [327, "Chạy nước rút đòi hỏi tốc độ bùng nổ nhanh hơn nhiều so với chạy marathon đường dài.", "短跑比长途马拉松需要快得多的爆发速度。", "Duǎn pǎo bǐ cháng tú mǎ lā sōng xū yào kuài de duō de bào fā sù dù."],
+      [328, "Trong đội bóng của chúng tôi, Nam là cầu thủ có kỹ thuật cá nhân khéo léo nhất.", "在我们足球队里，南是个人技术最熟练的球员。", "Zài wǒ men zú qiú duì lǐ, Nán shì gè rén jì shù zuì shú liàn de qiú yuán."],
+      [329, "Chơi các trò chơi chiến thuật đồng đội giúp rèn luyện khả năng phối hợp tốt hơn chơi một mình.", "玩团队战术游戏比一个人玩更能锻炼配合能力。", "Wán tuán duì zhàn shù yóu xì bǐ yí ge rén wán gèng néng duàn liàn pèi hé néng lì."],
+      [330, "Trận chung kết tối qua kịch tính và hấp dẫn hơn bất kỳ trận đấu nào tôi từng xem.", "昨晚的决赛比我看过的任何比赛都更激烈、更精彩。", "Zuó wǎn de jué sài bǐ wǒ kàn guo de rèn hé bǐ sài dōu gèng jī liè, gèng jīng cǎi."],
+      [331, "Bơi lội giúp phát triển toàn diện các nhóm cơ hiệu quả hơn nhiều môn thể thao khác.", "游泳比许多其他运动更能全面有效地发展肌肉群。", "Yóu yǒng bǐ xǔ duō qí tā yùn dòng gèng néng quán miàn yǒu xiào de fā zhǎn jī ròu qún."],
+      [332, "Anh ấy phản xạ nhanh hơn các đối thủ khác nhờ luyện tập mỗi ngày.", "由于每天练习，他的反应比其他对手更快。", "Yóu yú měi tiān liàn xí, tā de fǎn yìng bǐ qí tā duì shǒu gèng kuài."],
+      [333, "Cầu lông là một trong những môn thể thao dễ chơi và phổ biến nhất ở khu phố tôi.", "羽毛球是我们社区里最容易打、最普及的运动之一。", "Yǔ máo qiú shì wǒ men shè qū lǐ zuì róng yì dǎ, zuì pǔ jí de yùn dòng zhī yī."],
+      [334, "Vận động viên cử tạ này khỏe hơn đối thủ của anh ấy và đã phá kỷ lục quốc gia.", "这位举重运动员比他的对手更强壮，并且打破了国家纪录。", "Zhè wèi jǔ zhòng yùn dòng yuán bǐ tā de duì shǒu gèng qiáng zhuàng, bìng qiě dǎ pò le guó jiā jì lù."],
+      [335, "Việc giữ cái đầu lạnh trong thi đấu quan trọng không kém gì việc rèn luyện thể lực.", "在比赛中保持冷静的头脑不亚于体能训练那么重要。", "Zài bǐ sài zhōng bǎo chí lěng jìng de tóu nǎo bú yà yú tǐ néng xùn liàn nà me zhòng yào."],
+      [336, "Sân vận động quốc gia hôm nay đông khán giả hơn hẳn so với trận đấu tuần trước.", "今天国家体育场的观众比上周那场比赛多得多。", "Jīn tiān guó jiā tǐ yù chǎng de guān zhòng bǐ shàng zhōu nà chǎng bǐ sài duō de duō."],
+      [337, "Càng luyện tập chăm chỉ, cú giao bóng của bạn sẽ càng trở nên mạnh mẽ và chuẩn xác hơn.", "你练习得越刻苦，你的发球就会变得越有力量、越准确。", "Nǐ liàn xí de yuè kè kǔ, nǐ de fā qiú jiù huì biàn de yuè yǒu lì liàng, yuè zhǔn què."],
+      [338, "Cờ vua là môn thể thao trí tuệ đòi hỏi sự tập trung cao độ nhất.", "国际象棋是最需要高度集中注意力的智力运动。", "Guó jì xiàng qí shì zuì xū yào gāo dù jí zhōng zhù yì lì de zhì lì yùn dòng."],
+      [339, "Chiếc card đồ họa mới giúp máy tính chạy các trò chơi nặng mượt mà hơn trước rất nhiều.", "新显卡让电脑运行大型游戏比以前流畅多了。", "Xīn xiǎn kǎ ràng diàn nǎo yùn xíng dà xíng yóu xì bǐ yǐ qián liú chàng duō le."],
+      [340, "Đội tuyển của chúng ta đã thi đấu kiên cường hơn trong hiệp hai và giành chiến thắng ngược dòng.", "我们队在下半场踢得更加顽强，并实现了逆转获胜。", "Wǒ men duì zài xià bàn chǎng tī de gèng jiā wán qiáng, bìng shí xiàn le nì zhuǎn huò shèng."],
+      [341, "Leo núi ngoài trời thử thách lòng dũng cảm hơn nhiều so với tập trong phòng gym.", "户外攀岩比在室内健身房锻炼更能考验勇气。", "Hù wài pān yán bǐ zài shì nèi jiàn shēn fáng duàn liàn gèng néng kǎo yàn yǒng qì."],
+      [342, "Thua trong một trận giao hữu còn tốt hơn là chủ quan rồi để thua ở giải đấu chính thức.", "在友谊赛中输掉总比因大意而在正式比赛中落败要好。", "Zài yǒu yì sài zhōng shū diào zǒng bǐ yīn dà yì ér zài zhèng shì bǐ sài zhōng luò bài yào hǎo."],
+      [343, "Huấn luyện viên trưởng là người có kinh nghiệm chiến thuật dày dặn nhất trong đội.", "主教练是队里战术经验最丰富的人。", "Zhǔ jiào liàn shì duì lǐ zhàn shù jīng yàn zuì fēng fù de rén."],
+      [344, "Tinh thần thể thao cao thượng luôn đáng quý hơn bất kỳ tấm huy chương vàng nào.", "高尚的体育精神总是比任何金牌都更宝贵。", "Gāo shàng de tǐ yù jīng shén zǒng shì bǐ rèn hé jīn pái dōu gèng bǎo guì."],
+      [345, "Đôi giày chạy bộ chuyên dụng này nhẹ hơn và êm chân hơn đôi giày cũ của tôi.", "这双专业跑鞋比我的旧鞋更轻、更舒适。", "Zhè shuāng zhuān yè pǎo xié bǐ wǒ de jiù xié gèng qīng, gèng shū shì."],
+      [346, "Trong các trò chơi sinh tồn, người trụ lại cuối cùng là người chiến thắng.", "在生存游戏中，坚持到最后的人就是获胜者。", "Zài shēng cún yóu xì zhōng, jiān chí dào zuì hòu de rén jiù shì huò shèng zhě."],
+      [347, "Tốc độ mạng ổn định là yếu tố quan trọng nhất khi thi đấu thể thao điện tử.", "稳定的网速是进行电子竞技比赛时最重要的因素。", "Wěn dìng de wǎng sù shì jìn xíng diàn zǐ jìng jì bǐ sài shí zuì zhòng yào de yīn sù."],
+      [348, "Khán giả trên khán đài đang cổ vũ ngày càng cuồng nhiệt hơn khi trận đấu về cuối.", "随着比赛接近尾声，看台上的观众欢呼助威得越来越热烈。", "Suí zhe bǐ sài jiē jìn wěi shēng, kàn tái shàng de guān zhòng huān hū zhù wēi de yuè lái yuè rè liè."],
+      [349, "Không có chiến thắng nào ngọt ngào hơn chiến thắng chính giới hạn của bản thân mình.", "没有什么胜利比战胜自己的极限更甜美了。", "Méi yǒu shén me shèng lì bǐ zhàn shèng zì jǐ de jí xiàn gèng tián měi le."],
+      [350, "Thể thao kết nối mọi người lại gần nhau hơn bất kể sự khác biệt về ngôn ngữ hay văn hóa.", "无论语言或文化有何差异，体育都能把人们拉得更近。", "Wú lùn yǔ yán huò wén huà yǒu hé chā yì, tǐ yù dōu néng bǎ rén men lā de gèng jìn."]
+    ]
+  },
+  {
+    id: 15,
+    title: "Topic 15: Phim ảnh & Giải trí (影视与休闲娱乐)",
+    vocab: [
+      ["科幻动作片", "kē huàn dòng zuò piàn", "phim hành động khoa học viễn tưởng"],
+      ["吸引人", "xī yǐn rén", "cuốn hút, hấp dẫn"],
+      ["电影院", "diàn yǐng yuàn", "rạp chiếu phim"],
+      ["感动", "gǎn dòng", "xúc động, cảm động"],
+      ["结局", "jié jú", "cái kết, kết cục"],
+      ["失望", "shī wàng", "thất vọng"],
+      ["剧情", "jù qíng", "cốt truyện, tình tiết phim"],
+      ["无聊", "wú liáo", "nhàm chán"],
+      ["视觉特效", "shì jué tè xiào", "kỹ xảo hình ảnh"],
+      ["兴奋", "xīng fèn", "hào hứng, phấn khích"],
+      ["演唱会", "yǎn chàng huì", "buổi hòa nhạc, đêm nhạc (concert)"],
+      ["配角", "pèi jué", "diễn viên phụ"],
+      ["幽默", "yōu mò", "hài hước, dí dỏm"],
+      ["侦探小说", "zhēn tàn xiǎo shuō", "tiểu thuyết trinh thám"],
+      ["悬疑", "xuán yí", "gay cấn, hồi hộp"],
+      ["演技", "yǎn jì", "kỹ năng diễn xuất"],
+      ["真人秀", "zhēn rén xiù", "chương trình truyền hình thực tế"],
+      ["困惑", "kùn huò", "bối rối, khó hiểu"],
+      ["动画片", "dòng huà piàn", "phim hoạt hình"],
+      ["反转", "fǎn zhuǎn", "cú lật kèo (plot twist)"],
+      ["惊讶", "jīng yà", "kinh ngạc, ngạc nhiên"],
+      ["喜剧", "xǐ jù", "hài kịch, phim hài"],
+      ["暴力", "bào lì", "bạo lực"],
+      ["主题曲", "zhǔ tí qǔ", "bài hát chủ đề, nhạc phim"],
+      ["旋律", "xuán lǜ", "giai điệu"],
+      ["导演", "dǎo yǎn", "đạo diễn"],
+      ["纪录片", "jì lù piàn", "phim tài liệu"],
+      ["售罄", "shòu qìng", "bán hết sạch (vé)"],
+      ["字幕", "zì mù", "phụ đề"],
+      ["配音", "pèi yīn", "lồng tiếng, thuyết minh"]
+    ],
+    grammar: {
+      title: "Cấu trúc khiến/làm cho 令人 (lìng rén) / 让人 (ràng rén) & Cảm nhận chủ quan 感到 (gǎn dào)",
+      points: [
+        "<b>Miêu tả bản chất sự vật gây cảm xúc (tương đương V-ing trong tiếng Anh):</b> Dùng <b>令人 (lìng rén) / 让人 (ràng rén) + Tính từ/Động từ tâm lý</b> (Ví dụ: 令人感动 - gây xúc động; 让人失望 - gây thất vọng).",
+        "<b>Miêu tả cảm xúc của con người (tương đương V-ed trong tiếng Anh):</b> Dùng <b>Chủ ngữ (Người) + 对... + 感到 (gǎn dào) / 觉得 (jué de) + Tính từ tâm lý</b> (Ví dụ: 观众都感到非常感动 - khán giả đều cảm thấy vô cùng xúc động)."
+      ],
+      examples: [
+        ["我们昨晚看的那部科幻动作片真的很吸引人。", "Wǒ men zuó wǎn kàn de nà bù kē huàn dòng zuò piàn zhēn de hěn xī yǐn rén.", "Bộ phim hành động khoa học viễn tưởng mà chúng tôi xem tối qua thực sự rất cuốn hút."],
+        ["电影院里的观众都被这部电影感人的结局深深打动了。", "Diàn yǐng yuàn lǐ de guān zhòng dōu bèi zhè bù diàn yǐng gǎn rén de jié jú shēn shēn dǎ dòng le.", "Khán giả trong rạp đều bị cái kết cảm động của bộ phim làm cho xúc động sâu sắc."],
+        ["通过双语字幕看电影是一种把娱乐和学外语结合起来的有趣方法。", "Tōng guò shuāng yǔ zì mù kàn diàn yǐng shì yì zhǒng bǎ yú lè hé xué wài yǔ jié hé qǐ lái de yǒu qù fāng fǎ.", "Xem phim qua phụ đề song ngữ là một phương pháp thú vị kết hợp giải trí và học ngoại ngữ."]
+      ]
+    },
+    sentences: [
+      [351, "Bộ phim hành động khoa học viễn tưởng mà chúng tôi xem tối qua thực sự rất cuốn hút.", "我们昨晚看的那部科幻动作片真的很吸引人。", "Wǒ men zuó wǎn kàn de nà bù kē huàn dòng zuò piàn zhēn de hěn xī yǐn rén."],
+      [352, "Khán giả trong rạp đều cảm thấy vô cùng xúc động trước cái kết nhân văn của bộ phim.", "电影院里的观众都对这部电影充满人情味的结局感到非常感动。", "Diàn yǐng yuàn lǐ de guān zhòng dōu duì zhè bù diàn yǐng chōng mǎn rén qíng wèi de jié jú gǎn dào fēi cháng gǎn dòng."],
+      [353, "Tôi cảm thấy khá thất vọng vì cốt truyện của phần hai quá dễ đoán và nhàm chán.", "我感到相当失望，因为第二部的剧情太容易猜到而且很无聊。", "Wǒ gǎn dào xiāng dāng shī wàng, yīn wèi dì èr bù de jù qíng tài róng yì cāi dào ér qiě hěn wú liáo."],
+      [354, "Kỹ xảo hình ảnh và âm thanh trong rạp chiếu phim thật sự rất ấn tượng.", "电影院里的视觉特效和音响效果真是令人印象深刻。", "Diàn yǐng yuàn lǐ de shì jué tè xiào hé yīn xiǎng xiào guǒ zhēn shì lìng rén yìn xiàng shēn kè."],
+      [355, "Em gái tôi rất hào hứng khi biết thần tượng âm nhạc của mình sắp tổ chức đêm nhạc tại Việt Nam.", "得知自己的音乐偶像即将在越南举办演唱会时，我妹妹感到非常兴奋。", "Dé zhī zì jǐ de yīn yuè ǒu xiàng jí jiāng zài Yuè nán jǔ bàn yǎn chàng huì shí, wǒ mèi mei gǎn dào fēi cháng xīng fèn."],
+      [356, "Những tình tiết hài hước của nam diễn viên phụ khiến cả rạp cười nghiêng ngả.", "男配角幽默的桥段让全场观众捧腹大笑。", "Nán pèi jué yōu mò de qiáo duàn ràng quán chǎng guān zhòng pěng fù dà xiào."],
+      [357, "Bạn có cảm thấy mệt mỏi sau khi xem một bộ phim dài hơn ba tiếng đồng hồ không?", "看完一部长达三个多小时的电影后，你觉得累吗？", "Kàn wán yí bù cháng dá sān ge duō xiǎo shí de diàn yǐng hòu, nǐ jué de lèi ma?"],
+      [358, "Cuốn tiểu thuyết trinh thám này hồi hộp và gay cấn hơn nhiều so với bản phim chuyển thể.", "这本侦探小说比改编的电影版本更加紧张悬疑。", "Zhè běn zhēn tàn xiǎo shuō bǐ gǎi biān de diàn yǐng bǎn běn gèng jiā jǐn zhāng xuán yí."],
+      [359, "Tôi hoàn toàn bị thuyết phục bởi khả năng diễn xuất tuyệt vời của nữ diễn viên chính.", "我完全被女主角精湛的演技折服了。", "Wǒ wán quán bèi nǚ zhǔ jué jīng zhàn de yǎn jì zhé fú le."],
+      [360, "Chương trình truyền hình thực tế về du lịch khám phá này mang lại nhiều kiến thức bổ ích.", "这档关于旅游探索的真人秀节目带来了很多有益的知识。", "Zhè dǎng guān yú lǚ yóu tàn suǒ de zhēn rén xiù jié mù dài lái le hěn duō yǒu yì de zhī shi."],
+      [361, "Anh ấy cảm thấy bối rối vì nội dung của bộ phim tâm lý học này quá phức tạp.", "他感到很困惑，因为这部心理学电影的内容太复杂了。", "Tā gǎn dào hěn kùn huò, yīn wèi zhè bù xīn lǐ xué diàn yǐng de nèi róng tài fù zá le."],
+      [362, "Những bộ phim hoạt hình của Nhật Bản luôn có sức hấp dẫn đối với cả người lớn và trẻ em.", "日本的动画片对大人和孩子都总是很有吸引力。", "Rì běn de dòng huà piàn duì dà rén hé hái zi dōu zǒng shì hěn yǒu xī yǐn lì."],
+      [363, "Chúng tôi đã rất kinh ngạc trước cú lật kèo bất ngờ ở những phút cuối cùng của tập phim.", "我们对剧集最后几分钟意想不到的反转感到非常惊讶。", "Wǒ men duì jù jí zuì hòu jǐ fēn zhōng yì xiǎng bú dào de fǎn zhuǎn gǎn dào fēi cháng jīng yà."],
+      [364, "Việc phải xem quá nhiều quảng cáo cắt ngang giữa chừng thật sự rất gây khó chịu.", "中途被迫看太多插播的广告真是让人烦躁。", "Zhōng tú bèi pò kàn tài duō chā bō de guǎng gào zhēn shì ràng rén fán zào."],
+      [365, "Sau một tuần làm việc căng thẳng, xem một bộ phim hài là cách thư giãn tuyệt vời.", "在紧张工作了一周之后，看一部喜剧是绝佳的放松方式。", "Zài jǐn zhāng gōng zuò le yì zhōu zhī hòu, kàn yí bù xǐ jù shì jué jiā de fàng sōng fāng shì."],
+      [366, "Nhiều bậc phụ huynh lo lắng về những nội dung bạo lực xuất hiện trên mạng.", "许多家长对网络上出现的暴力内容感到担心。", "Xǔ duō jiā zhǎng duì wǎng luò shàng chū xiàn de bào lì nèi róng gǎn dào dān xīn."],
+      [367, "Bài hát nhạc phim có giai điệu sâu lắng khiến người nghe nhớ lại kỷ niệm xưa.", "电影主题曲深情的旋律让听众回忆起往事。", "Diàn yǐng zhǔ tí qǔ shēn qíng de xuán lǜ ràng tīng zhòng huí yì qǐ wǎng shì."],
+      [368, "Đạo diễn của bộ phim tài liệu này đã dành năm năm để ghi lại những thước phim đáng kinh ngạc.", "这部纪录片的导演花了五年时间拍下了令人惊叹的镜头。", "Zhè bù jì lù piàn de dǎo yǎn huā le wǔ nián shí jiān pāi xià le lìng rén jīng tàn de jìng tóu."],
+      [369, "Tôi không mấy hứng thú với các chương trình trò chơi truyền hình thiếu tính giáo dục.", "我对那些缺乏教育意义的电视游戏节目不太感兴趣。", "Wǒ duì nà xiē quē fá jiào yù yì yì de diàn shì yóu xì jié mù bú tài gǎn xìng qù."],
+      [370, "Cảnh quay rượt đuổi bằng xe hơi trên đường cao tốc trông vô cùng kịch tính.", "高速公路上的汽车追逐镜头看起来非常惊险刺激。", "Gāo sù gōng lù shàng de qì chē zhuī zhú jìng tóu kàn qǐ lái fēi cháng jīng xiǎn cì jī."],
+      [371, "Cô ấy rất sợ hãi khi xem những cảnh hù dọa bất ngờ trong rạp chiếu phim tối om.", "在漆黑的电影院里看到突然吓人的镜头时，她感到非常害怕。", "Zài qī hēi de diàn yǐng yuàn lǐ kàn dào tū rán xià rén de jìng tóu shí, tā gǎn dào fēi cháng hài pà."],
+      [372, "Vé của buổi biểu diễn nghệ thuật cuối tuần này đã được bán hết sạch chỉ sau mười phút mở bán.", "本周末艺术演出的门票在开售后仅十分钟就全部售罄了。", "Běn zhōu mò yì shù yǎn chū de mén piào zài kāi shòu hòu jǐn shí fēn zhōng jiù quán bù shòu qìng le."],
+      [373, "Một tác phẩm điện ảnh xuất sắc sẽ để lại ấn tượng sâu sắc trong lòng người xem.", "一部优秀的电影作品会在观众心中留下深刻的印象。", "Yí bù yōu xiù de diàn yǐng zuò pǐn huì zài guān zhòng xīn zhōng liú xià shēn kè de yìn xiàng."],
+      [374, "Bạn thường chọn xem phim có phụ đề tiếng Việt hay phim đã được lồng tiếng?", "你通常选择看有越南语字幕的电影还是配音电影？", "Nǐ tōng cháng xuǎn zé kàn yǒu Yuè nán yǔ zì mù de diàn yǐng hái shì pèi yīn diàn yǐng?"],
+      [375, "Xem phim bằng phụ đề song ngữ là một phương pháp giải trí kết hợp học ngoại ngữ rất thú vị.", "通过双语字幕看电影是一种将娱乐与外语学习结合起来的有趣方法。", "Tōng guò shuāng yǔ zì mù kàn diàn yǐng shì yì zhǒng jiāng yú lè yǔ wài yǔ xué xí jié hé qǐ lái de yǒu qù fāng fǎ."]
+    ]
+  },
+  {
+    id: 16,
+    title: "Topic 16: Thiên nhiên & Động vật (大自然与动物)",
+    vocab: [
+      ["红树林", "hóng shù lín", "rừng ngập mặn"],
+      ["海岸线", "hǎi àn xiàn", "đường bờ biển"],
+      ["水土流失", "shuǐ tǔ liú shī", "xói mòn đất"],
+      ["水源", "shuǐ yuán", "nguồn nước"],
+      ["污染", "wū rǎn", "ô nhiễm"],
+      ["野生动物", "yě shēng dòng wù", "động vật hoang dã"],
+      ["灭绝", "miè jué", "tuyệt chủng"],
+      ["偷猎", "tōu liè", "săn bắt trộm, săn bắn trái phép"],
+      ["孔雀鱼", "kǒng què yú", "cá bảy màu (guppy)"],
+      ["国家公园", "guó jiā gōng yuán", "vườn quốc gia"],
+      ["咖啡树", "kā fēi shù", "cây cà phê"],
+      ["产量", "chǎn liàng", "sản lượng, năng suất"],
+      ["自动喷灌系统", "zì dòng pēn guàn xì tǒng", "hệ thống tưới phun mưa tự động"],
+      ["塑料垃圾", "sù liào lā jī", "rác thải nhựa"],
+      ["海洋生态系统", "hǎi yáng shēng tài xì tǒng", "hệ sinh thái biển"],
+      ["摇尾巴", "yáo wěi ba", "vẫy đuôi"],
+      ["生物过滤器", "shēng wù guò lǜ qì", "bộ lọc vi sinh"],
+      ["清澈", "qīng chè", "trong vắt, trong trẻo"],
+      ["候鸟", "hòu niǎo", "chim di cư"],
+      ["多乐高原", "Duō Lè gāo yuán", "cao nguyên Đắk Lắk"],
+      ["生物多样性", "shēng wù duō yàng xìng", "đa dạng sinh học"],
+      ["乱砍滥伐", "luàn kǎn làn fá", "chặt phá rừng bừa bãi"],
+      ["金鱼", "jīn yú", "cá vàng"],
+      ["温室气体", "wēn shì qì tǐ", "khí nhà kính"],
+      ["和谐共处", "hé xié gòng chǔ", "sống hòa hợp, hài hòa"],
+      ["蜜蜂", "mì fēng", "con ong mật"],
+      ["化肥", "huà féi", "phân bón hóa học"],
+      ["地下水", "dì xià shuǐ", "nước ngầm"],
+      ["枯竭", "kū jié", "cạn kiệt"],
+      ["海龟", "hǎi guī", "rùa biển"],
+      ["海豚", "hǎi tún", "cá heo"],
+      ["有机肥", "yǒu jī féi", "phân bón hữu cơ"],
+      ["病虫害", "bìng chóng hài", "sâu bệnh"]
+    ],
+    grammar: {
+      title: "Câu điều kiện giả thiết 如果 / 要是... 就... (Nếu... thì...) & 只要... 就... (Chỉ cần... thì...)",
+      points: [
+        "<b>Cấu trúc 如果 / 要是... 的话，S + 就 + V:</b> Dùng để nêu điều kiện có thể xảy ra ở hiện tại hoặc tương lai và hệ quả tất yếu.",
+        "<b>Cấu trúc 只要... 就... (zhǐ yào... jiù... - chỉ cần... thì...):</b> Nhấn mạnh điều kiện đủ để đạt được kết quả mong muốn.",
+        "<b>Cấu trúc 除非... 否则... (chú fēi... fǒu zé... - trừ phi... nếu không thì...):</b> Diễn tả điều kiện duy nhất để tránh một kết quả xấu."
+      ],
+      examples: [
+        ["如果在旱季得到充足的灌溉，咖啡树的产量就会非常高。", "Rú guǒ zài hàn jì dé dào chōng zú de guàn gài, kā fēi shù de chǎn liàng jiù huì fēi cháng gāo.", "Nếu được tưới tiêu đầy đủ vào mùa khô, năng suất của cây cà phê sẽ rất cao."],
+        ["只要你在水草缸里安装一个好的生物过滤器，缸里的水就会一直很清澈。", "Zhǐ yào nǐ zài shuǐ cǎo gāng lǐ ān zhuāng yí ge hǎo de shēng wù guò lǜ qì, gāng lǐ de shuǐ jiù huì yì zhí hěn qīng chè.", "Chỉ cần bạn lắp một bộ lọc vi sinh tốt trong bể thủy sinh, nước trong bể sẽ luôn trong vắt."],
+        ["如果人类继续向海洋倾倒塑料垃圾，海洋生态系统就会受到严重破坏。", "Rú guǒ rén lèi jì xù xiàng hǎi yáng qīng dào sù liào lā jī, hǎi yáng shēng tài xì tǒng jiù huì shòu dào yán zhòng pò huài.", "Nếu con người tiếp tục đổ rác thải nhựa ra đại dương, hệ sinh thái biển sẽ bị hủy hoại nghiêm trọng."]
+      ]
+    },
+    sentences: [
+      [376, "Nếu chúng ta tích cực trồng thêm nhiều rừng ngập mặn, bờ biển sẽ được bảo vệ khỏi sự xói mòn.", "如果我们积极种植更多的红树林，海岸线就会免受侵蚀。", "Rú guǒ wǒ men jī jí zhòng zhí gèng duō de hóng shù lín, hǎi àn xiàn jiù huì miǎn shòu qīn shí."],
+      [377, "Nếu nguồn nước trong bể bị ô nhiễm, những đàn cá cảnh sẽ không thể sống sót được.", "如果鱼缸里的水源受到污染，观赏鱼群就无法生存。", "Rú guǒ yú gāng lǐ de shuǐ yuán shòu dào wū rǎn, guān shǎng yú qún jiù wú fǎ shēng cún."],
+      [378, "Nhiều loài động vật hoang dã quý hiếm sẽ bị tuyệt chủng nếu nạn săn bắt trái phép vẫn tiếp diễn.", "如果非法偷猎继续下去，许多珍稀野生动物将会灭绝。", "Rú guǒ fēi fǎ tōu liè jì xù xià qù, xǔ duō zhēn xī yě shēng dòng wù jiāng huì miè jué."],
+      [379, "Nếu bạn thay nước bể cá đột ngột mà không xử lý kỹ, cá bảy màu sẽ dễ bị sốc nước.", "如果你突然给鱼缸换水而不处理好水质，孔雀鱼就很容易因水质变化而生病。", "Rú guǒ nǐ tū rán gěi yú gāng huàn shuǐ ér bù chǔ lǐ hǎo shuǐ zhì, kǒng què yú jiù hěn róng yì yīn shuǐ zhì biàn huà ér shēng bìng."],
+      [380, "Nếu thời tiết nắng ráo vào cuối tuần này, chúng tôi sẽ đi khám phá vườn quốc gia.", "如果这个周末天气晴朗，我们就去探索国家公园。", "Rú guǒ zhè ge zhōu mò tiān qì qíng lǎng, wǒ men jiù qù tàn suǒ guó jiā gōng yuán."],
+      [381, "Cây cà phê sẽ cho năng suất hạt rất cao nếu được tưới nước đầy đủ vào mùa khô.", "如果在旱季浇足水，咖啡树的咖啡豆产量就会非常高。", "Rú guǒ zài hàn jì jiāo zú shuǐ, kā fēi shù de kā fēi dòu chǎn liàng jiù huì fēi cháng gāo."],
+      [382, "Nếu bạn lắp đặt hệ thống tưới phun mưa tự động, bạn sẽ tiết kiệm được rất nhiều công sức và nước tưới.", "如果你安装自动喷灌系统，就会节省大量的劳力和灌溉水。", "Rú guǒ nǐ ān zhuāng zì dòng pēn guàn xì tǒng, jiù huì jié shěng dà liàng de láo lì hé guàn gài shuǐ."],
+      [383, "Nếu con người tiếp tục xả rác thải nhựa ra đại dương, hệ sinh thái biển sẽ bị hủy hoại nghiêm trọng.", "如果人类继续向海洋排放塑料垃圾，海洋生态系统就会遭到严重破坏。", "Rú guǒ rén lèi jì xù xiàng hǎi yáng pái fàng sù liào lā jī, hǎi yáng shēng tài xì tǒng jiù huì zāo dào yán zhòng pò huài."],
+      [384, "Chú chó trung thành sẽ vẫy đuôi mừng rỡ nếu nghe thấy tiếng bước chân quen thuộc của chủ nhân.", "如果听到主人熟悉的脚步声，忠诚的狗就会高兴地摇尾巴。", "Rú guǒ tīng dào zhǔ rén shú xī de jiǎo bù shēng, zhōng chéng de gǒu jiù huì gāo xìng de yáo wěi ba."],
+      [385, "Chỉ cần bạn đặt một bộ lọc vi sinh tốt trong bể thủy sinh, nước bể sẽ luôn trong vắt.", "只要你在水草缸里放一个好的生物过滤器，缸里的水就会一直很清澈。", "Zhǐ yào nǐ zài shuǐ cǎo gāng lǐ fàng yí ge hǎo de shēng wù guò lǜ qì, gāng lǐ de shuǐ jiù huì yì zhí hěn qīng chè."],
+      [386, "Những chú chim di cư sẽ bay về phương Nam nếu mùa đông ở phương Bắc trở nên quá lạnh giá.", "如果北方的冬天变得太寒冷，候鸟就会飞往南方。", "Rú guǒ běi fāng de dōng tiān biàn de tài hán lěng, hòu niǎo jiù huì fēi wǎng nán fāng."],
+      [387, "Nếu bạn đến thăm vùng cao nguyên Đắk Lắk vào tháng Ba, bạn sẽ được ngắm hoa cà phê nở trắng xóa.", "如果你在三月份造访多乐高原，就会看到雪白盛开的咖啡花。", "Rú guǒ nǐ zài sān yuè fèn zào fǎng Duō Lè gāo yuán, jiù huì kàn dào xuě bái shèng kāi de kā fēi huā."],
+      [388, "Rừng nhiệt đới sẽ mất đi sự đa dạng sinh học nếu nạn phá rừng không được ngăn chặn kịp thời.", "如果不及时制止乱砍滥伐，热带雨林就会失去生物多样性。", "Rú guǒ bù jí shí zhì zhǐ luàn kǎn làn fá, rè dài yǔ lín jiù huì shī qù shēng wù duō yàng xìng."],
+      [389, "Nếu bạn cho cá vàng ăn quá nhiều thức ăn trong một lần, thức ăn thừa sẽ làm đục nước.", "如果你一次给金鱼喂太多食物，剩下的食物就会把水弄浑。", "Rú guǒ nǐ yí cì gěi jīn yú wèi tài duō shí wù, shèng xià de shí wù jiù huì bǎ shuǐ nòng hún."],
+      [390, "Trái đất của chúng ta sẽ ngày càng nóng lên nếu lượng khí thải nhà kính không được cắt giảm.", "如果不减少温室气体排放，我们的地球就会变得越来越热。", "Rú guǒ bù jiǎn shǎo wēn shì qì tǐ pái fàng, wǒ men de dì qiú jiù huì biàn de yuè lái yuè rè."],
+      [391, "Nếu bạn tôn trọng và sống hòa hợp với thiên nhiên, thiên nhiên sẽ ban tặng cho bạn sự bình yên.", "如果你尊重自然并与自然和谐共处，大自然就会赐予你安宁。", "Rú guǒ nǐ zūn zhòng zì rán bìng yǔ zì rán hé xié gòng chǔ, dà zì rán jiù huì cì yǔ nǐ ān níng."],
+      [392, "Những con ong mật sẽ không thể tạo ra mật ngọt nếu không có những cánh đồng hoa tự nhiên.", "如果没有天然的花田，蜜蜂就无法酿出甜美的蜂蜜。", "Rú guǒ méi yǒu tiān rán de huā tián, mì fēng jiù wú fǎ niàng chū tián měi de fēng mì."],
+      [393, "Nếu đất canh tác bị lạm dụng phân bón hóa học, đất sẽ nhanh chóng bị thoái hóa.", "如果耕地过度使用化肥，土壤就会迅速退化。", "Rú guǒ gēng dì guò dù shǐ yòng huà féi, tǔ rǎng jiù huì xùn sù tuì huà."],
+      [394, "Chỉ cần bạn kiên nhẫn quan sát thế giới tự nhiên, bạn sẽ khám phá ra vô số điều kỳ diệu.", "只要你耐心地观察自然界，就会发现无数奇妙的事物。", "Zhǐ yào nǐ nài xīn de guān chá zì rán jiè, jiù huì fā xiàn wú shù qí miào de shì wù."],
+      [395, "Nguồn tài nguyên nước ngầm sẽ bị cạn kiệt nếu chúng ta khai thác quá mức.", "如果我们过度开采，地下水资源就会枯竭。", "Rú guǒ wǒ men guò dù kāi cǎi, dì xià shuǐ zī yuán jiù huì kū jié."],
+      [396, "Nếu bạn trồng nhiều cây xanh xung quanh ngôi nhà, không khí sẽ trong lành và mát mẻ hơn rất nhiều.", "如果你在房子周围种很多绿树，空气就会清新凉爽得多。", "Rú guǒ nǐ zài fáng zi zhōu wéi zhòng hěn duō lǜ shù, kōng qì jiù huì qīng xīn liáng shuǎng de duō."],
+      [397, "Các loài sinh vật biển như rùa biển và cá heo sẽ gặp nguy hiểm nếu nuốt phải túi ni lông.", "如果海龟和海豚等海洋生物误吞塑料袋，就会陷入危险。", "Rú guǒ hǎi guī hé hǎi tún děng hǎi yáng shēng wù wù tūn sù liào dài, jiù huì xiàn rù wēi xiǎn."],
+      [398, "Nếu chính quyền địa phương thắt chặt luật bảo vệ rừng, diện tích rừng tự nhiên sẽ dần được phục hồi.", "如果地方政府严格执行森林保护法，天然林面积就会逐渐恢复。", "Rú guǒ dì fāng zhèng fǔ yán gé zhí xíng sēn lín bǎo hù fǎ, tiān rán lín miàn jī jiù huì zhú jiàn huī fù."],
+      [399, "Cây trồng sẽ phát triển khỏe mạnh và ít sâu bệnh hơn nếu chúng ta sử dụng phân bón hữu cơ.", "如果我们使用有机肥，农作物就会健康生长并且减少病虫害。", "Rú guǒ wǒ men shǐ yòng yǒu jī féi, nóng zuò wù jiù huì jiàn kāng shēng zhǎng bìng qiě jiǎn shǎo bìng chóng hài."],
+      [400, "Nếu mỗi người chúng ta đều có ý thức giữ gìn vệ sinh chung, môi trường sống sẽ trở nên xanh sạch đẹp.", "如果我们每个人都有维护公共卫生的意识，生活环境就会变得既绿又干净美丽。", "Rú guǒ wǒ men měi ge rén dōu yǒu wéi hù gōng gòng wèi shēng de yì shí, shēng huó huán jìng jiù huì biàn de jì lǜ yòu gān jìng měi lì."]
+    ]
+  }
+);
+// =========================================================================
+// PHẦN 5: TOPIC 17 ĐẾN TOPIC 20 (CÂU 401 - 500)
+// =========================================================================
+ALL_TOPICS.push(
+  {
+    id: 17,
+    title: "Topic 17: Cảm xúc & Tâm trạng (情感与心情状态)",
+    vocab: [
+      ["疲惫", "pí bèi", "mệt mỏi, rã rời"],
+      ["如释重负", "rú shì zhòng fù", "nhẹ nhõm (như trút được gánh nặng)"],
+      ["不安", "bù ān", "bất an, lo âu"],
+      ["沉默寡言", "chén mò guǎ yán", "trầm lặng, ít nói"],
+      ["争论", "zhēng lùn", "tranh luận"],
+      ["发脾气", "fā pí qi", "nóng giận, nổi nóng"],
+      ["创业", "chuàng yè", "khởi nghiệp"],
+      ["可行", "kě xíng", "khả thi"],
+      ["害羞", "hài xiū", "ngượng ngùng, xấu hổ"],
+      ["孤独", "gū dú", "cô đơn"],
+      ["想家", "xiǎng jiā", "nhớ nhà, nhớ quê"],
+      ["会议室", "huì yì shì", "phòng họp"],
+      ["气氛", "qì fēn", "bầu không khí"],
+      ["销售额", "xiāo shòu é", "doanh số bán hàng"],
+      ["姜茶", "jiāng chá", "trà gừng"],
+      ["自信", "zì xìn", "tự tin"],
+      ["从容", "cóng róng", "điềm tĩnh, ung dung"],
+      ["感激", "gǎn jī", "biết ơn, cảm kích"],
+      ["天真", "tiān zhēn", "hồn nhiên, ngây thơ"],
+      ["责备", "zé bèi", "trách móc"],
+      ["嫉妒", "jí dù", "ghen tị, đố kỵ"],
+      ["鸡汤", "jī tāng", "súp gà, canh gà"],
+      ["振奋", "zhèn fèn", "phấn chấn, vực dậy tinh thần"],
+      ["受伤", "shòu shāng", "tổn thương, bị thương"],
+      ["控制情绪", "kòng zhì qíng xù", "kiểm soát cảm xúc"],
+      ["冷漠", "lěng mò", "lạnh lùng, thờ ơ"],
+      ["悲观", "bēi guān", "bi quan"],
+      ["动力", "dòng lì", "động lực"],
+      ["消失", "xiāo shī", "tan biến, biến mất"],
+      ["挑战", "tiǎo zhàn", "thử thách"]
+    ],
+    grammar: {
+      title: "Nhóm động từ cảm giác (看起来 / 听起来 / 闻起来 / 显得) & Động từ biến đổi 变得 (biàn de)",
+      points: [
+        "<b>Động từ chỉ cảm nhận giác quan:</b> <b>看起来 (kàn qǐ lái - trông có vẻ)</b>, <b>听起来 (tīng qǐ lái - nghe có vẻ)</b>, <b>闻起来 (wén qǐ lái - ngửi có mùi)</b>, <b>显得 (xiǎn de - tỏ ra, lộ vẻ)</b> + Cụm tính từ.",
+        "<b>Diễn tả sự thay đổi trạng thái (trở nên):</b> Dùng <b>变得 (biàn de) + Tính từ (+ 起来 / 了)</b> (Ví dụ: 气氛突然变得紧张起来 - bầu không khí bỗng trở nên căng thẳng).",
+        "<b>Cấu trúc 让 / 使 + Tân ngữ + 感到...:</b> Làm cho / khiến cho ai đó cảm thấy thế nào."
+      ],
+      examples: [
+        ["连续上了十二个小时的班后，你看起来非常疲惫。", "Lián xù shàng le shí èr ge xiǎo shí de bān hòu, nǐ kàn qǐ lái fēi cháng pí bèi.", "Sau ca làm việc kéo dài mười hai tiếng liên tục, bạn trông có vẻ rất mệt mỏi."],
+        ["你的创业想法听起来非常可行，而且很有希望。", "Nǐ de chuàng yè xiǎng fǎ tīng qǐ lái fēi cháng kě xíng, ér qiě hěn yǒu xī wàng.", "Ý tưởng khởi nghiệp của bạn nghe có vẻ rất khả thi và đầy hứa hẹn."],
+        ["当经理提到这个月的销售额时，会议室里的气氛突然变得紧张起来。", "Dāng jīng lǐ tí dào zhè ge yuè de xiāo shòu é shí, huì yì shì lǐ de qì fēn tū rán biàn de jǐn zhāng qǐ lái.", "Khi giám đốc nhắc đến doanh số tháng này, không khí trong phòng họp bỗng trở nên căng thẳng."]
+      ]
+    },
+    sentences: [
+      [401, "Bạn trông có vẻ rất mệt mỏi sau ca làm việc kéo dài mười hai tiếng đồng hồ.", "连续工作了十二个小时后，你看起来非常疲惫。", "Lián xù gōng zuò le shí èr ge xiǎo shí hòu, nǐ kàn qǐ lái fēi cháng pí bèi."],
+      [402, "Tôi cảm thấy vô cùng nhẹ nhõm và hạnh phúc khi hoàn thành xong dự án lớn này.", "完成这个大项目后，我感到如释重负而且非常幸福。", "Wán chéng zhè ge dà xiàng mù hòu, wǒ gǎn dào rú shì zhòng fù ér qiě fēi cháng xìng fú."],
+      [403, "Giọng nói của cô ấy qua điện thoại nghe có vẻ rất lo lắng và bất an.", "电话里她的声音听起来非常担心和不安。", "Diàn huà lǐ tā de shēng yīn tīng qǐ lái fēi cháng dān xīn hé bù ān."],
+      [404, "Anh ấy thường trở nên trầm lặng và ít nói mỗi khi gặp chuyện buồn trong cuộc sống.", "每当生活中遇到伤心事，他常常变得沉默寡言。", "Měi dāng shēng huó zhōng yù dào shāng xīn shì, tā cháng cháng biàn de chén mò guǎ yán."],
+      [405, "Đừng trở nên quá nóng giận khi tranh luận, hãy giữ bình tĩnh để lắng nghe đối phương.", "争论时不要轻易发脾气，请保持冷静倾听对方。", "Zhēng lùn shí bú yào qīng yì fā pí qi, qǐng bǎo chí lěng jìng qīng tīng duì fāng."],
+      [406, "Ý tưởng khởi nghiệp của bạn nghe có vẻ rất khả thi và đầy hứa hẹn.", "你的创业想法听起来非常可行，而且很有前景。", "Nǐ de chuàng yè xiǎng fǎ tīng qǐ lái fēi cháng kě xíng, ér qiě hěn yǒu qián jǐng."],
+      [407, "Bố mẹ tôi luôn cảm thấy tự hào mỗi khi nhìn thấy các con trưởng thành và sống tử tế.", "每当看到孩子们长大成人并正直生活，我父母总是感到自豪。", "Měi dāng kàn dào hái zi men zhǎng dà chéng rén bìng zhèng zhí shēng huó, wǒ fù mǔ zǒng shì gǎn dào zì háo."],
+      [408, "Cô ấy dường như rất bối rối và ngượng ngùng khi được nhiều người khen ngợi trước đám đông.", "在众人面前受到大家表扬时，她显得很不知所措和害羞。", "Zài zhòng rén miàn qián shòu dào dà jiā biǎo yáng shí, tā xiǎn de hěn bù zhī suǒ cuò hé hài xiū."],
+      [409, "Khi sống xa nhà một mình ở thành phố lớn, đôi lúc bạn sẽ cảm thấy cô đơn và nhớ quê.", "一个人远离家乡在大城市生活时，有时你会感到孤独和想家。", "Yí ge rén yuǎn lí jiā xiāng zài dà chéng shì shēng huó shí, yǒu shí nǐ huì gǎn dào gū dú hé xiǎng jiā."],
+      [410, "Không khí trong phòng họp bỗng trở nên căng thẳng khi giám đốc đề cập đến doanh số tháng này.", "当经理提到这个月的销售额时，会议室里的气氛突然变得紧张起来。", "Dāng jīng lǐ tí dào zhè ge yuè de xiāo shòu é shí, huì yì shì lǐ de qì fēn tū rán biàn de jǐn zhāng qǐ lái."],
+      [411, "Một tách trà gừng ấm áp sẽ làm cho bạn cảm thấy dễ chịu và thư thái hơn rất nhiều.", "一杯温热的姜茶会让你感到舒服和放松得多。", "Yì bēi wēn rè de jiāng chá huì ràng nǐ gǎn dào shū fu hé fàng sōng de duō."],
+      [412, "Anh ấy có vẻ rất tự tin và điềm tĩnh trước buổi phỏng vấn xin việc quan trọng.", "在重要的求职面试前，他显得非常自信和从容。", "Zài zhòng yào de qiú zhí miàn shì qián, tā xiǎn de fēi cháng zì xìn hé cóng róng."],
+      [413, "Tôi cảm thấy vô cùng biết ơn những người đã giúp đỡ mình vượt qua giai đoạn khó khăn nhất.", "我非常感激那些帮助我度过最困难时期的人。", "Wǒ fēi cháng gǎn jī nà xiē bāng zhù wǒ dù guò zuì kùn nan shí qī de rén."],
+      [414, "Đứa trẻ trông thật đáng yêu và hồn nhiên khi đang mỉm cười trong vòng tay mẹ.", "孩子在妈妈怀里微笑时，看起来真可爱、真天真。", "Hái zi zài mā ma huái lǐ wēi xiào shí, kàn qǐ lái zhēn kě ài, zhēn tiān zhēn."],
+      [415, "Đôi khi sự im lặng còn trở nên đáng sợ hơn cả những lời trách móc nặng nề.", "有时候，沉默比严厉的责备变得更可怕。", "Yǒu shí hou, chén mò bǐ yán lì de zé bèi biàn de gèng kě pà."],
+      [416, "Cậu ấy cảm thấy ghen tị khi thấy bạn cùng lớp đạt được điểm số cao hơn mình.", "看到同班同学考出比自己更高的分数时，他感到很嫉妒。", "Kàn dào tóng bān tóng xué kǎo chū bǐ zì jǐ gèng gāo de fēn shù shí, tā gǎn dào hěn jí dù."],
+      [417, "Món súp gà nóng hổi do chính tay mẹ nấu có mùi thơm thật tuyệt vời và hấp dẫn.", "妈妈亲手炖的热鸡汤闻起来真香、真诱人。", "Mā ma qīn shǒu dùn de rè jī tāng wén qǐ lái zhēn xiāng, zhēn yòu rén."],
+      [418, "Tâm trạng của tôi trở nên phấn chấn hơn hẳn sau khi nghe một bản nhạc sôi động.", "听了一首欢快的歌曲后，我的心情变得振奋多了。", "Tīng le yì shǒu huān kuài de gē qǔ hòu, wǒ de xīn qíng biàn de zhèn fèn duō le."],
+      [419, "Cô ấy cảm thấy bị tổn thương sâu sắc vì những lời nói vô tâm của người bạn thân.", "因为好朋友无心的话语，她感到深深地受了伤。", "Yīn wèi hǎo péng you wú xīn de huà yǔ, tā gǎn dào shēn shēn de shòu le shāng."],
+      [420, "Việc kiểm soát cảm xúc cá nhân là một kỹ năng quan trọng giúp bạn thành công trong giao tiếp.", "控制个人情绪是帮助你在沟通中取得成功的一项重要技能。", "Kòng zhì gè rén qíng xù shì bāng zhù nǐ zài gōu tōng zhōng qǔ dé chéng gōng de yí xiàng zhòng yào jì néng."],
+      [421, "Anh ta trông có vẻ lạnh lùng ở vẻ bề ngoài, nhưng thực chất lại là người rất ấm áp.", "他外表看起来很冷漠，但实际上是一个非常温暖的人。", "Tā wài biǎo kàn qǐ lái hěn lěng mò, dàn shí jì shàng shì yí ge fēi cháng wēn nuǎn de rén."],
+      [422, "Chúng tôi cảm thấy vô cùng hào hứng khi chuẩn bị bắt đầu một hành trình khám phá mới.", "准备开始一段新的探索旅程时，我们感到非常兴奋。", "Zhǔn bèi kāi shǐ yí duàn xīn de tàn suǒ lǚ chéng shí, wǒ men gǎn dào fēi cháng xīng fèn."],
+      [423, "Đừng để những suy nghĩ tiêu cực làm cho bạn trở nên bi quan và mất đi động lực phấn đấu.", "不要让消极的想法使你变得悲观并失去奋斗的动力。", "Bú yào ràng xiāo jí de xiǎng fǎ shǐ nǐ biàn de bēi guān bìng shī qù fèn dòu de dòng lì."],
+      [424, "Mọi mệt mỏi dường như tan biến hết khi tôi trở về nhà và nhìn thấy nụ cười của người thân.", "当我回到家看到亲人的笑容时，所有的疲惫似乎都消失了。", "Dāng wǒ huí dào jiā kàn dào qīn rén de xiào róng shí, suǒ yǒu de pí bèi sì hū dōu xiāo shī le."],
+      [425, "Hãy luôn giữ một trái tim ấm áp và một tinh thần lạc quan trước mọi thử thách của cuộc đời.", "面对人生的一切挑战，请始终保持一颗温暖的心和乐观的精神。", "Miàn duì rén shēng de yí qiè tiǎo zhàn, qǐng shǐ zhōng bǎo chí yì kē wēn nuǎn de xīn hé lè guān de jīng shén."]
+    ]
+  },
+  {
+    id: 18,
+    title: "Topic 18: Ngoại hình & Tính cách (外貌与性格特征)",
+    vocab: [
+      ["长相", "zhǎng xiàng", "diện mạo, ngoại hình"],
+      ["身材匀称", "shēn cái yún chèn", "vóc dáng cân đối"],
+      ["三七分发型", "sān qī fēn fà xíng", "kiểu tóc rẽ ngôi 7/3"],
+      ["性格", "xìng gé", "tính cách"],
+      ["开朗", "kāi lǎng", "cởi mở, hoạt bát"],
+      ["体贴", "tǐ tiē", "chu đáo, tâm lý"],
+      ["极简主义", "jí jiǎn zhǔ yì", "chủ nghĩa tối giản"],
+      ["齐肩长发", "qí jiān cháng fà", "tóc dài ngang vai"],
+      ["酒窝", "jiǔ wō", "má lúm đồng tiền"],
+      ["诚实", "chéng shí", "trung thực, thật thà"],
+      ["可靠", "kě kào", "đáng tin cậy"],
+      ["白发", "bái fà", "tóc bạc"],
+      ["头脑清醒", "tóu nǎo qīng xǐng", "đầu óc minh mẫn"],
+      ["内向", "nèi xiàng", "hướng nội"],
+      ["严肃", "yán sù", "nghiêm nghị, nghiêm túc"],
+      ["鼻梁", "bí liáng", "sống mũi"],
+      ["固执", "gù zhí", "cứng đầu, bảo thủ"],
+      ["说服", "shuō fú", "thuyết phục"],
+      ["第一印象", "dì yī yìn xiàng", "ấn tượng đầu tiên"],
+      ["人品", "rén pǐn", "nhân cách, phẩm chất"],
+      ["优雅", "yōu yǎ", "thanh lịch, tao nhã"],
+      ["果断", "guǒ duàn", "quyết đoán"],
+      ["远见", "yuǎn jiàn", "tầm nhìn xa"],
+      ["皮肤黝黑", "pí fū yǒu hēi", "làn da ngăm đen"],
+      ["以貌取人", "yǐ mào qǔ rén", "trọng vẻ bề ngoài (đánh giá người qua ngoại hình)"],
+      ["大方", "dà fang", "hào phóng, rộng lượng"],
+      ["谦虚", "qiān xū", "khiêm tốn"],
+      ["结实", "jiē shi", "săn chắc, vạm vỡ"],
+      ["圆脸", "yuán liǎn", "khuôn mặt bầu bĩnh, mặt tròn"],
+      ["版本", "bǎn běn", "phiên bản"]
+    ],
+    grammar: {
+      title: "Bổ ngữ trạng thái với 得 (de) & Cấu trúc đối lập 与...相反 (Trái ngược với...)",
+      points: [
+        "<b>Cách hỏi ngoại hình và tính cách:</b> Hỏi ngoại hình dùng <b>他长什么样？(Tā zhǎng shén me yàng?)</b>; hỏi tính cách dùng <b>他的性格怎么样？(Tā de xìng gé zěn me yàng?)</b>.",
+        "<b>Bổ ngữ trạng thái chữ 得 (de):</b> <b>Động từ + 得 + (Rất/Như thế nào)</b> dùng để đánh giá, miêu tả mức độ của hành động (穿得很优雅 - ăn mặc rất thanh lịch).",
+        "<b>Cấu trúc 与...相反 (yǔ... xiāng fǎn):</b> Nghĩa là 'Trái ngược với...', dùng để đối chiếu vẻ bề ngoài và tính cách bên trong."
+      ],
+      examples: [
+        ["他是一个身材匀称、留着帅气三七分发型的男人。", "Tā shì yí ge shēn cái yún chèn, liú zhe shuài qì sān qī fēn fà xíng de nán rén.", "Anh ấy là một người đàn ông có vóc dáng cân đối và để kiểu tóc rẽ ngôi 7/3 lịch lãm."],
+        ["与严肃的外表相反，我们的老师是一个非常幽默的人。", "Yǔ yán sù de wài biǎo xiāng fǎn, wǒ men de lǎo shī shì yí ge fēi cháng yōu mò de rén.", "Trái ngược với vẻ ngoài nghiêm nghị, thầy giáo của chúng tôi là một người rất hài hước."],
+        ["每次出现时，她总是穿得非常优雅、整洁。", "Měi cì chū xiàn shí, tā zǒng shì chuān de fēi cháng yōu yǎ, zhěng jié.", "Mỗi khi xuất hiện, cô ấy luôn ăn mặc vô cùng thanh lịch và gọn gàng."]
+      ]
+    },
+    sentences: [
+      [426, "Người quản lý mới của bộ phận chúng ta có ngoại hình trông như thế nào?", "我们部门的新经理长什么样？", "Wǒ men bù mén de xīn jīng lǐ zhǎng shén me yàng?"],
+      [427, "Anh ấy là một người đàn ông cao ráo, có vóc dáng cân đối và để kiểu tóc rẽ ngôi 7/3 rất lịch lãm.", "他是一个身材高大匀称、留着帅气三七分发型的男人。", "Tā shì yí ge shēn cái gāo dà yún chèn, liú zhe shuài qì sān qī fēn fà xíng de nán rén."],
+      [428, "Tính cách của cô bạn đồng nghiệp mới chuyển đến văn phòng mình như thế nào?", "刚调到我们办公室的新女同事性格怎么样？", "Gāng diào dào wǒ men bàn gōng shì de xīn nǚ tóng shì xìng gé zěn me yàng?"],
+      [429, "Cô ấy là một người cực kỳ thân thiện, cởi mở, chu đáo và luôn sẵn lòng giúp đỡ mọi người.", "她是一个非常友好、开朗、体贴并且总是乐于助人的人。", "Tā shì yí ge fēi cháng yǒu hǎo, kāi lǎng, tǐ tiē bìng qiě zǒng shì lè yú zhù rén de rén."],
+      [430, "Anh trai tôi thích phong cách thời trang tối giản với những bộ trang phục tông màu tối cá tính.", "我哥哥喜欢极简主义时尚风格，穿着有个性的深色服装。", "Wǒ gē ge xǐ huan jí jiǎn zhǔ yì shí shàng fēng gé, chuān zhe yǒu gè xìng de shēn sè fú zhuāng."],
+      [431, "Em gái của bạn có mái tóc dài ngang vai màu hạt dẻ và nụ cười má lúm đồng tiền rất duyên.", "你妹妹有一头栗色的齐肩长发和迷人的酒窝笑容。", "Nǐ mèi mei yǒu yì tóu lì sè de qí jiān cháng fà hé mí rén de jiǔ wō xiào róng."],
+      [432, "Một người có tính cách trung thực và đáng tin cậy sẽ luôn nhận được sự tôn trọng từ đối tác.", "一个性格诚实可靠的人总会赢得合作伙伴的尊重。", "Yí ge xìng gé chéng shí kě kào de rén zǒng huì yíng dé hé zuò huǒ bàn de zūn zhòng."],
+      [433, "Ông của tôi tuy tuổi đã cao, tóc đã bạc trắng nhưng đầu óc vẫn rất minh mẫn.", "我爷爷虽然年纪大了，满头白发，但头脑依然非常清醒。", "Wǒ yé ye suī rán nián jì dà le, mǎn tóu bái fà, dàn tóu nǎo yī rán fēi cháng qīng xǐng."],
+      [434, "Cậu ấy là một chàng trai khá hướng nội, thích làm việc độc lập hơn là tham gia những nơi ồn ào.", "他是一个比较内向的男生，比起去热闹的地方，他更喜欢独立工作。", "Tā shì yí ge bǐ jiào nèi xiàng de nán shēng, bǐ qǐ qù rè nao de dì fang, tā gèng xǐ huan dú lì gōng zuò."],
+      [435, "Trái ngược với vẻ ngoài nghiêm nghị, thầy giáo của chúng tôi lại là người rất hài hước và tâm lý.", "与严肃的外表相反，我们的老师其实是一个非常幽默且善解人意的人。", "Yǔ yán sù de wài biǎo xiāng fǎn, wǒ men de lǎo shī qí shí shì yí ge fēi cháng yōu mò qiě shàn jiě rén yì de rén."],
+      [436, "Cô ấy thừa hưởng đôi mắt đen láy của mẹ và sống mũi cao thẳng từ bố.", "她遗传了妈妈乌黑的眼睛和爸爸高挺的鼻梁。", "Tā yí chuán le mā ma wū hēi de yǎn jing hé bà ba gāo tǐng de bí liáng."],
+      [437, "Người tài xế công nghệ mà tôi gặp sáng nay rất lịch sự, cẩn thận và nói chuyện rất duyên.", "我今天早上遇到的网约车司机非常有礼貌、细心，而且说话很风趣。", "Wǒ jīn tiān zǎo shang yù dào de wǎng yuē chē sī jī fēi cháng yǒu lǐ mào, xì xīn, ér qiě shuō huà hěn fēng qù."],
+      [438, "Anh ta có tính cách hơi cứng đầu nên rất khó để thuyết phục anh ta thay đổi ý kiến.", "他的性格有点固执，所以很难说服他改变主意。", "Tā de xìng gé yǒu diǎn gù zhí, suǒ yǐ hěn nán shuō fú tā gǎi biàn zhǔ yi."],
+      [439, "Vẻ đẹp ngoại hình có thể tạo ấn tượng ban đầu, nhưng chính nhân cách mới giữ được mối quan hệ lâu dài.", "外貌美可以留下第一印象，但人品才能维持长久的关系。", "Wài mào měi kě yǐ liú xià dì yī yìn xiàng, dàn rén pǐn cái néng wéi chí cháng jiǔ de guān xi."],
+      [440, "Cô ấy luôn ăn mặc thanh lịch, gọn gàng và phù hợp với hoàn cảnh mỗi khi xuất hiện.", "每次出现时，她总是穿得优雅、整洁且得体。", "Měi cì chū xiàn shí, tā zǒng shì chuān de yōu yǎ, zhěng jié qiě dé tǐ."],
+      [441, "Bạn thân của tôi là một người giàu nghị lực, quyết đoán và không bao giờ đầu hàng trước nghịch cảnh.", "我的好朋友是一个有毅力、果断并且从不向逆境低头的人。", "Wǒ de hǎo péng you shì yí ge yǒu yì lì, guǒ duàn bìng qiě cóng bú xiàng nì jìng dī tóu de rén."],
+      [442, "Chàng trai mặc chiếc áo khoác đen đằng kia trông rất quen, hình như chúng ta đã gặp ở đâu rồi.", "那边穿黑色外套的男生看起来很面熟，我们好像在哪里见过。", "Nà biān chuān hēi sè wài tào de nán shēng kàn qǐ lái hěn miàn shú, wǒ men hǎo xiàng zài nǎ lǐ jiàn guo."],
+      [443, "Một nhà lãnh đạo giỏi cần có tầm nhìn xa, sự công tâm và khả năng lắng nghe nhân viên.", "一位优秀的领导者需要有远见、公正心以及倾听员工的能力。", "Yí wèi yōu xiù de lǐng dǎo zhě xū yào yǒu yuǎn jiàn, gōng zhèng xīn yǐ jí qīng tīng yuán gōng de néng lì."],
+      [444, "Mặc dù có làn da ngăm đen rám nắng, anh ấy vẫn toát lên vẻ khỏe khoắn và tràn đầy sức sống.", "虽然皮肤晒得黝黑，但他依然展现出健康和充满活力的样子。", "Suī rán pí fū shài de yǒu hēi, dàn tā yī rán zhǎn xiàn chū jiàn kāng hé chōng mǎn huó lì de yàng zi."],
+      [445, "Đừng bao giờ đánh giá phẩm chất của một con người chỉ qua trang phục hay vẻ bề ngoài của họ.", "千万不要只凭穿着或外表去以貌取人。", "Qiān wàn bú yào zhǐ píng chuān zhuó huò wài biǎo qù yǐ mào qǔ rén."],
+      [446, "Bà chủ quán nước ở đầu ngõ rất hào phóng, hay cười và luôn hỏi thăm sức khỏe mọi người.", "胡同口饮料店的女老板非常大方、爱笑，总是问候大家的健康。", "Hú tòng kǒu yǐn liào diàn de nǚ lǎo bǎn fēi cháng dà fang, ài xiào, zǒng shì wèn hòu dà jiā de jiàn kāng."],
+      [447, "Sự khiêm tốn và tinh thần cầu thị chính là nét tính cách đáng quý nhất của một người trẻ tuổi.", "谦虚和好学进取的精神是年轻人最可贵的性格特点。", "Qiān xū hé hào xué jìn qǔ de jīng shén shì nián qīng rén zuì kě guì de xìng gé tè diǎn."],
+      [448, "Sau một năm chăm chỉ tập thể hình, vóc dáng của cậu ấy đã trở nên săn chắc hơn nhiều.", "坚持健身一年后，他的身材变得结实多了。", "Jiān chí jiàn shēn yì nián hòu, tā de shēn cái biàn de jiē shi duō le."],
+      [449, "Cô bé có khuôn mặt bầu bĩnh, làn da trắng hồng và tính tình vô cùng hoạt bát.", "小女孩有一张圆脸、白里透红的皮肤和非常活泼的性格。", "Xiǎo nǚ hái yǒu yì zhāng yuán liǎn, bái lǐ tòu hóng de pí fū hé fēi cháng huó pō de xìng gé."],
+      [450, "Mỗi con người đều có một ngoại hình và cá tính riêng biệt, hãy tự tin là phiên bản tốt nhất của chính mình.", "每个人都有独特的外貌和个性，请自信地做最好的自己。", "Měi ge rén dōu yǒu dú tè de wài mào hé gè xìng, qǐng zì xìn de zuò zuì hǎo de zì jǐ."]
+    ]
+  },
+  {
+    id: 19,
+    title: "Topic 19: Việc nhà & Chăm sóc gia đình (家务事与家庭照顾)",
+    vocab: [
+      ["扫地", "sǎo dì", "quét nhà"],
+      ["拖地", "tuō dì", "lau nhà"],
+      ["分担家务", "fēn dān jiā wù", "chia sẻ việc nhà"],
+      ["修剪", "xiū jiǎn", "cắt tỉa (cây cối)"],
+      ["洗衣机", "xǐ yī jī", "máy giặt"],
+      ["扫地机器人", "sǎo dì jī qì rén", "robot hút bụi"],
+      ["洗碗", "xǐ wǎn", "rửa bát"],
+      ["杀菌", "shā jūn", "diệt khuẩn"],
+      ["煤气灶", "méi qì zào", "bếp ga"],
+      ["油渍", "yóu zì", "vết dầu mỡ"],
+      ["水龙头", "shuǐ lóng tóu", "vòi nước"],
+      ["漏水", "lòu shuǐ", "rò rỉ nước"],
+      ["灯泡", "dēng pāo", "bóng đèn"],
+      ["生活垃圾", "shēng huó lā jī", "rác thải sinh hoạt"],
+      ["昆虫", "kūn chóng", "côn trùng"],
+      ["叠被子", "dié bèi zi", "gấp chăn"],
+      ["自律", "zì lǜ", "tính kỷ luật, tự giác"],
+      ["分类", "fēn lèi", "phân loại"],
+      ["大扫除", "dà sǎo chú", "tổng vệ sinh"],
+      ["窗帘", "chuāng lián", "rèm cửa"],
+      ["梯子", "tī zi", "cái thang"],
+      ["吊扇", "diào shàn", "quạt trần"],
+      ["熨烫", "yùn tàng", "là, ủi (quần áo)"],
+      ["淘米", "táo mǐ", "vo gạo"],
+      ["碗筷", "wǎn kuài", "bát đũa"],
+      ["收衣服", "shōu yī fu", "thu gom quần áo (đang phơi)"],
+      ["洗洁精", "xǐ jié jīng", "nước rửa chén / nước tẩy rửa"],
+      ["螺丝刀", "luó sī dāo", "tua vít"],
+      ["扳手", "bān shǒu", "cờ lê"],
+      ["工具箱", "gōng jù xiāng", "hộp đồ nghề"],
+      ["呼吸系统", "hū xī xì tǒng", "hệ hô hấp"]
+    ],
+    grammar: {
+      title: "Câu kiêm ngữ sai khiến với 让 (ràng) / 叫 (jiào) & Câu chữ 把 (bǎ) xử lý đồ vật",
+      points: [
+        "<b>Câu kiêm ngữ (Sai khiến / Cho phép):</b> Cấu trúc: <b>Chủ ngữ + 让 / 叫 / 允许 + Tân ngữ (Người) + Động từ</b> (Bảo/để/cho phép ai làm gì). Phủ định: <b>不让 (bú ràng - không cho phép)</b>.",
+        "<b>Câu chữ 把 (bǎ):</b> Dùng khi hành động tác động trực tiếp làm thay đổi vị trí hoặc trạng thái của sự vật: <b>Chủ ngữ + 把 + Tân ngữ + Động từ + Thành phần khác (Kết quả / Vị trí)</b> (Ví dụ: 把被子叠整齐 - gấp chăn cho gọn gàng)."
+      ],
+      examples: [
+        ["吃晚饭前，妈妈经常让我扫地和拖地。", "Chī wǎn fàn qián, mā ma jīng cháng ràng wǒ sǎo dì hé tuō dì.", "Trước khi ăn tối, mẹ thường bảo tôi quét nhà và lau nhà."],
+        ["起床后立即把被子叠整齐有助于培养自律。", "Qǐ chuáng hòu lì jí bǎ bèi zi dié zhěng qí yǒu zhù yú péi yǎng zì lǜ.", "Gấp chăn gọn gàng ngay sau khi thức dậy giúp rèn luyện tính kỷ luật."],
+        ["我总是把螺丝刀和扳手整齐地放进工具箱里。", "Wǒ zǒng shì bǎ luó sī dāo hé bān shǒu zhěng qí de fàng jìn gōng jù xiāng lǐ.", "Tôi luôn xếp tua vít và cờ lê gọn gàng vào trong hộp đồ nghề."]
+      ]
+    },
+    sentences: [
+      [451, "Mẹ tôi thường bảo tôi quét nhà và lau sàn trước khi cả gia đình ăn cơm tối.", "全家人吃晚饭前，我妈妈经常让我扫地和拖地。", "Quán jiā rén chī wǎn fàn qián, wǒ mā ma jīng cháng ràng wǒ sǎo dì hé tuō dì."],
+      [452, "Việc phân chia công việc nhà công bằng giúp các thành viên trong gia đình thấu hiểu nhau hơn.", "公平地分担家务有助于家庭成员之间更加互相理解。", "Gōng píng de fēn dān jiā wù yǒu zhù yú jiā tíng chéng yuán zhī jiān gèng jiā hù xiāng lǐ jiě."],
+      [453, "Vào mỗi sáng Chủ nhật, tôi thường giúp bố tỉa cây cảnh ngoài sân và thay nước bể cá.", "每个星期天早上，我通常帮爸爸修剪院子里的盆景并给鱼缸换水。", "Měi ge xīng qī tiān zǎo shang, wǒ tōng cháng bāng bà ba xiū jiǎn yuàn zi lǐ de pén jǐng bìng gěi yú gāng huàn shuǐ."],
+      [454, "Bố mẹ không cho phép em gái tôi xem tivi khi chưa dọn dẹp xong phòng ngủ.", "在还没打扫完卧室之前，父母不让我妹妹看电视。", "Zài hái méi dǎ sǎo wán wò shì zhī qián, fù mǔ bú ràng wǒ mèi mei kàn diàn shì."],
+      [455, "Chiếc máy giặt và robot hút bụi thông minh giúp chúng tôi tiết kiệm được rất nhiều thời gian làm việc nhà.", "洗衣机和智能扫地机器人帮我们节省了很多做家务的时间。", "Xǐ yī jī hé zhì néng sǎo dì jī qì rén bāng wǒ men jié shěng le hěn duō zuò jiā wù de shí jiān."],
+      [456, "Sau bữa ăn tối, tôi nhận phần rửa bát đĩa để mẹ có thời gian ngồi nghỉ ngơi.", "晚饭后，我主动去洗碗，好让妈妈有时间坐下来休息。", "Wǎn fàn hòu, wǒ zhǔ dòng qù xǐ wǎn, hǎo ràng mā ma yǒu shí jiān zuò xià lái xiū xi."],
+      [457, "Hãy để quần áo khô tự nhiên dưới ánh nắng mặt trời để diệt khuẩn.", "让衣服在阳光下自然晒干，以便杀菌并保持清香。", "Ràng yī fu zài yáng guāng xià zì rán shài gān, yǐ biàn shā jūn bìng bǎo chí qīng xiāng."],
+      [458, "Vết dầu mỡ bám trên bếp ga khiến tôi phải lau chùi kỹ lưỡng sau mỗi lần nấu nướng.", "粘在煤气灶上的油渍让我每次做完饭后都得仔细擦洗。", "Zhān zài méi qì zào shàng de yóu zì ràng wǒ měi cì zuò wán fàn hòu dōu děi zǐ xì cā xǐ."],
+      [459, "Anh trai tôi giúp tôi sửa lại chiếc vòi nước bị rò rỉ và thay bóng đèn trong nhà tắm.", "我哥哥帮我修好了漏水的水龙头，并换了浴室里的灯泡。", "Wǒ gē ge bāng wǒ xiū hǎo le lòu shuǐ de shuǐ lóng tóu, bìng huàn le yù shì lǐ de dēng pāo."],
+      [460, "Đừng để rác thải sinh hoạt tồn đọng qua đêm trong bếp vì nó sẽ thu hút côn trùng.", "不要让生活垃圾在厨房里留过夜，因为那样会招来昆虫。", "Bú yào ràng shēng huó lā jī zài chú fáng lǐ liú guò yè, yīn wèi nà yàng huì zhāo lái kūn chóng."],
+      [461, "Việc tự tay gấp chăn gọn gàng ngay sau khi thức dậy giúp rèn luyện tính kỷ luật.", "起床后立即亲手把被子叠整齐有助于培养自律。", "Qǐ chuáng hòu lì jí qīn shǒu bǎ bèi zi dié zhěng qí yǒu zhù yú péi yǎng zì lǜ."],
+      [462, "Mẹ tôi đã hướng dẫn tôi cách phân loại quần áo trắng và quần áo màu trước khi cho vào máy giặt.", "妈妈教我在放进洗衣机之前如何把白色衣服和彩色衣服分类。", "Mā ma jiāo wǒ zài fàng jìn xǐ yī jī zhī qián rú hé bǎ bái sè yī fu hé cǎi sè yī fu fēn lèi."],
+      [463, "Một ngôi nhà sạch sẽ, ngăn nắp luôn làm cho tâm trạng của chúng ta trở nên thoải mái.", "干净整洁的房子总是能让我们的心情变得舒畅。", "Gān jìng zhěng jié de fáng zi zǒng shì néng ràng wǒ men de xīn qíng biàn de shū chàng."],
+      [464, "Cuối tuần này, cả nhà tôi sẽ cùng nhau tổng vệ sinh và giặt rèm cửa.", "这个周末，我们全家将一起进行大扫除并清洗窗帘。", "Zhè ge zhōu mò, wǒ men quán jiā jiāng yì qǐ jìn xíng dà sǎo chú bìng qīng xǐ chuāng lián."],
+      [465, "Bố tôi không để tôi leo lên thang cao một mình khi lau quạt trần vì sợ nguy hiểm.", "因为怕危险，擦吊扇时我爸爸不让我一个人爬上高梯子。", "Yīn wèi pà wēi xiǎn, cā diào shàn shí wǒ bà ba bú ràng wǒ yí ge rén pá shàng gāo tī zi."],
+      [466, "Việc là ủi phẳng phiu những chiếc áo sơ mi đi làm mỗi tối giúp tôi tự tin hơn vào sáng hôm sau.", "每天晚上把上班穿的衬衫熨烫平整，让我第二天早上更加自信。", "Měi tiān wǎn shang bǎ shàng bān chuān de chèn shān yùn tàng píng zhěng, ràng wǒ dì èr tiān zǎo shang gèng jiā zì xìn."],
+      [467, "Em gái tôi phụ mẹ nhặt rau, vo gạo và bày bát đũa ra bàn ăn một cách khéo léo.", "我妹妹熟练地帮妈妈择菜、淘米，并把碗筷摆到餐桌上。", "Wǒ mèi mei shú liàn de bāng mā ma zhái cài, táo mǐ, bìng bǎ wǎn kuài bǎi dào cān zhuō shàng."],
+      [468, "Những cơn mưa bất chợt buổi chiều khiến tôi phải vội vàng chạy ra sân thu gom quần áo đang phơi.", "下午突如其来的阵雨让我得赶紧跑到院子里把正在晒的衣服收进来。", "Xià wǔ tū rú qí lái de zhèn yǔ ràng wǒ děi gǎn jǐn pǎo dào yuàn zi lǐ bǎ zhèng zài shài de yī fu shōu jìn lái."],
+      [469, "Chúng ta nên để trẻ em làm những công việc nhà vừa sức để các em biết trân trọng sức lao động.", "我们应该让孩子们做力所能及的家务，让他们学会珍惜劳动成果。", "Wǒ men yīng gāi ràng hái zi men zuò lì suǒ néng jí de jiā wù, ràng tā men xué huì zhēn xī láo dòng chéng guǒ."],
+      [470, "Nước tẩy rửa sinh học từ vỏ cam chanh giúp làm sạch vết bẩn mà không gây hại cho da tay.", "用橙皮和柠檬皮制作的生物洗洁精有助于把污渍洗干净，而且不伤手部皮肤。", "Yòng chéng pí hé níng méng pí zhì zuò de shēng wù xǐ jié jīng yǒu zhù yú bǎ wū zì xǐ gān jìng, ér qiě bù shāng shǒu bù pí fū."],
+      [471, "Tôi luôn sắp xếp các dụng cụ sửa chữa như tua vít và cờ lê vào hộp đồ nghề ngăn nắp.", "我总是把螺丝刀和扳手等修理工具整齐地放进工具箱里。", "Wǒ zǒng shì bǎ luó sī dāo hé bān shǒu děng xiū lǐ gōng jù zhěng qí de fàng jìn gōng jù xiāng lǐ."],
+      [472, "Không gian sống thoáng đãng, không bụi bẩn giúp bảo vệ hệ hô hấp cho cả gia đình.", "通风且无尘的生活空间有助于保护全家人的呼吸系统。", "Tōng fēng qiě wú chén de shēng huó kōng jiān yǒu zhù yú bǎo hù quán jiā rén de hū xī xì tǒng."],
+      [473, "Dù công việc có bận rộn đến đâu, đàn ông hiện đại vẫn luôn sẵn sàng chia sẻ việc nhà với vợ.", "无论工作多么忙碌，现代男士依然愿意与妻子一起分担家务。", "Wú lùn gōng zuò duō me máng lù, xiàn dài nán shì yī rán yuàn yì yǔ qī zi yì qǐ fēn dān jiā wù."],
+      [474, "Chăm sóc tổ ấm từ những việc nhỏ nhặt nhất chính là cách thể hiện tình yêu thương gia đình thiết thực nhất.", "从最小的事情做起去照顾家庭，正是表达亲情最实际的方式。", "Cóng zuì xiǎo de shì qing zuò qǐ qù zhào gù jiā tíng, zhèng shì biǎo dá qīn qíng zuì shí jì de fāng shì."],
+      [475, "Sau khi hoàn tất mọi việc dọn dẹp, cả nhà cùng ngồi bên nhau thưởng thức ấm trà nóng.", "把所有打扫工作做完后，全家人坐在一起品尝一壶热茶。", "Bǎ suǒ yǒu dǎ sǎo gōng zuò zuò wán hòu, quán jiā rén zuò zài yì qǐ pǐn cháng yì hú rè chá."]
+    ]
+  },
+  {
+    id: 20,
+    title: "Topic 20: Lễ hội & Sự kiện kỷ niệm (传统节日与庆典活动)",
+    vocab: [
+      ["除夕夜", "Chú xī yè", "đêm Giao thừa"],
+      ["烟花", "yān huā", "pháo hoa"],
+      ["包粽子", "bāo zòng zi", "gói bánh chưng / bánh ú"],
+      ["梅花", "méi huā", "hoa mai"],
+      ["中秋节", "Zhōng qiū jié", "Tết Trung thu"],
+      ["灯笼", "dēng long", "đèn lồng"],
+      ["乐队", "yuè duì", "ban nhạc"],
+      ["年夜饭", "nián yè fàn", "bữa cơm tất niên"],
+      ["红包", "hóng bāo", "phong bao lì xì"],
+      ["舞狮", "wǔ shī", "múa lân"],
+      ["奥黛", "ào dài", "áo dài (Việt Nam)"],
+      ["寺庙", "sì miào", "ngôi chùa"],
+      ["吹蜡烛", "chuī là zhú", "thổi nến"],
+      ["许愿", "xǔ yuàn", "ước nguyện"],
+      ["国庆节", "Guó qìng jié", "ngày Quốc khánh"],
+      ["新娘", "xīn niáng", "cô dâu"],
+      ["新郎", "xīn láng", "chú rể"],
+      ["戒指", "jiè zhi", "nhẫn"],
+      ["鼓掌", "gǔ zhǎng", "vỗ tay"],
+      ["祖先", "zǔ xiān", "tổ tiên"],
+      ["祭坛", "jì tán", "bàn thờ"],
+      ["赛龙舟", "sài lóng zhōu", "đua thuyền rồng"],
+      ["停电", "tíng diàn", "mất điện"],
+      ["妇女节", "Fù nǚ jié", "ngày Quốc tế Phụ nữ"],
+      ["排队", "pái duì", "xếp hàng"],
+      ["祈祷", "qí dǎo", "cầu nguyện"],
+      ["同学聚会", "tóng xué jù huì", "buổi họp lớp"],
+      ["班长", "bān zhǎng", "lớp trưởng"],
+      ["志愿者", "zhì yuàn zhě", "tình nguyện viên"],
+      ["月饼", "yuè bǐng", "bánh trung thu"],
+      ["干杯", "gān bēi", "cạn ly, nâng ly"]
+    ],
+    grammar: {
+      title: "Mệnh đề thời gian với 当...的时候 (Khi...) & Trợ từ động thái 着 (zhe) duy trì trạng thái",
+      points: [
+        "<b>Cấu trúc 当...的时候 (dāng... de shí hou - khi mà...):</b> Dùng để xác định mốc thời gian hoặc bối cảnh đang diễn ra một hành động thì hành động khác xen vào.",
+        "<b>Trợ từ động thái 着 (zhe):</b> Đặt ngay sau động từ (<b>Động từ + 着</b>) để miêu tả trạng thái đang tiếp diễn hoặc tư thế đang duy trì (穿着传统奥黛 - đang mặc áo dài truyền thống; 提着星星灯笼 - đang xách đèn ông sao)."
+      ],
+      examples: [
+        ["当除夕夜午夜十二点的钟声敲响时，绚丽的烟花正在天空中绽放。", "Dāng Chú xī yè wǔ yè shí èr diǎn de zhōng shēng qiāo xiǎng shí, xuàn lì de yān huā zhèng zài tiān kōng zhōng zhàn fàng.", "Khi tiếng chuông mười hai giờ đêm Giao thừa điểm, pháo hoa rực rỡ đang nở rộ trên bầu trời."],
+        ["昨晚，当妈妈在厨房包粽子的时候，爸爸正在客厅装饰梅花。", "Zuó wǎn, dāng mā ma zài chú fáng bāo zòng zi de shí hou, bà ba zhèng zài kè tīng zhuāng shì méi huā.", "Tối qua, khi mẹ đang gói bánh chưng trong bếp thì bố đang trang trí hoa mai ở phòng khách."],
+        ["大家穿着传统奥黛去寺庙祈福。", "Dà jiā chuān zhe chuán tǒng ào dài qù sì miào qí fú.", "Mọi người mặc áo dài truyền thống đi chùa cầu phúc."]
+      ]
+    },
+    sentences: [
+      [476, "Khi đồng hồ điểm đúng mười hai giờ đêm Giao thừa, pháo hoa rực rỡ đang nổ vang trên bầu trời.", "当除夕夜十二点的钟声敲响时，绚丽的烟花正在天空中绽放。", "Dāng Chú xī yè shí èr diǎn de zhōng shēng qiāo xiǎng shí, xuàn lì de yān huā zhèng zài tiān kōng zhōng zhàn fàng."],
+      [477, "Tối qua, trong khi mẹ tôi đang gói bánh chưng trong bếp thì bố tôi đang trang trí cành hoa mai ở phòng khách.", "昨晚，当妈妈在厨房里包粽子的时候，爸爸正在客厅装饰梅花枝。", "Zuó wǎn, dāng mā ma zài chú fáng lǐ bāo zòng zi de shí hou, bà ba zhèng zài kè tīng zhuāng shì méi huā zhī."],
+      [478, "Chúng tôi đang cùng nhau rước đèn lồng vào đêm Tết Trung thu thì trời bất chợt đổ cơn mưa nhỏ.", "中秋节晚上，我们正一起提着灯笼走着，突然下起了小雨。", "Zhōng qiū jié wǎn shang, wǒ men zhèng yì qǐ tí zhe dēng long zǒu zhe, tū rán xià qǐ le xiǎo yǔ."],
+      [479, "Khi tôi đến buổi tiệc cưới của người bạn thân, ban nhạc đang biểu diễn một bản tình ca rất lãng mạn.", "当我到达好朋友的婚宴时，乐队正在演奏一首非常浪漫的情歌。", "Dāng wǒ dào dá hǎo péng you de hūn yàn shí, yuè duì zhèng zài yǎn zòu yì shǒu fēi cháng làng màn de qíng gē."],
+      [480, "Vào giờ này tuần trước, cả gia đình tôi đang quây quần bên mâm cơm tất niên ấm cúng.", "上周的这个时候，我们全家人正围坐在温馨的年夜饭旁。", "Shàng zhōu de zhè ge shí hou, wǒ men quán jiā rén zhèng wéi zuò zài wēn xīn de nián yè fàn páng."],
+      [481, "Trong lúc các em nhỏ đang háo hức chờ nhận phong bao lì xì, người lớn đang trao nhau những lời chúc tốt đẹp.", "当孩子们正兴奋地等着领红包时，大人们正在互道美好的祝福。", "Dāng hái zi men zhèng xīng fèn de děng zhe lǐng hóng bāo shí, dà rén men zhèng zài hù dào měi hǎo de zhù fú."],
+      [482, "Khi đoàn múa lân đang biểu diễn những động tác điêu luyện, tiếng trống hội vang lên dồn dập.", "当舞狮队正在表演熟练的动作时，喜庆的鼓声密集地响起。", "Dāng wǔ shī duì zhèng zài biǎo yǎn shú liàn de dòng zuò shí, xǐ qìng de gǔ shēng mì jí de xiǎng qǐ."],
+      [483, "Tôi đã chụp được rất nhiều bức ảnh đẹp trong khi mọi người đang mặc áo dài truyền thống đi lễ chùa đầu năm.", "当大家穿着传统奥黛去寺庙新年祈福时，我拍下了许多漂亮的照片。", "Dāng dà jiā chuān zhe chuán tǒng ào dài qù sì miào xīn nián qí fú shí, wǒ pāi xià le xǔ duō piào liang de zhào piàn."],
+      [484, "Anh ấy đang thổi nến và ước nguyện trong bữa tiệc sinh nhật của mình khi chúng tôi hát vang.", "当我们大声唱生日歌的时候，他正在生日派对上吹蜡烛和许愿。", "Dāng wǒ men dà shēng chàng shēng rì gē de shí hou, tā zhèng zài shēng rì pài duì shàng chuī là zhú hé xǔ yuàn."],
+      [485, "Đường phố tràn ngập sắc đỏ của cờ Tổ quốc khi người dân cả nước đang kỷ niệm ngày Quốc khánh.", "当全国人民正在庆祝国庆节时，街道上挂满了红色的国旗。", "Dāng quán guó rén mín zhèng zài qìng zhù Guó qìng jié shí, jiē dào shàng guà mǎn le hóng sè de guó qí."],
+      [486, "Trong khi các nghệ nhân đang tỉ mỉ chuẩn bị cho lễ hội hoa xuân, nhiều du khách đã đến tham quan.", "当手艺人正在精心准备春花节时，许多游客已经前来参观拍照。", "Dāng shǒu yì rén zhèng zài jīng xīn zhǔn bèi chūn huā jié shí, xǔ duō yóu kè yǐ jīng qián lái cān guān pāi zhào."],
+      [487, "Cô dâu và chú rể đang trao nhẫn cưới trên sân khấu khi những tràng pháo tay vang lên không ngớt.", "当新娘和新郎正在舞台上交换结婚戒指时，热烈的掌声响个不停。", "Dāng xīn niáng hé xīn láng zhèng zài wǔ tái shàng jiāo huàn jié hūn jiè zhi shí, rè liè de zhǎng shēng xiǎng ge bù tíng."],
+      [488, "Khi tôi đang đi dạo quanh chợ hoa Tết vào chiều ba mươi, tôi tình cờ gặp lại người thầy giáo cũ.", "大年三十下午，当我正在逛春节花市时，我偶然遇到了以前的老师。", "Dà nián sān shí xià wǔ, dāng wǒ zhèng zài guàng Chūn jié huā shì shí, wǒ ǒu rán yù dào le yǐ qián de lǎo shī."],
+      [489, "Nhiều gia đình đang chuẩn bị mâm ngũ quả để dâng lên bàn thờ tổ tiên nhằm thể hiện lòng thành kính.", "许多家庭正在准备五果盘供奉在祖先祭坛上，以表达敬意。", "Xǔ duō jiā tíng zhèng zài zhǔn bèi wǔ guǒ pán gòng fèng zài zǔ xiān jì tán shàng, yǐ biǎo dá jìng yì."],
+      [490, "Trong lúc đội đua thuyền rồng đang nỗ lực chèo về đích, hàng ngàn khán giả trên bờ đang reo hò cổ vũ.", "当赛龙舟队正在奋力划向终点时，岸上成千上万的观众正在欢呼助威。", "Dāng sài lóng zhōu duì zhèng zài fèn lì huá xiàng zhōng diǎn shí, àn shàng chéng qiān shàng wàn de guān zhòng zhèng zài huān hū zhù wēi."],
+      [491, "Điện đột nhiên bị mất trong vài phút khi buổi lễ kỷ niệm mười năm thành lập công ty đang diễn ra.", "当公司成立十周年庆典正在进行时，突然停了几分钟电。", "Dāng gōng sī chéng lì shí zhōu nián qìng diǎn zhèng zài jìn xíng shí, tū rán tíng le jǐ fēn zhōng diàn."],
+      [492, "Vào ngày Quốc tế Phụ nữ mùng 8 tháng 3, các chàng trai đang xếp hàng dài trước cửa tiệm để mua hoa.", "在三月八日妇女节那天，男生们正在花店门前排着长队买花。", "Zài sān yuè bā rì Fù nǚ jié nà tiān, nán shēng men zhèng zài huā diàn mén qián pái zhe cháng duì mǎi huā."],
+      [493, "Khi tiếng chuông chùa ngân vang giữa đêm thanh vắng, mọi người đang chắp tay cầu nguyện cho một năm mới bình an.", "当寺庙的钟声在寂静的夜里回荡时，大家正合十双手祈祷新的一年平安。", "Dāng sì miào de zhōng shēng zài jì jìng de yè lǐ huí dàng shí, dà jiā zhèng hé shí shuāng shǒu qí dǎo xīn de yì nián píng ān."],
+      [494, "Chúng tôi đang ôn lại những kỷ niệm thời đi học trong buổi họp lớp thì bạn lớp trưởng cũ bước vào.", "在同学聚会上，我们正回忆着学生时代的往事，老班长走了进来。", "Zài tóng xué jù huì shàng, wǒ men zhèng huí yì zhe xué sheng shí dài de wǎng shì, lǎo bān zhǎng zǒu le jìn lái."],
+      [495, "Không khí lễ hội truyền thống vẫn đang được gìn giữ và lưu truyền qua nhiều thế hệ người Việt.", "传统节日的气氛依然在越南世代人民之间被保存和传承着。", "Chuán tǒng jié rì de qì fēn yī rán zài Yuè nán shì dài rén mín zhī jiān bèi bǎo cún hé chuán chéng zhe."],
+      [496, "Trong khi bà ngoại đang kể những câu chuyện cổ tích xưa, lũ trẻ chăm chú lắng nghe.", "当外婆正在讲古老的民间故事时，孩子们正专心地听着。", "Dāng wài pó zhèng zài jiǎng gǔ lǎo de mín jiān gù shi shí, hái zi men zhèng zhuān xīn de tīng zhe."],
+      [497, "Các tình nguyện viên đang phát quà và bánh trung thu cho trẻ em vùng cao khi ánh trăng rằm vừa nhô lên.", "当圆月刚升起的时候，志愿者们正在给山区儿童分发礼物和月饼。", "Dāng yuán yuè gāng shēng qǐ de shí hou, zhì yuàn zhě men zhèng zài gěi shān qū ér tóng fēn fā lǐ wù hé yuè bǐng."],
+      [498, "Khi ngày lễ báo hiếu đang đến gần, nhiều người con xa quê đều mong ngóng được trở về bên cha mẹ.", "当孝顺节快要到来的时候，许多远离家乡的子女都期盼着回到父母身边。", "Dāng xiào shùn jié kuài yào dào lái de shí hou, xǔ duō yuǎn lí jiā xiāng de zǐ nǚ dōu qī pàn zhe huí dào fù mǔ shēn biān."],
+      [499, "Mọi người đang nâng ly chúc mừng thành công của năm cũ và chào đón những cơ hội mới trong năm tới.", "大家正在举杯干杯，庆祝过去一年的成功并迎接新一年的新机遇。", "Dà jiā zhèng zài jǔ bēi gān bēi, qìng zhù guò qù yì nián de chéng gōng bìng yíng jiē xīn yì nián de xīn jī yù."],
+      [500, "Những ngày lễ kỷ niệm luôn là dịp quý giá để chúng ta tận hưởng niềm vui bên những người thân yêu.", "节庆纪念日总是我们与心爱的亲人一起享受欢乐的宝贵时刻。", "Jié qìng jì niàn rì zǒng shì wǒ men yǔ xīn ài de qīn rén yì qǐ xiǎng shòu huān lè de bǎo guì shí kè."]
+    ]
+  }
+);
+
+
+
+// =========================================================================
+// BỘ XỬ LÝ TỰ ĐỘNG LỌC TỪ VỰNG TRÙNG LẶP & RENDER GIAO DIỆN
+// =========================================================================
+function initApp() {
+    // 1. Tự động khử trùng lặp từ vựng xuyên suốt các Topic
+    const seenHanzi = new Set();
+    ALL_TOPICS.forEach(topic => {
+        topic.uniqueVocab = [];
+        topic.vocab.forEach(([hz, py, vi]) => {
+            const key = hz.trim();
+            if (!seenHanzi.has(key)) {
+                seenHanzi.add(key);
+                topic.uniqueVocab.push([hz, py, vi]);
+            }
+        });
+    });
+
+    // 2. Nạp danh sách Topic vào thanh chọn
+    const select = document.getElementById('topicSelect');
+    ALL_TOPICS.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        opt.textContent = t.title;
+        select.appendChild(opt);
+    });
+
+    renderAll();
+    document.getElementById('searchInput').addEventListener('input', renderAll);
+    select.addEventListener('change', renderAll);
+}
+
+function renderAll() {
+    const query = document.getElementById('searchInput').value.trim().toLowerCase();
+    const selectedTopic = document.getElementById('topicSelect').value;
+    const container = document.getElementById('appContainer');
+    container.innerHTML = '';
+
+    let totalSentences = 0;
+    let totalUniqueVocab = 0;
+
+    ALL_TOPICS.forEach(topic => {
+        totalUniqueVocab += topic.uniqueVocab.length;
+        if (selectedTopic !== 'all' && String(topic.id) !== selectedTopic) return;
+
+        const filteredSentences = topic.sentences.filter(([num, vi, hz, py]) => {
+            if (!query) return true;
+            return String(num).includes(query) ||
+                   vi.toLowerCase().includes(query) ||
+                   hz.toLowerCase().includes(query) ||
+                   py.toLowerCase().includes(query);
+        });
+
+        const filteredVocab = topic.uniqueVocab.filter(([hz, py, vi]) => {
+            if (!query) return true;
+            return hz.toLowerCase().includes(query) ||
+                   py.toLowerCase().includes(query) ||
+                   vi.toLowerCase().includes(query);
+        });
+
+        if (filteredSentences.length === 0 && filteredVocab.length === 0) return;
+        totalSentences += filteredSentences.length;
+
+        const card = document.createElement('div');
+        card.className = 'topic-card';
+
+        // Header
+        const header = document.createElement('div');
+        header.className = 'topic-header';
+        header.innerHTML = `
+            <h2>${topic.title}</h2>
+            <span class="topic-meta">Từ mới: ${topic.uniqueVocab.length} từ | Câu dịch: ${topic.sentences.length} câu</span>
+        `;
+        card.appendChild(header);
+
+        // KHỐI 1: DANH SÁCH TỪ VỰNG (3 CỘT: HÁN TỰ - PINYIN - NGHĨA TIẾNG VIỆT)
+        const vocabSection = document.createElement('div');
+        vocabSection.className = 'section-block';
+        let vocabRows = (query ? filteredVocab : topic.uniqueVocab).map(([hz, py, vi]) => `
+            <tr>
+                <td class="col-hz">${hz}</td>
+                <td class="col-py">${py}</td>
+                <td class="col-vi">${vi}</td>
+            </tr>
+        `).join('');
+
+        vocabSection.innerHTML = `
+            <div class="section-title">
+                <span>📝 1. Danh Sách Từ Vựng Mới (Đã lọc trùng lặp với các Topic trước)</span>
+            </div>
+            <table class="three-col-table">
+                <thead>
+                    <tr>
+                        <th>Hán Tự (汉字)</th>
+                        <th>Pinyin (拼音)</th>
+                        <th>Nghĩa Tiếng Việt (越文意思)</th>
+                    </tr>
+                </thead>
+                <tbody>${vocabRows}</tbody>
+            </table>
+        `;
+        card.appendChild(vocabSection);
+
+        // KHỐI 2: NGỮ PHÁP ĐẦY ĐỦ + BẢNG 3 CỘT VÍ DỤ MINH HỌA
+        const grammarSection = document.createElement('div');
+        grammarSection.className = 'section-block';
+        const pointsHtml = topic.grammar.points.map(p => `<li>${p}</li>`).join('');
+        const exRows = topic.grammar.examples.map(([hz, py, vi]) => `
+            <tr>
+                <td class="col-hz">${hz}</td>
+                <td class="col-py">${py}</td>
+                <td class="col-vi">${vi}</td>
+            </tr>
+        `).join('');
+
+        grammarSection.innerHTML = `
+            <div class="section-title">
+                <span>📚 2. Điểm Ngữ Pháp Trọng Tâm & Bảng Cấu Trúc Ví Dụ</span>
+            </div>
+            <div class="grammar-box">
+                <div class="grammar-title">📌 ${topic.grammar.title}</div>
+                <ul class="grammar-points">${pointsHtml}</ul>
+                <table class="three-col-table">
+                    <thead>
+                        <tr>
+                            <th>Hán Tự (Câu mẫu)</th>
+                            <th>Pinyin</th>
+                            <th>Nghĩa Tiếng Việt</th>
+                        </tr>
+                    </thead>
+                    <tbody>${exRows}</tbody>
+                </table>
+            </div>
+        `;
+        card.appendChild(grammarSection);
+
+        // KHỐI 3: DANH SÁCH CÂU LUYỆN DỊCH
+        const practiceSection = document.createElement('div');
+        practiceSection.className = 'section-block';
+        const listDiv = document.createElement('div');
+        listDiv.className = 'sentence-list';
+
+        filteredSentences.forEach(([num, vi, hz, py]) => {
+            const item = document.createElement('div');
+            item.className = 'sentence-item';
+            item.onclick = function() { this.classList.toggle('reveal'); };
+            item.innerHTML = `
+                <span class="s-vi"><span class="s-num">Câu ${num}.</span> ${vi}</span>
+                <span class="s-hz">${hz}</span>
+                <span class="s-py">${py}</span>
+            `;
+            listDiv.appendChild(item);
+        });
+
+        practiceSection.innerHTML = `
+            <div class="section-title">
+                <span>✍️ 3. Danh Sách Câu Luyện Dịch (Bấm vào câu bất kỳ để Ẩn/Hiện đáp án)</span>
+            </div>
+        `;
+        practiceSection.appendChild(listDiv);
+        card.appendChild(practiceSection);
+
+        container.appendChild(card);
+    });
+
+    document.getElementById('statusText').innerHTML =
+        `Đang hiển thị <b>${totalSentences}</b> câu luyện dịch | Đã tích lũy <b>${totalUniqueVocab}</b> từ vựng mới hoàn toàn không trùng lặp.`;
+}
+
+function toggleLayer(layer) {
+    const classMap = { vi: 'hide-vi', hz: 'hide-hz', py: 'hide-py' };
+    const btnMap = { vi: 'btnVi', hz: 'btnHz', py: 'btnPy' };
+    const labelMap = { vi: 'Nghĩa Việt', hz: 'Hán Tự', py: 'Pinyin' };
+
+    document.body.classList.toggle(classMap[layer]);
+    const isHidden = document.body.classList.contains(classMap[layer]);
+    const btn = document.getElementById(btnMap[layer]);
+    btn.classList.toggle('active', !isHidden);
+    btn.textContent = isHidden ? `🙈 ${labelMap[layer]}: ẨN` : `👁️ ${labelMap[layer]}: HIỆN`;
+
+    document.querySelectorAll('.sentence-item.reveal').forEach(el => el.classList.remove('reveal'));
+}
+
+function exportAllCSV() {
+    let csv = '\uFEFFSố câu,Chủ đề,Nghĩa Tiếng Việt,Hán Tự,Pinyin\n';
+    ALL_TOPICS.forEach(t => {
+        t.sentences.forEach(([num, vi, hz, py]) => {
+            csv += `${num},"${t.title.replace(/"/g, '""')}","${vi.replace(/"/g, '""')}","${hz.replace(/"/g, '""')}","${py.replace(/"/g, '""')}"\n`;
+        });
+    });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = '1000_Cau_Luyen_Dich_Tieng_Trung.csv';
+    link.click();
+}
+
+window.onload = initApp;
+</script>
+</body>
+</html>
